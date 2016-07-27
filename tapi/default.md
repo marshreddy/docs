@@ -916,14 +916,14 @@ Retrieves a timetable for a line, consisting of a list of departures on this lin
 | arrivalStopId | string | Optional stop identifier - bounds results to only occur before this stop. |
 
 
-#####Sample request
+##### Sample request
 
 ```
 GET api/lines/abcdefghijklmn/timetables?earliestArrivalTime=2020-01-15T10:00:00&departureStopId=kSukOlW7cES5C55WRpp41Q&arrivalStopId=cuKWweFQ9UmxwAcHcht48A
 Accept: application/json
 ```
 
-#####Sample response
+##### Sample response
 
 ```json
 200 Ok
@@ -1054,14 +1054,14 @@ Retrieves a shape for a line, consisting of an array of stop to stop segments th
 | lineId | string | Required line identifier to get the shape for. |
 | at | [DateTime](#datetime) | The point in time from which to query. Defaults to the current date and time. |
 
-#####Sample request
+##### Sample request
 
 ```
 GET api/lines/abcdefghijklmn/shape
 Accept: application/json
 ```
 
-#####Sample response
+##### Sample response
 
 ```json
 200 Ok
