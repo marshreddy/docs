@@ -37,7 +37,7 @@ The API uses standard HTTP verbs as part of the uniform interface and must be us
 | `POST` | To create a resource. |
 | `GET` | To get a resource or list of resources. |
 
-#### HTTP status codes {#status-codes}
+#### HTTP status codes 
 
 The status code in an HTTP request's response describes the outcome or result of the performed action. Listed below are the supported status codes used in the Transit API.
 
@@ -148,7 +148,7 @@ POST https://identity.whereismytransport.com/connect/token
 
 The Transit API uses conventional [HTTP status codes](#status-codes) to indicate the result of a request. Codes within the 200s indicate that the request was successful.  Codes within the 400s indicate that the request was somehow badly formed (such as a missing or incorrectly formatted field).  500s are typically returned when something unexpected goes wrong with the system's servers.
 
-#### Error response model {#error-model}
+#### Error response model 
 
 | Attribute | Type | Description |
 | :--------- | :--- | :---- |
@@ -215,7 +215,7 @@ Content-Type: application/json
 }
 ```
 
-### Excluding Data {#excludable}
+### Excluding Data 
 
 In order to reduce payload, it is possible to exclude certain objects or collections from the model returned in the body of the HTTP response. This is done through the use of the `exclude` query. Attributes which are _excludable_ are described in this specification with the [Excludable](#excludable) tag.
 
@@ -249,7 +249,7 @@ GET api/agencies?at=2015-08-01T00:00:00
 Accept: application/json
 ```
 
-### Agencies Filter {#agencies-filter}
+### Agencies Filter 
 
 Most requests to the Transit API can be filtered by agencies. If no filter is provided, then all agencies are considered.
 
@@ -277,7 +277,7 @@ Accept: application/json
 
 The sample request above will retrieve stops from the agencies identified by `CUJ2ZhcOm0y7wO1KsjUgPA` or `TQM8HCPXFEFXwm45QGvN_f`.
 
-### Pagination {#pagination}
+### Pagination 
 
 Depending on the structure of a query, a lot of results could be returned from the API. For that reason, the results are paginated so to ensure that responses are easier to handle.
 
@@ -295,9 +295,9 @@ GET api/stops?limit=10&offset=50
 Accept: application/json
 ```
 
-### Formatting Standards {#formatting-standards}
+### Formatting Standards 
 
-#### DateTime {#datetime}
+#### DateTime 
 
 A typical format for encoding of date and time in JSON is to use the ISO 8601 standard. This is a well-established specification which is both human readable and widely supported by many web-based frameworks.
 
@@ -307,7 +307,7 @@ More information can be found [here](https://en.wikipedia.org/wiki/ISO_8601).
 
 **Note:** ISO 8601 dates are timzone-agnostic and so are communicated in UTC (Coordinated Universal Time).
 
-#### Culture {#culture}
+#### Culture 
 
 The appropriate culture format used in the Transit API is based on RFC 4646. This unique name is a combination of an ISO 639 two-letter lowercase culture code associated with a language and an ISO 3166 two-letter uppercase subculture code associated with a country or region.
 
@@ -315,7 +315,7 @@ For example, _en-US_ refers to English (United States) and _en-ZA_ to English (S
 
 The detailed specification can be found [here](https://www.ietf.org/rfc/rfc4646.txt).
 
-#### Cost {#cost}
+#### Cost 
 
 Monetary amounts are represented by the cost object, which is made up of an amount, as a decimal value, and the applicable currency code. The currency code is such as defined in ISO 4217. For example, _ZAR_ represents the South African Rand. More information and a full list of currency codes can be found [here](https://en.wikipedia.org/wiki/ISO_4217).
 
@@ -333,7 +333,7 @@ Content-Type: application/json
 }
 ```
 
-#### GeoJSON {#geojson}
+#### GeoJSON 
 
 [GeoJSON](http://geojson.org) is a JSON format for encoding geographic data structures. The Transit API uses the Point, MultiPoint and LineString geometry types.
 
@@ -358,7 +358,7 @@ Content-Type: application/json
 }
 ```
 
-#### Point {#point}
+#### Point 
 
 In order to provide a geographic position through the query string, a comma-separated latitude and longitude must be provided.
 
@@ -369,7 +369,7 @@ GET api/stops?point=-33.925430,18.436443&radius=1750
 Accept: application/json
 ```
 
-#### Bounding Box {#bounding-box}
+#### Bounding Box 
 
 In order to provide a geographic bounding box through the query string, a comma-separated SW (south west) latitude, SW longitude, NE (north east) latitude and NE longitude must be provided in that order.  These coordiantes represent the south west and north east corners of the box.
 
@@ -378,7 +378,7 @@ GET api/stops?bbox=-33.944,18.36,-33.895,18.43
 Accept: application/json
 ```
 
-#### Distance {#distance}
+#### Distance 
 
 Distance is returned as an object consisting of the distance value (an integer) and the associated unit symbol.
 
@@ -399,7 +399,7 @@ Content-Type: application/json
 
 ## Specification
 
-### Modes {#modes}
+### Modes 
 
 The mode of transit describes the type of vehicle that is used along a line. The following table describes the modes currently supported by the Transit API.
 
@@ -420,7 +420,7 @@ The mode of transit describes the type of vehicle that is used along a line. The
 
 A transit agency, or operator, is an organisation which provides and governs a transport service which is available for use by either the general public (in most cases) or through some private arrangement.
 
-#### Agency response model {#agency-model}
+#### Agency response model 
 
 | Attribute | Type | Description |
 | :--------- | :--- | :---- |
@@ -514,7 +514,7 @@ Content-Type: application/json
 
 A location where passengers can board or alight from a transit vehicle.
 
-#### Stop response model {#stop-model}
+#### Stop response model 
 
 | Attribute | Type | Description |
 | :--------- | :--- | :---- |
@@ -675,7 +675,7 @@ Content-Type: application/json
 
 A timetable of vehicles arriving and departing from a stop along their respective routes.
 
-#### Stop Timetable response model {#stop-timetable-model}
+#### Stop Timetable response model 
 
 | Attribute | Type | Description |
 | :--------- | :--- | :---- |
@@ -759,7 +759,7 @@ Content-Type: application/json
 
 A grouping together of routes marketed to passengers as a single section of the transit network.
 
-#### Line response model {#line-model}
+#### Line response model 
 
 | Attribute | Type | Description |
 | :--------- | :--- | :---- |
@@ -893,7 +893,7 @@ Content-Type: application/json
 
 A timetable of vehicles travelling on a line.
 
-#### Line Timetable response model {#line-timetable-model}
+#### Line Timetable response model 
 
 | Attribute | Type | Description |
 | :--------- | :--- | :---- |
@@ -1034,7 +1034,7 @@ Content-Type: application/json
 
 A representation of the geometry of a line.
 
-#### Shape response model {#shape-model}
+#### Shape response model 
 
 | Attribute | Type | Description |
 | :--------- | :--- | :---- |
@@ -1243,7 +1243,7 @@ Content-Type: application/json
 
 A journey is the traveling of a passenger from a departure point to an arrival point.  A journey can consist of zero to many possible itineraries, each a travel option in getting from A to B. An itinerary consists of one to many legs, describing the path and mode of transit, to take in order to complete the journey.
 
-#### Journey response model {#journey-model}
+#### Journey response model 
 
 | Attribute | Type | Description |
 | :--------- | :--- | :---- |
@@ -1738,13 +1738,13 @@ Accept: application/json
 200 Ok
 Content-Type: application/json
 {
-    <omitted for brevity>
+    //omitted for brevity
 }
 ```
 
 ### Itineraries
 
-#### Itinerary response model {#itinerary-model}
+#### Itinerary response model 
 
 | Attribute | Type | Description |
 | :--------- | :--- | :---- |
@@ -2172,7 +2172,7 @@ Content-Type: application/json
 
 A leg is a section of an itinerary carried out by a passenger on one mode of transit (including walking) from some departure point to an arrival point.
 
-#### Types of legs {#types-of-legs}
+#### Types of legs 
 
 The Transit API currently supports two types of legs, each with a different response model.
 
@@ -2180,7 +2180,7 @@ A _Walking_ leg is one which the passenger is to travel by foot from one waypoin
 
 A _Transit_ leg is one which uses a public transportation service based on scheduled or absolute frequency-based stop times.
 
-#### Leg response model {#leg-model}
+#### Leg response model 
 
 | Attribute | Type | Description |
 | :--------- | :--- | :---- |
@@ -2300,7 +2300,7 @@ Content-Type: application/json
 }
 ```
 
-#### Vehicle response model {#vehicle-model}
+#### Vehicle response model 
 
 Describes a single transit vehicle along a line so that it can be identified by passengers.
 
@@ -2310,7 +2310,7 @@ Describes a single transit vehicle along a line so that it can be identified by 
 | direction | string | If available, the direction of the vehicle, for example, "Northbound" or "Clockwise" |
 | headsign | string | If available, identifying information (such as destination) displayed on the vehicle. |
 
-#### Waypoint response model {#waypoint-model}
+#### Waypoint response model 
 
 A waypoint is a stopping point along an itinerary. It has either an arrival date and time or a departure date and time, or both.
 
@@ -2321,7 +2321,7 @@ A waypoint is a stopping point along an itinerary. It has either an arrival date
 | stop | [Stop](#stop-model) | **[**[Excludable](#excludable)**]** The stop of the waypoint. This can be returned in either Walking or Transit legs. |
 | location | [Location](#location-model) | The location of the waypoint if it is not a stop. This can be returned in only Walking legs. |
 
-#### Direction response model {#direction-model}
+#### Direction response model 
 
 If available, the directions to follow in order to get from the start to the end of a leg.
 
@@ -2330,18 +2330,18 @@ If available, the directions to follow in order to get from the start to the end
 | instruction | string | The instruction to follow. |
 | distance | [Distance](#distance) | The distance to travel after the instruction has been followed. |
 
-#### Location response model {#location-model}
+#### Location response model 
 
 | Attribute | Type | Description |
 | :--------- | :--- | :---- |
 | address | string | The reverse geocoded address of the point. |
 | geometry | [GeoJSON](#geojson) Point | The geographic point of the location. |
 
-### Fares {#fares}
+### Fares 
 
 A fare is the cost incurred by a commuter when using a transit service.  Essentially, it is the price associated with a journey's itinerary for a particular fare product or set of fare products.
 
-#### Fare response model {#fare-model}
+#### Fare response model 
 
 | Attribute | Type | Description |
 | :--------- | :--- | :---- |
@@ -2794,7 +2794,7 @@ Content-Type: application/json
 }
 ```
 
-### Fare Products {#fare-products}
+### Fare Products 
 
 A fare product is a fare scheme offered to passenger by an agency and will decide the total [fare](#fares) incurred when using a transit service. Note that they may be subject to eligibility restrictions. For example, a "Child Single" fare product might only be allowed to be used by children.
 
@@ -2855,7 +2855,7 @@ Content-Type: application/json
 
 A fare table is a matrix associated with a fare product, representing costs for travelling between two locations under certain conditions.
 
-#### Fare Table response model {#faretable-model}
+#### Fare Table response model 
 
 | Attribute | Type | Description |
 | :--------- | :--- | :---- |
@@ -2868,7 +2868,7 @@ A fare table is a matrix associated with a fare product, representing costs for 
 
 A fare table entry specifies the price associated with a specific origin and destination zone.
 
-#### Fare Table Entry response model {#faretableentry-model}
+#### Fare Table Entry response model 
 | Attribute | Type | Description |
 | :--------- | :--- | :---- |
 | departureZone | [FareZone](#FareZone-model) | The origin zone departing from. |
@@ -2879,7 +2879,7 @@ A fare table entry specifies the price associated with a specific origin and des
 
 A fare zone is an attribute applied to one or more stops that is used when determining fares to or from this stop.
 
-#### Fare Zone response model {#FareZone-model}
+#### Fare Zone response model 
 | Attribute | Type | Description |
 | :--------- | :--- | :---- |
 | name | string | The name of the zone. |
