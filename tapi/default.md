@@ -4606,7 +4606,7 @@ A leg is a section of an itinerary carried out by a passenger on one mode of tra
 
 #### Types of legs
 
-The Transit API currently supports two types of legs, each with a different response model.
+The API currently supports two types of legs, each with a different response model.
 
 A _Walking_ leg is one which the passenger is to travel by foot from one waypoint to another.  Walking legs are usually accompanied with directions.
 
@@ -4619,11 +4619,11 @@ A _Transit_ leg is one which uses a public transportation service based on sched
 | type | string | The [type of leg](#types-of-legs), either _Walking_ or _Transit_. |
 | distance | [Distance](#distance) | If available, the total distance of leg. |
 | duration | integer | If available, the total duration of the leg in seconds. |
-| line | [Line](#line-model) | **[**[Excludable](#excludable)**]** The line that is used on this leg of the itinerary. This is only returned for Transit legs. |
+| line | [Line](#line-response-model) | **[**[Excludable](#excludable)**]** The line that is used on this leg of the itinerary. This is only returned for Transit legs. |
 | vehicle | [Vehicle](#vehicle-model) | **[**[Excludable](#excludable)**]** Identifying information for the vehicle that is used on this leg of the itinerary. This is only returned for Transit legs. |
 | fare | [Fare](#fare-model) | If available, the fare for this leg. |
-| waypoints | Array of [Waypoint](#waypoint-model) | **[**[Excludable](#excludable)**]** The sequence of ordered waypoints that make up this leg. |
-| directions | Array of [Direction](#direction-model) | **[**[Excludable](#excludable)**]** If available, the directions to take in order to complete the leg. |
+| waypoints | Array of [Waypoint](#waypoint-response-model) | **[**[Excludable](#excludable)**]** The sequence of ordered waypoints that make up this leg. |
+| directions | Array of [Direction](#direction-response-model) | **[**[Excludable](#excludable)**]** If available, the directions to take in order to complete the leg. |
 | geometry | [GeoJSON](#geojson) LineString | **[**[Excludable](#excludable)**]** If available, the geographic shape of the leg. |
 
 #### Retrieving a specific leg
@@ -4633,105 +4633,44 @@ A _Transit_ leg is one which uses a public transportation service based on sched
 Retrieving an itinerary's leg can be done using the index of that leg as it exists in the itinerary. The index begins counting from 1.
 
 ```
-GET api/journeys/8GYKddjcAk6j7aVUAMV3pw/itineraries/dnCQV5Kq0kaq5KVUAMV_eQ/legs/1
-Accept: application/json
+GET api/journeys/PEP5VsjJ6kuo6KZxAQjq2Q/itineraries/5CxmV36Blk6n6qZxAQjrdQ/legs/2?exclude=stop,line,geometry,directions
 ```
 
 ##### Sample response
 
 ```
 200 Ok
-Content-Type: application/json
 {
-    "type": "Walking",
+    "href": "https://transit.whereismytransport.com/api/journeys/PEP5VsjJ6kuo6KZxAQjq2Q/itineraries/5CxmV36Blk6n6qZxAQjrdQ/legs/2",
+    "type": "Transit",
     "distance": {
-        "value": 163,
+        "value": 8554,
         "unit": "m"
     },
-    "duration": 91,
+    "duration": 1200,
+    "line": {
+        "id": "yGZHGrc3sUOhNFLoer-Z_g",
+        "href": "https://transit.whereismytransport.com/api/lines/yGZHGrc3sUOhNFLoer-Z_g"
+    },
+    "vehicle": {},
     "waypoints": [
         {
-            "location": {
-                "address": "34 Strand Street, Cape Town, 7925",
-                "geometry": {
-                    "type": "Point",
-                    "coordinates": [
-                        18.422997,
-                        -33.922033
-                    ]
-                }
+            "stop": {
+                "id": "McWcQewKAUCZbluWHQk5kQ",
+                "href": "https://transit.whereismytransport.com/api/stops/McWcQewKAUCZbluWHQk5kQ"
             },
-            "arrivalTime": "2015-01-15T12:00:32Z",
-            "departureTime": "2015-01-15T12:00:32Z"
+            "arrivalTime": "2016-08-29T17:00:00Z",
+            "departureTime": "2016-08-29T17:00:00Z"
         },
         {
             "stop": {
-                "id": "YhYX0avSXk6mVS-uY14zVQ",
-                "href": "https://transit.whereismytransport.com/api/stops/YhYX0avSXk6mVS-uY14zVQ",
-				"agency": {
-					"id": "CUJ2ZhcOm0y7wO1KsjUgPA",
-                    "href": "https://transit.whereismytransport.com/api/agencies/CUJ2ZhcOm0y7wO1KsjUgPA",
-					"name": "Metrorail Cape Town",
-					"culture": "en-ZA"
-				},
-                "name": "Cape Town",
-                "code": "CPT SLT",
-                "geometry": {
-                    "type": "Point",
-                    "coordinates": [
-                        18.425102,
-                        -33.922153
-                    ]
-                },
-				"modes": [
-					"Rail"
-				]
+                "id": "C5UPegWudUa0h8LSSsVvrg",
+                "href": "https://transit.whereismytransport.com/api/stops/C5UPegWudUa0h8LSSsVvrg"
             },
-            "arrivalTime": "2015-01-15T12:02:00Z",
-            "departureTime": "2015-01-15T12:02:00Z"
+            "arrivalTime": "2016-08-29T17:20:00Z",
+            "departureTime": "2016-08-29T17:20:00Z"
         }
-    ],
-	"directions": [
-		{
-			"instruction": "Continue onto Strand Street",
-			"distance": {
-				"value": 18,
-				"unit": "m"
-			}
-		},
-		{
-			"instruction": "Turn slight left onto Strand Street",
-			"distance": {
-				"value": 145,
-				"unit": "m"
-			}
-		}
-	],
-    "geometry": {
-        "type": "LineString",
-        "coordinates": [
-			[
-				18.423071,
-				-33.92186
-			],
-			[
-				18.423218,
-				-33.921973
-			],
-			[
-				18.423407,
-				-33.922046
-			],
-			[
-				18.424113,
-				-33.922576
-			],
-			[
-				18.424427,
-				-33.922801
-			]
-        ]
-    }
+    ]
 }
 ```
 
@@ -4742,7 +4681,7 @@ Describes a single transit vehicle along a line so that it can be identified by 
 | Field | Type | Description |
 | :--------- | :--- | :---- |
 | designation | string | If available, an identifier for this vehicle as defined by the transit agency, or some other designation. |
-| direction | string | If available, the direction of the vehicle, for example, "Northbound" or "Clockwise" |
+| direction | string | If available, the direction of the vehicle, for example, _Northbound_ or _Clockwise_. |
 | headsign | string | If available, identifying information (such as destination) displayed on the vehicle. |
 
 #### Waypoint response model
@@ -4753,8 +4692,8 @@ A waypoint is a stopping point along an itinerary. It has either an arrival date
 | :--------- | :--- | :---- |
 | arrivalTime | [DateTime](#datetime) | The arrival date and time at this point of a leg. |
 | departureTime | [DateTime](#datetime) | The departure date and time from this point of a leg. |
-| stop | [Stop](#stop-model) | **[**[Excludable](#excludable)**]** The stop of the waypoint. This can be returned in either Walking or Transit legs. |
-| location | [Location](#location-model) | The location of the waypoint if it is not a stop. This can be returned in only Walking legs. |
+| stop | [Stop](#stop-response-model) | **[**[Excludable](#excludable)**]** The stop of the waypoint. This can be returned in either Walking or Transit legs. |
+| location | [Location](#location-response-model) | The location of the waypoint if it is not a stop. This can be returned in only Walking legs. |
 
 #### Direction response model
 
@@ -4769,10 +4708,10 @@ If available, the directions to follow in order to get from the start to the end
 
 | Field | Type | Description |
 | :--------- | :--- | :---- |
-| address | string | The reverse geocoded address of the point. |
+| address | string | The reverse geocoded address of the point, if available. |
 | geometry | [GeoJSON](#geojson) Point | The geographic point of the location. |
 
-### Fares {#fares}
+### Fares
 
 A fare is the cost incurred by a commuter when using a transit service.  Essentially, it is the price associated with a journey's itinerary for a particular fare product or set of fare products.
 
@@ -4781,39 +4720,37 @@ A fare is the cost incurred by a commuter when using a transit service.  Essenti
 | Field | Type | Description |
 | :--------- | :--- | :---- |
 | description | string | The description of the fare for this leg. |
-| fareProduct | [FareProduct](#fare-products) | The fare product selected for this leg. |
+| fareProduct | [FareProduct](#fare-product-response-model) | The fare product selected for this leg. |
 | cost | [Cost](#cost) | The cost of this leg. |
 | messages | Array of string | Any fare messages, such as required fare cards or special instructions. |
 
 #### Specifying fare products
 
-When creating or retrieving a journey, or when retrieving a journey's itineraries or legs, the default [fare products](#fare-products) will be used, if available. Specific fare products can be supplied in order to get a more specific fare result.
+When creating a new journey, the default [fare product](#fare-products) will be used, if available. Specific fare products can be specified in order to get a more desired fare result.
 
 ##### Sample request
 
-When creating a new journey:
-
 ```
 POST api/journeys
-Accept: application/json
-Content-Type: application/json
 {
     "geometry": {
         "type": "MultiPoint",
         "coordinates": [
-			[
-                18.422997,
-                -33.922033
+            [
+                18.422326,
+                -33.922843
             ],
-			[
-                18.470095,
-                -33.937826
+            [
+                18.473162,
+                -33.966573
             ]
         ]
     },
-    "time": "2015-01-15T10:00:00Z",
-	"timeType": "LatestArrival",
-	"fareProducts": [ "vQYeSTuzMUWkPKZVATYFcg" ]
+    "time": "2016-08-30T16:00:00Z",
+    "timeType": "DepartAfter",
+    "fareProducts": [
+        "pCawiJA73UmchaZtAKAHwg"
+    ]
 }
 ```
 
@@ -4823,8 +4760,8 @@ To retrieve a specific itinerary for a previously created journey, the following
 
 | Parameter | Type | Required | Description |
 | :-------------- | :--- | :--- | :---- |
-| journeyId | string | Required | The identifier of the journey. |
-| itineraryId | string | Required | The identifier of the itinerary. |
+| journeyId | [Identifier](#identifiers) | Required | The identifier of the journey. |
+| itineraryId | [Identifier](#identifiers) | Required | The identifier of the itinerary. |
 
 ##### Sample request
 
@@ -4833,418 +4770,7 @@ GET api/journeys/8GYKddjcAk6j7aVUAMV3pw/itineraries/dnCQV5Kq0kaq5KVUAMV_eQ
 Accept: application/json
 ```
 
-##### Sample response
-
-```
-200 Ok
-Content-Type: application/json
-{
-    "id": "dnCQV5Kq0kaq5KVUAMV_eQ",
-    "href": "https://transit.whereismytransport.com/api/journeys/8GYKddjcAk6j7aVUAMV3pw/itineraries/dnCQV5Kq0kaq5KVUAMV_eQ",
-    "departureTime": "2015-01-15T12:00:32Z",
-    "arrivalTime": "2015-01-15T13:31:34Z",
-    "duration": 4110,
-    "distance": {
-        "value": 5357,
-        "unit": "m"
-    },
-    "legs": [
-        {
-            "type": "Walking",
-            "distance": {
-                "value": 163,
-                "unit": "m"
-            },
-            "duration": 91,
-            "waypoints": [
-                {
-                    "location": {
-                        "address": "34 Strand Street, Cape Town, 7925",
-                        "geometry": {
-                            "type": "Point",
-                            "coordinates": [
-                                18.422997,
-                                -33.922033
-                            ]
-                        }
-                    },
-                    "arrivalTime": "2015-01-15T12:00:32Z",
-                    "departureTime": "2015-01-15T12:00:32Z"
-                },
-                {
-                    "stop": {
-                        "id": "YhYX0avSXk6mVS-uY14zVQ",
-                        "href": "https://transit.whereismytransport.com/api/stops/YhYX0avSXk6mVS-uY14zVQ",
-                        "agency": {
-							"id": "CUJ2ZhcOm0y7wO1KsjUgPA",
-                            "href": "https://transit.whereismytransport.com/api/agencies/CUJ2ZhcOm0y7wO1KsjUgPA",
-							"name": "Metrorail Cape Town",
-							"culture": "en-ZA"
-						},
-                        "name": "Cape Town",
-                        "code": "CPT SLT",
-                        "geometry": {
-                            "type": "Point",
-                            "coordinates": [
-                                18.425102,
-                                -33.922153
-                            ]
-                        },
-						"modes": [
-							"Rail"
-						]
-                    },
-                    "arrivalTime": "2015-01-15T12:02:00Z",
-                    "departureTime": "2015-01-15T12:02:00Z"
-                }
-            ],
-			"directions": [
-				{
-					"instruction": "Continue onto Strand Street",
-					"distance": {
-						"value": 18,
-						"unit": "m"
-					}
-				},
-				{
-					"instruction": "Turn slight left onto Strand Street",
-					"distance": {
-						"value": 145,
-						"unit": "m"
-					}
-				}
-			],
-            "geometry": {
-                "type": "LineString",
-                "coordinates": [
-					[
-						18.423071,
-						-33.92186
-					],
-					[
-						18.423218,
-						-33.921973
-					],
-					[
-						18.423407,
-						-33.922046
-					],
-					[
-						18.424113,
-						-33.922576
-					],
-					[
-						18.424427,
-						-33.922801
-					]
-                ]
-            }
-        },
-        {
-            "type": "Transit",
-            "distance": {
-                "value": 4890,
-                "unit": "m"
-            },
-            "duration": 3600,
-            "line": {
-                "id": "O29agx-avU-Xb1c-j_0Nvg",
-                "href": "https://transit.whereismytransport.com/api/lines/O29agx-avU-Xb1c-j_0Nvg",
-                "agency": {
-					"id": "CUJ2ZhcOm0y7wO1KsjUgPA",
-                    "href": "https://transit.whereismytransport.com/api/agencies/CUJ2ZhcOm0y7wO1KsjUgPA",
-					"name": "Metrorail Cape Town",
-					"culture": "en-ZA"
-				},
-                "name": "Southern Line",
-                "mode": "Rail",
-				"colour": "#ff35b5e5",
-				"textColour": "#ffffffff"
-            },
-			"fare": {
-				"description": "Standard fare.",
-				"fareProduct": {
-					"id": "EREREREREREREREREREREQ",
-                    "href": "https://transit.whereismytransport.com/api/fareproducts/EREREREREREREREREREREQ",
-					"agency": {
-						"id": "CUJ2ZhcOm0y7wO1KsjUgPA",
-						"href": "https://transit.whereismytransport.com/api/agencies/CUJ2ZhcOm0y7wO1KsjUgPA",
-						"name": "Metrorail Cape Town",
-						"culture": "en-ZA"
-					},
-					"name": "Adult Single MetroPlus",
-					"isDefault": true,
-					"description": "First class ticket price for an adult making a one-way journey."
-				},
-				"cost": {
-					"amount": 10.50,
-					"currencyCode": "ZAR"
-				},
-				"messages": []
-			},
-            "waypoints": [
-                {
-                    "stop": {
-                        "id": "YhYX0avSXk6mVS-uY14zVQ",
-                        "href": "https://transit.whereismytransport.com/api/stops/YhYX0avSXk6mVS-uY14zVQ",
-                        "agency": {
-							"id": "CUJ2ZhcOm0y7wO1KsjUgPA",
-                            "href": "https://transit.whereismytransport.com/api/agencies/CUJ2ZhcOm0y7wO1KsjUgPA",
-							"name": "Metrorail Cape Town",
-							"culture": "en-ZA"
-						},
-                        "name": "Cape Town",
-                        "code": "CPT SLT",
-                        "geometry": {
-                            "type": "Point",
-                            "coordinates": [
-                                18.425102,
-                                -33.922153
-                            ]
-                        },
-						"modes": [
-							"Rail"
-						]
-                    },
-                    "arrivalTime": "2015-01-15T12:02:00Z",
-                    "departureTime": "2015-01-15T12:02:00Z"
-                },
-                {
-                    "stop": {
-                        "id": "n7O8Px_REk21cMelcP6Odw",
-                        "href": "https://transit.whereismytransport.com/api/stops/n7O8Px_REk21cMelcP6Odw",
-                        "agency": {
-							"id": "CUJ2ZhcOm0y7wO1KsjUgPA",
-                            "href": "https://transit.whereismytransport.com/api/agencies/CUJ2ZhcOm0y7wO1KsjUgPA",
-							"name": "Metrorail Cape Town",
-							"culture": "en-ZA"
-						},
-                        "name": "Salt River",
-                        "geometry": {
-                            "type": "Point",
-                            "coordinates": [
-                                18.465346,
-                                -33.926687
-                            ]
-                        },
-						"modes": [
-							"Rail"
-						]
-                    },
-                    "arrivalTime": "2015-01-15T12:30:00Z",
-                    "departureTime": "2015-01-15T12:32:00Z"
-                },
-                {
-                    "stop": {
-                        "id": "t_pbQXOlOEOcBnzrq3iE_g",
-                        "href": "https://transit.whereismytransport.com/api/stops/t_pbQXOlOEOcBnzrq3iE_g",
-                        "agency": {
-							"id": "CUJ2ZhcOm0y7wO1KsjUgPA",
-                            "href": "https://transit.whereismytransport.com/api/agencies/CUJ2ZhcOm0y7wO1KsjUgPA",
-							"name": "Metrorail Cape Town",
-							"culture": "en-ZA"
-						},
-                        "name": "Woodstock",
-                        "geometry": {
-                            "type": "Point",
-                            "coordinates": [
-                                18.445819,
-                                -33.924728
-                            ]
-                        },
-						"modes": [
-							"Rail"
-						]
-                    },
-                    "arrivalTime": "2015-01-15T13:00:00Z",
-                    "departureTime": "2015-01-15T13:02:00Z"
-                }
-            ],
-            "geometry": {
-                "type": "LineString",
-                "coordinates": [
-					[
-						18.424775004386902,
-						-33.92254795325198
-					],
-					[
-						18.42703878879547,
-						-33.92414597473452
-					],
-					[
-						18.431464433670044,
-						-33.92569055196698
-					],
-					[
-						18.43801975250244,
-						-33.926144572224985
-					],
-					[
-						18.44130277633667,
-						-33.92616237689167
-					],
-					[
-						18.444993495941162,
-						-33.92532555353428
-					],
-					[
-						18.44797611236572,
-						-33.92530774869268
-					],
-					[
-						18.46121549606323,
-						-33.92696358304087
-					],
-					[
-						18.46503496170044,
-						-33.92721284563916
-					]
-                ]
-            }
-        },
-        {
-            "type": "Walking",
-            "distance": {
-                "value": 304,
-                "unit": "m"
-            },
-            "duration": 419,
-            "waypoints": [
-                {
-                    "stop": {
-                        "id": "kSukOlW7cES5C55WRpp41Q",
-                        "href": "https://transit.whereismytransport.com/api/stops/kSukOlW7cES5C55WRpp41Q",
-                        "agency": {
-							"id": "CUJ2ZhcOm0y7wO1KsjUgPA",
-                            "href": "https://transit.whereismytransport.com/api/agencies/CUJ2ZhcOm0y7wO1KsjUgPA",
-							"name": "Metrorail Cape Town",
-							"culture": "en-ZA"
-						},
-                        "name": "Observatory",
-                        "geometry": {
-                            "type": "Point",
-                            "coordinates": [
-                                18.471437,
-                                -33.937752
-                            ]
-                        },
-						"modes": [
-							"Rail"
-						]
-                    },
-                    "arrivalTime": "2015-01-15T13:30:00Z",
-                    "departureTime": "2015-01-15T13:30:00Z"
-                },
-                {
-                    "location": {
-						"address": "79 Station Road, Observatory, Cape Town, 7925",
-                        "geometry": {
-                            "type": "Point",
-                            "coordinates": [
-                                18.470095,
-								-33.937826
-                            ]
-                        }
-                    },
-                    "arrivalTime": "2015-01-15T13:31:34Z",
-                    "departureTime": "2015-01-15T13:30:00Z"
-                }
-            ],
-			"directions": [
-				{
-					"instruction": "Continue",
-					"distance": {
-						"value": 91,
-						"unit": "m"
-					}
-				},
-				{
-					"instruction": "Turn right onto Trill Road",
-					"distance": {
-						"value": 10,
-						"unit": "m"
-					}
-				},
-				{
-					"instruction": "Turn right onto Disa Avenue",
-					"distance": {
-						"value": 54,
-						"unit": "m"
-					}
-				},
-				{
-					"instruction": "Turn left onto Fairfield Road",
-					"distance": {
-						"value": 84,
-						"unit": "m"
-					}
-				},
-				{
-					"instruction": "Turn right onto Herschel Road",
-					"distance": {
-						"value": 63,
-						"unit": "m"
-					}
-				},
-				{
-					"instruction": "Turn left onto Station Road",
-					"distance": {
-						"value": 1,
-						"unit": "m"
-					}
-				}
-			],
-            "geometry": {
-                "type": "LineString",
-                "coordinates": [
-					[
-						18.471225,
-						-33.937796
-					],
-					[
-						18.471458,
-						-33.938543
-					],
-					[
-						18.471473,
-						-33.93859
-					],
-					[
-						18.471365,
-						-33.938622
-					],
-					[
-						18.471212,
-						-33.938148
-					],
-					[
-						18.470335,
-						-33.938359
-					],
-					[
-						18.470296,
-						-33.938299
-					],
-					[
-						18.470212,
-						-33.938092
-					],
-					[
-						18.470105,
-						-33.937827
-					],
-					[
-						18.470096,
-						-33.937829
-					]
-                ]
-            }
-        }
-    ]
-}
-```
-
-### Fare Products {#fare-products}
+### Fare Products
 
 A fare product is a fare scheme offered to passenger by an agency and will decide the total [fare](#fares) incurred when using a transit service. Note that they may be subject to eligibility restrictions. For example, a "Child Single" fare product might only be allowed to be used by children.
 
@@ -5252,7 +4778,7 @@ A fare product is a fare scheme offered to passenger by an agency and will decid
 
 | Field | Type | Description |
 | :--------- | :--- | :---- |
-| id | string | The identifier of the fare product. |
+| id | [Identifier](#identifiers) | The identifier of the fare product. |
 | href | string | The hyperlink pointing to the fare product. |
 | agency | [Agency](#agency-model) | **[**[Excludable](#excludable)**]** The fare product's agency. |
 | name | string | The commuter-friendly name of the fare product. |
@@ -5263,53 +4789,50 @@ A fare product is a fare scheme offered to passenger by an agency and will decid
 
 Retrieves a collection of fare products.
 
-`GET api/fareproducts?agencies={agencies}&limit={limit}&offset={offset}&at={at}`
+`GET api/fareproducts?agencies={agencies}&limit={int}&offset={int}`
 
 | Parameter | Type | Description |
 | :-------------- | :--- | :---- |
-| agencies | [Agencies Filter](#agencies-filter) | The list of agencies to filter the results by. |
+| agencies | Array of [Identifier](#identifiers) | The list of agencies to filter the results by. |
 | limit | int | The maximum number of entities to be returned. Default is 100. |
 | offset | int | The offset of the first entity returned. Default is 0. |
-| at | [DateTime](#datetime) | The point in time from which to query. Defaults to the current date and time. |
 
 ##### Sample request
 
 ```
-GET api/fareproducts?agencies=CUJ2ZhcOm0y7wO1KsjUgPA
-Accept: application/json
+GET api/fareproducts?agencies=5kcfZkKW0ku4Uk-A6j8MFA&limit=2
 ```
 
 ##### Sample response
 
 ```
 200 Ok
-Content-Type: application/json
 [
     {
-        "id": "q5d1eTAVa87aG6Ki2lRqmw",
-        "href": "https://transit.whereismytransport.com/api/fareproducts/q5d1eTAVa87aG6Ki2lRqmw",
-		"agency": {
-			"id": "CUJ2ZhcOm0y7wO1KsjUgPA",
-            "href": "https://transit.whereismytransport.com/api/agencies/CUJ2ZhcOm0y7wO1KsjUgPA",
-			"name": "Metrorail Cape Town",
-			"culture": "en-ZA"
-		},
-        "name": "Adult Single",
-		"isDefault": true,
-        "description": "Default ticket price for an adult making a one-way journey."
+        "id": "pCawiJA73UmchaZtAKAHwg",
+        "href": "https://transitapi-dev-webapp.azurewebsites.net/api/fareproducts/pCawiJA73UmchaZtAKAHwg",
+        "agency": {
+            "id": "5kcfZkKW0ku4Uk-A6j8MFA",
+            "href": "https://transitapi-dev-webapp.azurewebsites.net/api/agencies/5kcfZkKW0ku4Uk-A6j8MFA",
+            "name": "MyCiTi",
+            "culture": "en"
+        },
+        "name": "Monthly Pass",
+        "isDefault": false,
+        "description": "Unlimited travel on any day and at any time and are valid for one month from a start date of your choice excluding the Airport."
     },
     {
-        "id": "UKQrSP1DLpVh5Gj8V-AhmL",
-        "href": "https://transit.whereismytransport.com/api/fareproducts/UKQrSP1DLpVh5Gj8V-AhmL",
-		"agency": {
-			"id": "CUJ2ZhcOm0y7wO1KsjUgPA",
-            "href": "https://transit.whereismytransport.com/api/agencies/CUJ2ZhcOm0y7wO1KsjUgPA",
-			"name": "Metrorail Cape Town",
-			"culture": "en-ZA"
-		},
-        "name": "Child Single",
-		"isDefault": false,
-        "description": "Ticket price for an child making a one-way journey."
+        "id": "1Mw8Zdr65E-eUqZtAKAH1Q",
+        "href": "https://transitapi-dev-webapp.azurewebsites.net/api/fareproducts/1Mw8Zdr65E-eUqZtAKAH1Q",
+        "agency": {
+            "id": "5kcfZkKW0ku4Uk-A6j8MFA",
+            "href": "https://transitapi-dev-webapp.azurewebsites.net/api/agencies/5kcfZkKW0ku4Uk-A6j8MFA",
+            "name": "MyCiTi",
+            "culture": "en"
+        },
+        "name": "Monthly Pass Airport",
+        "isDefault": false,
+        "description": "Unlimited travel on any day and at any time and are valid for one month from a start date of your choice."
     }
 ]
 ```
