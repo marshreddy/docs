@@ -148,7 +148,7 @@ The API uses conventional [HTTP status codes](#status-codes) to indicate the res
 
 ### Identifiers
 
-Almost all entities in the Transit API are identified through the use of a globally unique identifier. This identifier is specified as a 22 character long, case-sensitive string of URL-friendly characters; __a__ to __z__, __A__ to __Z__, __0__ to __9__, - (hyphen) and _ (underscore). See the **id** field in the sample response below.
+Almost all entities in the API are identified through the use of a globally unique identifier. This identifier is specified as a 22 character long, case-sensitive string of URL-friendly characters; __a__ to __z__, __A__ to __Z__, __0__ to __9__, - (hyphen) and _ (underscore). See the **id** field in the sample response below.
 
 #### Sample request
 
@@ -187,10 +187,10 @@ GET api/stops/eBTeYLPXOkWm5zyfjZVaZg
 200 Ok
 {
     "id": "eBTeYLPXOkWm5zyfjZVaZg",
-    "href": "https://transit.whereismytransport.com/api/stops/eBTeYLPXOkWm5zyfjZVaZg",
+    "href": "https://platform.whereismytransport.com/api/stops/eBTeYLPXOkWm5zyfjZVaZg",
     "agency": {
         "id": "5kcfZkKW0ku4Uk-A6j8MFA",
-        "href": "https://transit.whereismytransport.com/api/agencies/5kcfZkKW0ku4Uk-A6j8MFA",
+        "href": "https://platform.whereismytransport.com/api/agencies/5kcfZkKW0ku4Uk-A6j8MFA",
         "name": "MyCiTi",
         "culture": "en"
     },
@@ -261,7 +261,7 @@ More information can be found [here](https://en.wikipedia.org/wiki/ISO_8601).
 
 #### Culture 
 
-The appropriate culture format used in the Transit API is based on RFC 4646. This unique name is a combination of an ISO 639 two-letter lowercase culture code associated with a language and an ISO 3166 two-letter uppercase subculture code associated with a country or region.
+The appropriate culture format used in the API is based on RFC 4646. This unique name is a combination of an ISO 639 two-letter lowercase culture code associated with a language and an ISO 3166 two-letter uppercase subculture code associated with a country or region.
 
 For example, _en-US_ refers to English (United States) and _en-ZA_ to English (South Africa).
 
@@ -286,7 +286,7 @@ The following cost object represents the value of R10,50.
 
 #### GeoJSON 
 
-[GeoJSON](http://geojson.org) is a JSON format for encoding geographic data structures. The Transit API uses the Point, MultiPoint and LineString geometry types.
+[GeoJSON](http://geojson.org) is a JSON format for encoding geographic data structures. The API uses the _Point_, _MultiPoint_ and _LineString_ geometry types.
 
 A typical GeoJSON structure consists of a **type** field and an array of **coordinates**. 
 
@@ -349,7 +349,7 @@ Distance is returned as an object consisting of the distance value (an integer) 
 
 ### Modes
 
-The mode of transit describes the type of vehicle that is used along a line. The following table describes the modes currently supported by the API.
+The mode of transport describes the type of vehicle that is used along a line. The following table describes the modes currently supported by the API.
 
 | Value | Description |
 | :--------- | :--- | :---- |
@@ -366,7 +366,7 @@ The mode of transit describes the type of vehicle that is used along a line. The
 
 ### Agencies
 
-A transit agency, or operator, is an organisation which provides and governs a transport service which is available for use by either the general public (in most cases) or through some private arrangement.
+An agency, or operator, is an organisation which provides and governs a transport service which is available for use by either the general public (in most cases) or through some private arrangement.
 
 #### Agency response model
 
@@ -405,19 +405,19 @@ GET api/agencies?bbox=-33.94,18.36,-33.89,18.43
 [
     {
         "id": "xp_eNbqkYEaZP2YZkHwQqg",
-        "href": "https://transit.whereismytransport.com/api/agencies/xp_eNbqkYEaZP2YZkHwQqg",
+        "href": "https://platform.whereismytransport.com/api/agencies/xp_eNbqkYEaZP2YZkHwQqg",
         "name": "Metrorail Western Cape",
         "culture": "en"
     },
     {
         "id": "5kcfZkKW0ku4Uk-A6j8MFA",
-        "href": "https://transit.whereismytransport.com/api/agencies/5kcfZkKW0ku4Uk-A6j8MFA",
+        "href": "https://platform.whereismytransport.com/api/agencies/5kcfZkKW0ku4Uk-A6j8MFA",
         "name": "MyCiTi",
         "culture": "en"
     },
     {
         "id": "PO83DTm4oEuJ19prwicxHw",
-        "href": "https://transit.whereismytransport.com/api/agencies/PO83DTm4oEuJ19prwicxHw",
+        "href": "https://platform.whereismytransport.com/api/agencies/PO83DTm4oEuJ19prwicxHw",
         "name": "Nelson Mandela Gateway",
         "culture": "en"
     }
@@ -446,7 +446,7 @@ GET api/agencies/5kcfZkKW0ku4Uk-A6j8MFA
 200 Ok
 {
     "id": "5kcfZkKW0ku4Uk-A6j8MFA",
-    "href": "https://transit.whereismytransport.com/api/agencies/5kcfZkKW0ku4Uk-A6j8MFA",
+    "href": "https://platform.whereismytransport.com/api/agencies/5kcfZkKW0ku4Uk-A6j8MFA",
     "name": "MyCiTi",
     "culture": "en"
 }
@@ -480,7 +480,7 @@ Retrieves a collection of stops.
 | point | [Point](#point) | The point from where to search for nearby stops. Stops will be returned in order of their distance from this point (from closest to furthest). |
 | radius | integer | The distance in metres from the point to search for nearby stops. This filter is optional. |
 | bbox | [Bounding Box](#bounding-box) | The bounding box from where to retrieve stops. This will be ignored if a point is provided in the query.  |
-| modes | string | A string of comma-separated [transit modes](#modes). |
+| modes | string | A string of comma-separated [transport modes](#modes). |
 | agencies | Array of [Identifier](#identifiers) | A string of comma-separated agency identifiers to filter the results by. |
 | servesLines | Array of [Identifier](#identifiers) | A string of comma-separated line identifiers to filter the results by. |
 | showChildren | bool | Specifies whether or not to display children stops that satisfy the query parameters. Default is false. |
@@ -501,10 +501,10 @@ Content-Type: application/json
 [
     {
         "id": "k42lx2toK0yJiVGvsM4WSA",
-        "href": "https://transit.whereismytransport.com/api/stops/k42lx2toK0yJiVGvsM4WSA",
+        "href": "https://platform.whereismytransport.com/api/stops/k42lx2toK0yJiVGvsM4WSA",
         "agency": {
             "id": "5kcfZkKW0ku4Uk-A6j8MFA",
-            "href": "https://transit.whereismytransport.com/api/agencies/5kcfZkKW0ku4Uk-A6j8MFA",
+            "href": "https://platform.whereismytransport.com/api/agencies/5kcfZkKW0ku4Uk-A6j8MFA",
             "name": "MyCiTi",
             "culture": "en"
         },
@@ -522,10 +522,10 @@ Content-Type: application/json
     },
     {
         "id": "-rMw7Fg3GEqwJIsiDa4xMA",
-        "href": "https://transit.whereismytransport.com/api/stops/-rMw7Fg3GEqwJIsiDa4xMA",
+        "href": "https://platform.whereismytransport.com/api/stops/-rMw7Fg3GEqwJIsiDa4xMA",
         "agency": {
             "id": "5kcfZkKW0ku4Uk-A6j8MFA",
-            "href": "https://transit.whereismytransport.com/api/agencies/5kcfZkKW0ku4Uk-A6j8MFA",
+            "href": "https://platform.whereismytransport.com/api/agencies/5kcfZkKW0ku4Uk-A6j8MFA",
             "name": "MyCiTi",
             "culture": "en"
         },
@@ -566,10 +566,10 @@ GET api/stops/eBTeYLPXOkWm5zyfjZVaZg
 200 Ok
 {
     "id": "eBTeYLPXOkWm5zyfjZVaZg",
-    "href": "https://transit.whereismytransport.com/api/stops/eBTeYLPXOkWm5zyfjZVaZg",
+    "href": "https://platform.whereismytransport.com/api/stops/eBTeYLPXOkWm5zyfjZVaZg",
     "agency": {
         "id": "5kcfZkKW0ku4Uk-A6j8MFA",
-        "href": "https://transit.whereismytransport.com/api/agencies/5kcfZkKW0ku4Uk-A6j8MFA",
+        "href": "https://platform.whereismytransport.com/api/agencies/5kcfZkKW0ku4Uk-A6j8MFA",
         "name": "MyCiTi",
         "culture": "en"
     },
@@ -610,10 +610,10 @@ GET api/stops/E8qYuZ4nEUSLS13pskx1Qg/stops
 [
     {
         "id": "qiCODz6ky0qZ9agqLgF44Q",
-        "href": "https://transitapi-dev-webapp.azurewebsites.net/api/stops/qiCODz6ky0qZ9agqLgF44Q",
+        "href": "https://platform.whereismytransport.com/api/stops/qiCODz6ky0qZ9agqLgF44Q",
         "agency": {
             "id": "5kcfZkKW0ku4Uk-A6j8MFA",
-            "href": "https://transitapi-dev-webapp.azurewebsites.net/api/agencies/5kcfZkKW0ku4Uk-A6j8MFA"
+            "href": "https://platform.whereismytransport.com/api/agencies/5kcfZkKW0ku4Uk-A6j8MFA"
         },
         "name": "Acacia",
         "code": "FAT073NB",
@@ -629,10 +629,10 @@ GET api/stops/E8qYuZ4nEUSLS13pskx1Qg/stops
         ],
         "parentStop": {
             "id": "E8qYuZ4nEUSLS13pskx1Qg",
-            "href": "https://transitapi-dev-webapp.azurewebsites.net/api/stops/E8qYuZ4nEUSLS13pskx1Qg",
+            "href": "https://platform.whereismytransport.com/api/stops/E8qYuZ4nEUSLS13pskx1Qg",
             "agency": {
                 "id": "5kcfZkKW0ku4Uk-A6j8MFA",
-                "href": "https://transitapi-dev-webapp.azurewebsites.net/api/agencies/5kcfZkKW0ku4Uk-A6j8MFA"
+                "href": "https://platform.whereismytransport.com/api/agencies/5kcfZkKW0ku4Uk-A6j8MFA"
             },
             "name": "Acacia",
             "geometry": {
@@ -650,10 +650,10 @@ GET api/stops/E8qYuZ4nEUSLS13pskx1Qg/stops
     },
     {
         "id": "N_hUhxwX-EaNn5SRMk2VJg",
-        "href": "https://transitapi-dev-webapp.azurewebsites.net/api/stops/N_hUhxwX-EaNn5SRMk2VJg",
+        "href": "https://platform.whereismytransport.com/api/stops/N_hUhxwX-EaNn5SRMk2VJg",
         "agency": {
             "id": "5kcfZkKW0ku4Uk-A6j8MFA",
-            "href": "https://transitapi-dev-webapp.azurewebsites.net/api/agencies/5kcfZkKW0ku4Uk-A6j8MFA"
+            "href": "https://platform.whereismytransport.com/api/agencies/5kcfZkKW0ku4Uk-A6j8MFA"
         },
         "name": "Acacia",
         "code": "FAT073SB",
@@ -669,10 +669,10 @@ GET api/stops/E8qYuZ4nEUSLS13pskx1Qg/stops
         ],
         "parentStop": {
             "id": "E8qYuZ4nEUSLS13pskx1Qg",
-            "href": "https://transitapi-dev-webapp.azurewebsites.net/api/stops/E8qYuZ4nEUSLS13pskx1Qg",
+            "href": "https://platform.whereismytransport.com/api/stops/E8qYuZ4nEUSLS13pskx1Qg",
             "agency": {
                 "id": "5kcfZkKW0ku4Uk-A6j8MFA",
-                "href": "https://transitapi-dev-webapp.azurewebsites.net/api/agencies/5kcfZkKW0ku4Uk-A6j8MFA"
+                "href": "https://platform.whereismytransport.com/api/agencies/5kcfZkKW0ku4Uk-A6j8MFA"
             },
             "name": "Acacia",
             "geometry": {
@@ -733,10 +733,10 @@ GET api/stops/eBTeYLPXOkWm5zyfjZVaZg/timetables?limit=2
         "vehicle": {},
         "line": {
             "id": "vBk_jw2saU-gfZCgo_JvLg",
-            "href": "https://transitapi-dev-webapp.azurewebsites.net/api/lines/vBk_jw2saU-gfZCgo_JvLg",
+            "href": "https://platform.whereismytransport.com/api/lines/vBk_jw2saU-gfZCgo_JvLg",
             "agency": {
                 "id": "5kcfZkKW0ku4Uk-A6j8MFA",
-                "href": "https://transitapi-dev-webapp.azurewebsites.net/api/agencies/5kcfZkKW0ku4Uk-A6j8MFA",
+                "href": "https://platform.whereismytransport.com/api/agencies/5kcfZkKW0ku4Uk-A6j8MFA",
                 "name": "MyCiTi",
                 "culture": "en"
             },
@@ -752,10 +752,10 @@ GET api/stops/eBTeYLPXOkWm5zyfjZVaZg/timetables?limit=2
         "vehicle": {},
         "line": {
             "id": "vBk_jw2saU-gfZCgo_JvLg",
-            "href": "https://transitapi-dev-webapp.azurewebsites.net/api/lines/vBk_jw2saU-gfZCgo_JvLg",
+            "href": "https://platform.whereismytransport.com/api/lines/vBk_jw2saU-gfZCgo_JvLg",
             "agency": {
                 "id": "5kcfZkKW0ku4Uk-A6j8MFA",
-                "href": "https://transitapi-dev-webapp.azurewebsites.net/api/agencies/5kcfZkKW0ku4Uk-A6j8MFA",
+                "href": "https://platform.whereismytransport.com/api/agencies/5kcfZkKW0ku4Uk-A6j8MFA",
                 "name": "MyCiTi",
                 "culture": "en"
             },
@@ -770,7 +770,7 @@ GET api/stops/eBTeYLPXOkWm5zyfjZVaZg/timetables?limit=2
 
 ### Lines
 
-A grouping together of routes marketed to passengers as a single section of the transit network.
+A grouping together of routes marketed to passengers as a single section of the transport network.
 
 #### Line response model
 
@@ -782,7 +782,7 @@ A grouping together of routes marketed to passengers as a single section of the 
 | name | string | If available, the full name of the line, . Either name or shortName will exist. |
 | shortName | string | If available, the short name of the line. Either name or shortName will exist. |
 | description | string | If available, a description of the line. |
-| mode | [Mode](#modes) | The transit mode of the line. |
+| mode | [Mode](#modes) | The transport mode of the line. |
 | colour | string | The assigned colour of the line as an 8-character (ARGB) hexadecimal number. For example, #FFFF0000 (red with 100% opacity). |
 | textColour | string | The colour of the text when drawn against the colour of the line so to provide sufficient contrast for legibility. Also an 8-character (ARGB) hexadecimal number. For example, #CCFFFFFF (white with 50% opacity). |
 
@@ -812,10 +812,10 @@ GET api/lines?agencies=5kcfZkKW0ku4Uk-A6j8MFA&limit=2
 [
     {
         "id": "-29sdEyVLkel5ouTHN5Bsg",
-        "href": "https://transitapi-dev-webapp.azurewebsites.net/api/lines/-29sdEyVLkel5ouTHN5Bsg",
+        "href": "https://platform.whereismytransport.com/api/lines/-29sdEyVLkel5ouTHN5Bsg",
         "agency": {
             "id": "5kcfZkKW0ku4Uk-A6j8MFA",
-            "href": "https://transitapi-dev-webapp.azurewebsites.net/api/agencies/5kcfZkKW0ku4Uk-A6j8MFA",
+            "href": "https://platform.whereismytransport.com/api/agencies/5kcfZkKW0ku4Uk-A6j8MFA",
             "name": "MyCiTi",
             "culture": "en"
         },
@@ -826,10 +826,10 @@ GET api/lines?agencies=5kcfZkKW0ku4Uk-A6j8MFA&limit=2
     },
     {
         "id": "kYdaW1_dKUe7WZegmV1bFw",
-        "href": "https://transitapi-dev-webapp.azurewebsites.net/api/lines/kYdaW1_dKUe7WZegmV1bFw",
+        "href": "https://platform.whereismytransport.com/api/lines/kYdaW1_dKUe7WZegmV1bFw",
         "agency": {
             "id": "5kcfZkKW0ku4Uk-A6j8MFA",
-            "href": "https://transitapi-dev-webapp.azurewebsites.net/api/agencies/5kcfZkKW0ku4Uk-A6j8MFA",
+            "href": "https://platform.whereismytransport.com/api/agencies/5kcfZkKW0ku4Uk-A6j8MFA",
             "name": "MyCiTi",
             "culture": "en"
         },
@@ -863,10 +863,10 @@ GET api/lines/rBD_j-ZRdEiiHMc9lNzQtA
 200 Ok
 {
     "id": "rBD_j-ZRdEiiHMc9lNzQtA",
-    "href": "https://transitapi-dev-webapp.azurewebsites.net/api/lines/rBD_j-ZRdEiiHMc9lNzQtA",
+    "href": "https://platform.whereismytransport.com/api/lines/rBD_j-ZRdEiiHMc9lNzQtA",
     "agency": {
         "id": "5kcfZkKW0ku4Uk-A6j8MFA",
-        "href": "https://transitapi-dev-webapp.azurewebsites.net/api/agencies/5kcfZkKW0ku4Uk-A6j8MFA",
+        "href": "https://platform.whereismytransport.com/api/agencies/5kcfZkKW0ku4Uk-A6j8MFA",
         "name": "MyCiTi",
         "culture": "en"
     },
@@ -921,7 +921,7 @@ GET api/lines/rBD_j-ZRdEiiHMc9lNzQtA/timetables?departureStopId=fbJnFbrZ906L0_jC
             {
                 "stop": {
                     "id": "fbJnFbrZ906L0_jC09_eJw",
-                    "href": "https://transitapi-dev-webapp.azurewebsites.net/api/stops/fbJnFbrZ906L0_jC09_eJw"
+                    "href": "https://platform.whereismytransport.com/api/stops/fbJnFbrZ906L0_jC09_eJw"
                 },
                 "arrivalTime": "2016-08-29T16:17:00Z",
                 "departureTime": "2016-08-29T16:17:00Z"
@@ -929,7 +929,7 @@ GET api/lines/rBD_j-ZRdEiiHMc9lNzQtA/timetables?departureStopId=fbJnFbrZ906L0_jC
             {
                 "stop": {
                     "id": "eBTeYLPXOkWm5zyfjZVaZg",
-                    "href": "https://transitapi-dev-webapp.azurewebsites.net/api/stops/eBTeYLPXOkWm5zyfjZVaZg"
+                    "href": "https://platform.whereismytransport.com/api/stops/eBTeYLPXOkWm5zyfjZVaZg"
                 },
                 "arrivalTime": "2016-08-29T16:22:00Z",
                 "departureTime": "2016-08-29T16:22:00Z"
@@ -937,7 +937,7 @@ GET api/lines/rBD_j-ZRdEiiHMc9lNzQtA/timetables?departureStopId=fbJnFbrZ906L0_jC
             {
                 "stop": {
                     "id": "84AqtsFm-0yAwX67o9-2vg",
-                    "href": "https://transitapi-dev-webapp.azurewebsites.net/api/stops/84AqtsFm-0yAwX67o9-2vg"
+                    "href": "https://platform.whereismytransport.com/api/stops/84AqtsFm-0yAwX67o9-2vg"
                 },
                 "arrivalTime": "2016-08-29T16:26:00Z",
                 "departureTime": "2016-08-29T16:26:00Z"
@@ -952,7 +952,7 @@ GET api/lines/rBD_j-ZRdEiiHMc9lNzQtA/timetables?departureStopId=fbJnFbrZ906L0_jC
             {
                 "stop": {
                     "id": "fbJnFbrZ906L0_jC09_eJw",
-                    "href": "https://transitapi-dev-webapp.azurewebsites.net/api/stops/fbJnFbrZ906L0_jC09_eJw"
+                    "href": "https://platform.whereismytransport.com/api/stops/fbJnFbrZ906L0_jC09_eJw"
                 },
                 "arrivalTime": "2016-08-30T16:17:00Z",
                 "departureTime": "2016-08-30T16:17:00Z"
@@ -960,7 +960,7 @@ GET api/lines/rBD_j-ZRdEiiHMc9lNzQtA/timetables?departureStopId=fbJnFbrZ906L0_jC
             {
                 "stop": {
                     "id": "eBTeYLPXOkWm5zyfjZVaZg",
-                    "href": "https://transitapi-dev-webapp.azurewebsites.net/api/stops/eBTeYLPXOkWm5zyfjZVaZg"
+                    "href": "https://platform.whereismytransport.com/api/stops/eBTeYLPXOkWm5zyfjZVaZg"
                 },
                 "arrivalTime": "2016-08-30T16:22:00Z",
                 "departureTime": "2016-08-30T16:22:00Z"
@@ -968,7 +968,7 @@ GET api/lines/rBD_j-ZRdEiiHMc9lNzQtA/timetables?departureStopId=fbJnFbrZ906L0_jC
             {
                 "stop": {
                     "id": "84AqtsFm-0yAwX67o9-2vg",
-                    "href": "https://transitapi-dev-webapp.azurewebsites.net/api/stops/84AqtsFm-0yAwX67o9-2vg"
+                    "href": "https://platform.whereismytransport.com/api/stops/84AqtsFm-0yAwX67o9-2vg"
                 },
                 "arrivalTime": "2016-08-30T16:26:00Z",
                 "departureTime": "2016-08-30T16:26:00Z"
@@ -980,7 +980,7 @@ GET api/lines/rBD_j-ZRdEiiHMc9lNzQtA/timetables?departureStopId=fbJnFbrZ906L0_jC
 
 ### Journeys
 
-A journey is the traveling of a passenger from a departure point to an arrival point.  A journey can consist of zero to many possible itineraries, each a travel option in getting from A to B. An itinerary consists of one to many legs, describing the path and mode of transit, to take in order to complete the journey.
+A journey is the traveling of a passenger from a departure point to an arrival point.  A journey can consist of zero to many possible itineraries, each a travel option in getting from A to B. An itinerary consists of one to many legs, describing the path and mode of transport, to take in order to complete the journey.
 
 #### Journey response model
 
@@ -1074,7 +1074,7 @@ POST api/journeys
 Content-Type: application/json
 {
     "id": "PEP5VsjJ6kuo6KZxAQjq2Q",
-    "href": "https://transit.whereismytransport.com/api/journeys/PEP5VsjJ6kuo6KZxAQjq2Q",
+    "href": "https://platform.whereismytransport.com/api/journeys/PEP5VsjJ6kuo6KZxAQjq2Q",
     "geometry": {
         "type": "MultiPoint",
         "coordinates": [
@@ -1106,7 +1106,7 @@ Content-Type: application/json
     "itineraries": [
         {
             "id": "5CxmV36Blk6n6qZxAQjrdQ",
-            "href": "https://transit.whereismytransport.com/api/journeys/PEP5VsjJ6kuo6KZxAQjq2Q/itineraries/5CxmV36Blk6n6qZxAQjrdQ",
+            "href": "https://platform.whereismytransport.com/api/journeys/PEP5VsjJ6kuo6KZxAQjq2Q/itineraries/5CxmV36Blk6n6qZxAQjrdQ",
             "departureTime": "2016-08-29T16:43:31Z",
             "arrivalTime": "2016-08-29T17:50:40Z",
             "distance": {
@@ -1116,7 +1116,7 @@ Content-Type: application/json
             "duration": 3429,
             "legs": [
                 {
-                    "href": "https://transit.whereismytransport.com/api/journeys/PEP5VsjJ6kuo6KZxAQjq2Q/itineraries/5CxmV36Blk6n6qZxAQjrdQ/legs/0",
+                    "href": "https://platform.whereismytransport.com/api/journeys/PEP5VsjJ6kuo6KZxAQjq2Q/itineraries/5CxmV36Blk6n6qZxAQjrdQ/legs/0",
                     "type": "Walking",
                     "distance": {
                         "value": 1372,
@@ -1141,10 +1141,10 @@ Content-Type: application/json
                         {
                             "stop": {
                                 "id": "McWcQewKAUCZbluWHQk5kQ",
-                                "href": "https://transit.whereismytransport.com/api/stops/McWcQewKAUCZbluWHQk5kQ",
+                                "href": "https://platform.whereismytransport.com/api/stops/McWcQewKAUCZbluWHQk5kQ",
                                 "agency": {
                                     "id": "2yQYhQPxpEeYUIprNP__TQ",
-                                    "href": "https://transit.whereismytransport.com/api/agencies/2yQYhQPxpEeYUIprNP__TQ",
+                                    "href": "https://platform.whereismytransport.com/api/agencies/2yQYhQPxpEeYUIprNP__TQ",
                                     "name": "Jammie Shuttle",
                                     "culture": "en"
                                 },
@@ -1379,7 +1379,7 @@ Content-Type: application/json
                     ]
                 },
                 {
-                    "href": "https://transit.whereismytransport.com/api/journeys/PEP5VsjJ6kuo6KZxAQjq2Q/itineraries/5CxmV36Blk6n6qZxAQjrdQ/legs/1",
+                    "href": "https://platform.whereismytransport.com/api/journeys/PEP5VsjJ6kuo6KZxAQjq2Q/itineraries/5CxmV36Blk6n6qZxAQjrdQ/legs/1",
                     "type": "Transit",
                     "distance": {
                         "value": 8554,
@@ -1388,10 +1388,10 @@ Content-Type: application/json
                     "duration": 1200,
                     "line": {
                         "id": "yGZHGrc3sUOhNFLoer-Z_g",
-                        "href": "https://transit.whereismytransport.com/api/lines/yGZHGrc3sUOhNFLoer-Z_g",
+                        "href": "https://platform.whereismytransport.com/api/lines/yGZHGrc3sUOhNFLoer-Z_g",
                         "agency": {
                             "id": "2yQYhQPxpEeYUIprNP__TQ",
-                            "href": "https://transit.whereismytransport.com/api/agencies/2yQYhQPxpEeYUIprNP__TQ",
+                            "href": "https://platform.whereismytransport.com/api/agencies/2yQYhQPxpEeYUIprNP__TQ",
                             "name": "Jammie Shuttle",
                             "culture": "en"
                         },
@@ -1406,10 +1406,10 @@ Content-Type: application/json
                         {
                             "stop": {
                                 "id": "McWcQewKAUCZbluWHQk5kQ",
-                                "href": "https://transit.whereismytransport.com/api/stops/McWcQewKAUCZbluWHQk5kQ",
+                                "href": "https://platform.whereismytransport.com/api/stops/McWcQewKAUCZbluWHQk5kQ",
                                 "agency": {
                                     "id": "2yQYhQPxpEeYUIprNP__TQ",
-                                    "href": "https://transit.whereismytransport.com/api/agencies/2yQYhQPxpEeYUIprNP__TQ",
+                                    "href": "https://platform.whereismytransport.com/api/agencies/2yQYhQPxpEeYUIprNP__TQ",
                                     "name": "Jammie Shuttle",
                                     "culture": "en"
                                 },
@@ -1432,10 +1432,10 @@ Content-Type: application/json
                         {
                             "stop": {
                                 "id": "C5UPegWudUa0h8LSSsVvrg",
-                                "href": "https://transit.whereismytransport.com/api/stops/C5UPegWudUa0h8LSSsVvrg",
+                                "href": "https://platform.whereismytransport.com/api/stops/C5UPegWudUa0h8LSSsVvrg",
                                 "agency": {
                                     "id": "2yQYhQPxpEeYUIprNP__TQ",
-                                    "href": "https://transit.whereismytransport.com/api/agencies/2yQYhQPxpEeYUIprNP__TQ",
+                                    "href": "https://platform.whereismytransport.com/api/agencies/2yQYhQPxpEeYUIprNP__TQ",
                                     "name": "Jammie Shuttle",
                                     "culture": "en"
                                 },
@@ -3335,7 +3335,7 @@ Content-Type: application/json
                     }
                 },
                 {
-                    "href": "https://transit.whereismytransport.com/api/journeys/PEP5VsjJ6kuo6KZxAQjq2Q/itineraries/5CxmV36Blk6n6qZxAQjrdQ/legs/2",
+                    "href": "https://platform.whereismytransport.com/api/journeys/PEP5VsjJ6kuo6KZxAQjq2Q/itineraries/5CxmV36Blk6n6qZxAQjrdQ/legs/2",
                     "type": "Transit",
                     "distance": {
                         "value": 3820,
@@ -3344,10 +3344,10 @@ Content-Type: application/json
                     "duration": 600,
                     "line": {
                         "id": "TP0onz0EikaqyZ8q3b_9gQ",
-                        "href": "https://transit.whereismytransport.com/api/lines/TP0onz0EikaqyZ8q3b_9gQ",
+                        "href": "https://platform.whereismytransport.com/api/lines/TP0onz0EikaqyZ8q3b_9gQ",
                         "agency": {
                             "id": "2yQYhQPxpEeYUIprNP__TQ",
-                            "href": "https://transit.whereismytransport.com/api/agencies/2yQYhQPxpEeYUIprNP__TQ",
+                            "href": "https://platform.whereismytransport.com/api/agencies/2yQYhQPxpEeYUIprNP__TQ",
                             "name": "Jammie Shuttle",
                             "culture": "en"
                         },
@@ -3364,10 +3364,10 @@ Content-Type: application/json
                         {
                             "stop": {
                                 "id": "C5UPegWudUa0h8LSSsVvrg",
-                                "href": "https://transit.whereismytransport.com/api/stops/C5UPegWudUa0h8LSSsVvrg",
+                                "href": "https://platform.whereismytransport.com/api/stops/C5UPegWudUa0h8LSSsVvrg",
                                 "agency": {
                                     "id": "2yQYhQPxpEeYUIprNP__TQ",
-                                    "href": "https://transit.whereismytransport.com/api/agencies/2yQYhQPxpEeYUIprNP__TQ",
+                                    "href": "https://platform.whereismytransport.com/api/agencies/2yQYhQPxpEeYUIprNP__TQ",
                                     "name": "Jammie Shuttle",
                                     "culture": "en"
                                 },
@@ -3390,10 +3390,10 @@ Content-Type: application/json
                         {
                             "stop": {
                                 "id": "HFL2KXjdbkuL4vn9QEW3Rw",
-                                "href": "https://transit.whereismytransport.com/api/stops/HFL2KXjdbkuL4vn9QEW3Rw",
+                                "href": "https://platform.whereismytransport.com/api/stops/HFL2KXjdbkuL4vn9QEW3Rw",
                                 "agency": {
                                     "id": "2yQYhQPxpEeYUIprNP__TQ",
-                                    "href": "https://transit.whereismytransport.com/api/agencies/2yQYhQPxpEeYUIprNP__TQ",
+                                    "href": "https://platform.whereismytransport.com/api/agencies/2yQYhQPxpEeYUIprNP__TQ",
                                     "name": "Jammie Shuttle",
                                     "culture": "en"
                                 },
@@ -3416,10 +3416,10 @@ Content-Type: application/json
                         {
                             "stop": {
                                 "id": "G4Qx8shvl0qxTGCJhN1hlA",
-                                "href": "https://transit.whereismytransport.com/api/stops/G4Qx8shvl0qxTGCJhN1hlA",
+                                "href": "https://platform.whereismytransport.com/api/stops/G4Qx8shvl0qxTGCJhN1hlA",
                                 "agency": {
                                     "id": "2yQYhQPxpEeYUIprNP__TQ",
-                                    "href": "https://transit.whereismytransport.com/api/agencies/2yQYhQPxpEeYUIprNP__TQ",
+                                    "href": "https://platform.whereismytransport.com/api/agencies/2yQYhQPxpEeYUIprNP__TQ",
                                     "name": "Jammie Shuttle",
                                     "culture": "en"
                                 },
@@ -4395,7 +4395,7 @@ Content-Type: application/json
                     }
                 },
                 {
-                    "href": "https://transit.whereismytransport.com/api/journeys/PEP5VsjJ6kuo6KZxAQjq2Q/itineraries/5CxmV36Blk6n6qZxAQjrdQ/legs/3",
+                    "href": "https://platform.whereismytransport.com/api/journeys/PEP5VsjJ6kuo6KZxAQjq2Q/itineraries/5CxmV36Blk6n6qZxAQjrdQ/legs/3",
                     "type": "Walking",
                     "distance": {
                         "value": 889,
@@ -4406,10 +4406,10 @@ Content-Type: application/json
                         {
                             "stop": {
                                 "id": "G4Qx8shvl0qxTGCJhN1hlA",
-                                "href": "https://transit.whereismytransport.com/api/stops/G4Qx8shvl0qxTGCJhN1hlA",
+                                "href": "https://platform.whereismytransport.com/api/stops/G4Qx8shvl0qxTGCJhN1hlA",
                                 "agency": {
                                     "id": "2yQYhQPxpEeYUIprNP__TQ",
-                                    "href": "https://transit.whereismytransport.com/api/agencies/2yQYhQPxpEeYUIprNP__TQ",
+                                    "href": "https://platform.whereismytransport.com/api/agencies/2yQYhQPxpEeYUIprNP__TQ",
                                     "name": "Jammie Shuttle",
                                     "culture": "en"
                                 },
@@ -4602,7 +4602,7 @@ Content-Type: application/json
 
 ### Legs
 
-A leg is a section of an itinerary carried out by a passenger on one mode of transit (including walking) from some departure point to an arrival point.
+A leg is a section of an itinerary carried out by a passenger on one mode of transport (including walking) from some departure point to an arrival point.
 
 #### Types of legs
 
@@ -4619,8 +4619,8 @@ A _Transit_ leg is one which uses a public transportation service based on sched
 | type | string | The [type of leg](#types-of-legs), either _Walking_ or _Transit_. |
 | distance | [Distance](#distance) | If available, the total distance of leg. |
 | duration | integer | If available, the total duration of the leg in seconds. |
-| line | [Line](#line-response-model) | **[**[Excludable](#excludable)**]** The line that is used on this leg of the itinerary. This is only returned for Transit legs. |
-| vehicle | [Vehicle](#vehicle-model) | **[**[Excludable](#excludable)**]** Identifying information for the vehicle that is used on this leg of the itinerary. This is only returned for Transit legs. |
+| line | [Line](#line-response-model) | **[**[Excludable](#excludable)**]** The line that is used on this leg of the itinerary. This is only returned for _Transit_ legs. |
+| vehicle | [Vehicle](#vehicle-model) | **[**[Excludable](#excludable)**]** Identifying information for the vehicle that is used on this leg of the itinerary. This is only returned for _Transit_ legs. |
 | fare | [Fare](#fare-model) | If available, the fare for this leg. |
 | waypoints | Array of [Waypoint](#waypoint-response-model) | **[**[Excludable](#excludable)**]** The sequence of ordered waypoints that make up this leg. |
 | directions | Array of [Direction](#direction-response-model) | **[**[Excludable](#excludable)**]** If available, the directions to take in order to complete the leg. |
@@ -4641,7 +4641,7 @@ GET api/journeys/PEP5VsjJ6kuo6KZxAQjq2Q/itineraries/5CxmV36Blk6n6qZxAQjrdQ/legs/
 ```
 200 Ok
 {
-    "href": "https://transit.whereismytransport.com/api/journeys/PEP5VsjJ6kuo6KZxAQjq2Q/itineraries/5CxmV36Blk6n6qZxAQjrdQ/legs/2",
+    "href": "https://platform.whereismytransport.com/api/journeys/PEP5VsjJ6kuo6KZxAQjq2Q/itineraries/5CxmV36Blk6n6qZxAQjrdQ/legs/2",
     "type": "Transit",
     "distance": {
         "value": 8554,
@@ -4650,14 +4650,14 @@ GET api/journeys/PEP5VsjJ6kuo6KZxAQjq2Q/itineraries/5CxmV36Blk6n6qZxAQjrdQ/legs/
     "duration": 1200,
     "line": {
         "id": "yGZHGrc3sUOhNFLoer-Z_g",
-        "href": "https://transit.whereismytransport.com/api/lines/yGZHGrc3sUOhNFLoer-Z_g"
+        "href": "https://platform.whereismytransport.com/api/lines/yGZHGrc3sUOhNFLoer-Z_g"
     },
     "vehicle": {},
     "waypoints": [
         {
             "stop": {
                 "id": "McWcQewKAUCZbluWHQk5kQ",
-                "href": "https://transit.whereismytransport.com/api/stops/McWcQewKAUCZbluWHQk5kQ"
+                "href": "https://platform.whereismytransport.com/api/stops/McWcQewKAUCZbluWHQk5kQ"
             },
             "arrivalTime": "2016-08-29T17:00:00Z",
             "departureTime": "2016-08-29T17:00:00Z"
@@ -4665,7 +4665,7 @@ GET api/journeys/PEP5VsjJ6kuo6KZxAQjq2Q/itineraries/5CxmV36Blk6n6qZxAQjrdQ/legs/
         {
             "stop": {
                 "id": "C5UPegWudUa0h8LSSsVvrg",
-                "href": "https://transit.whereismytransport.com/api/stops/C5UPegWudUa0h8LSSsVvrg"
+                "href": "https://platform.whereismytransport.com/api/stops/C5UPegWudUa0h8LSSsVvrg"
             },
             "arrivalTime": "2016-08-29T17:20:00Z",
             "departureTime": "2016-08-29T17:20:00Z"
@@ -4676,11 +4676,11 @@ GET api/journeys/PEP5VsjJ6kuo6KZxAQjq2Q/itineraries/5CxmV36Blk6n6qZxAQjrdQ/legs/
 
 #### Vehicle response model
 
-Describes a single transit vehicle along a line so that it can be identified by passengers.
+Describes a single vehicle along a line so that it can be identified by passengers.
 
 | Field | Type | Description |
 | :--------- | :--- | :---- |
-| designation | string | If available, an identifier for this vehicle as defined by the transit agency, or some other designation. |
+| designation | string | If available, an identifier for this vehicle as defined by the agency, or some other designation. |
 | direction | string | If available, the direction of the vehicle, for example, _Northbound_ or _Clockwise_. |
 | headsign | string | If available, identifying information (such as destination) displayed on the vehicle. |
 
@@ -4692,7 +4692,7 @@ A waypoint is a stopping point along an itinerary. It has either an arrival date
 | :--------- | :--- | :---- |
 | arrivalTime | [DateTime](#datetime) | The arrival date and time at this point of a leg. |
 | departureTime | [DateTime](#datetime) | The departure date and time from this point of a leg. |
-| stop | [Stop](#stop-response-model) | **[**[Excludable](#excludable)**]** The stop of the waypoint. This can be returned in either Walking or Transit legs. |
+| stop | [Stop](#stop-response-model) | **[**[Excludable](#excludable)**]** The stop of the waypoint. This can be returned in either _Walking_ or _Transit_ legs. |
 | location | [Location](#location-response-model) | The location of the waypoint if it is not a stop. This can be returned in only Walking legs. |
 
 #### Direction response model
@@ -4713,7 +4713,7 @@ If available, the directions to follow in order to get from the start to the end
 
 ### Fares
 
-A fare is the cost incurred by a commuter when using a transit service.  Essentially, it is the price associated with a journey's itinerary for a particular fare product or set of fare products.
+A fare is the cost incurred by a commuter when using a transport service.  Essentially, it is the price associated with a journey's itinerary for a particular fare product or set of fare products.
 
 #### Fare response model
 
@@ -4772,7 +4772,7 @@ Accept: application/json
 
 ### Fare Products
 
-A fare product is a fare scheme offered to passenger by an agency and will decide the total [fare](#fares) incurred when using a transit service. Note that they may be subject to eligibility restrictions. For example, a "Child Single" fare product might only be allowed to be used by children.
+A fare product is a fare scheme offered to passenger by an agency and will decide the total [fare](#fares) incurred when using a transport service. Note that they may be subject to eligibility restrictions. For example, a "Child Single" fare product might only be allowed to be used by children.
 
 #### Fare Product response model
 
@@ -4810,10 +4810,10 @@ GET api/fareproducts?agencies=5kcfZkKW0ku4Uk-A6j8MFA&limit=2
 [
     {
         "id": "pCawiJA73UmchaZtAKAHwg",
-        "href": "https://transitapi-dev-webapp.azurewebsites.net/api/fareproducts/pCawiJA73UmchaZtAKAHwg",
+        "href": "https://platform.whereismytransport.com/api/fareproducts/pCawiJA73UmchaZtAKAHwg",
         "agency": {
             "id": "5kcfZkKW0ku4Uk-A6j8MFA",
-            "href": "https://transitapi-dev-webapp.azurewebsites.net/api/agencies/5kcfZkKW0ku4Uk-A6j8MFA",
+            "href": "https://platform.whereismytransport.com/api/agencies/5kcfZkKW0ku4Uk-A6j8MFA",
             "name": "MyCiTi",
             "culture": "en"
         },
@@ -4823,10 +4823,10 @@ GET api/fareproducts?agencies=5kcfZkKW0ku4Uk-A6j8MFA&limit=2
     },
     {
         "id": "1Mw8Zdr65E-eUqZtAKAH1Q",
-        "href": "https://transitapi-dev-webapp.azurewebsites.net/api/fareproducts/1Mw8Zdr65E-eUqZtAKAH1Q",
+        "href": "https://platform.whereismytransport.com/api/fareproducts/1Mw8Zdr65E-eUqZtAKAH1Q",
         "agency": {
             "id": "5kcfZkKW0ku4Uk-A6j8MFA",
-            "href": "https://transitapi-dev-webapp.azurewebsites.net/api/agencies/5kcfZkKW0ku4Uk-A6j8MFA",
+            "href": "https://platform.whereismytransport.com/api/agencies/5kcfZkKW0ku4Uk-A6j8MFA",
             "name": "MyCiTi",
             "culture": "en"
         },
