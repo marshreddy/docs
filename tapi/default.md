@@ -4600,6 +4600,24 @@ Content-Type: application/json
 }
 ```
 
+### Itineraries
+
+To retrieve a specific itinerary for a previously created journey, the following resource can be requested.
+
+`GET api/journeys/{journeyId}/itineraries/{itineraryId}`
+
+| Parameter | Type | Description |
+| :-------------- | :--- | :--- | :---- |
+| journeyId | [Identifier](#identifiers) | The identifier of the journey. |
+| itineraryId | [Identifier](#identifiers) | The identifier of the itinerary. |
+
+##### Sample request
+
+```
+GET api/journeys/8GYKddjcAk6j7aVUAMV3pw/itineraries/dnCQV5Kq0kaq5KVUAMV_eQ
+Accept: application/json
+```
+
 ### Legs
 
 A leg is a section of an itinerary carried out by a passenger on one mode of transport (including walking) from some departure point to an arrival point.
@@ -4752,22 +4770,6 @@ POST api/journeys
         "pCawiJA73UmchaZtAKAHwg"
     ]
 }
-```
-
-To retrieve a specific itinerary for a previously created journey, the following resource can be requested.
-
-`GET api/journeys/{journeyId}/itineraries/{itineraryId}`
-
-| Parameter | Type | Required | Description |
-| :-------------- | :--- | :--- | :---- |
-| journeyId | [Identifier](#identifiers) | Required | The identifier of the journey. |
-| itineraryId | [Identifier](#identifiers) | Required | The identifier of the itinerary. |
-
-##### Sample request
-
-```
-GET api/journeys/8GYKddjcAk6j7aVUAMV3pw/itineraries/dnCQV5Kq0kaq5KVUAMV_eQ
-Accept: application/json
 ```
 
 ### Fare Products
