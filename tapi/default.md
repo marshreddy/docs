@@ -4,15 +4,9 @@
 
 The WhereIsMyTransport Transit API is based on [REST](http://en.wikipedia.org/wiki/Representational_State_Transfer), [JSON](http://www.json.org/), [OAuth 2.0](http://oauth.net/2/) and [OpenID Connect](http://openid.net/connect/). These are standards which are broadly supported in the industry.  [JSON](http://www.json.org/) is the only supported format for the API.
 
-### Beta Specification
-
-This specification describes the beta release as of 31-05-2015 for the WhereIsMyTransport Transit API. While the current design is considered to be in a mature state, it is expected to potentially undergo backwards incompatible changes.  Furthermore, new features are still to be introduced before the release candidate.
-
-This specification includes the basics on how to use the API and a detailed description of all the available resources.
-
 ### Introduction
 
-Read the following sections to get you started using the Transit API.
+Read the following sections to get you started using the API.
 
 #### API Endpoint
 
