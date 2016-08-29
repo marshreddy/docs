@@ -183,7 +183,7 @@ GET api/stops/eBTeYLPXOkWm5zyfjZVaZg
 
 ##### Sample response
 
-```http
+```
 200 Ok
 {
     "id": "eBTeYLPXOkWm5zyfjZVaZg",
@@ -243,7 +243,7 @@ Depending on the structure of a query, a lot of results could be returned from t
 
 The request below will retrieve 10 stops from the 50th stop onwards.
 
-```http
+```
 GET api/stops?limit=10&offset=50
 ```
 
@@ -275,7 +275,7 @@ Monetary amounts are represented by the cost object, which is made up of an amou
 
 The following cost object represents the value of R10,50.
 
-```http
+```
 {
     "cost": {
         "amount": 10.5,
@@ -296,7 +296,7 @@ A typical GeoJSON structure consists of a **type** field and an array of **coord
 
 The following GeoJSON Point represents the coordinates for Cape Town's city centre.
 
-```http
+```
 {
     "geometry": {
         "type": "Point",
@@ -314,7 +314,7 @@ In order to provide a geographic position through the query string, a comma-sepa
 
 ##### Sample request
 
-```http
+```
 GET api/stops?point=-33.925430,18.436443&radius=1750
 ```
 
@@ -324,7 +324,7 @@ GET api/stops?point=-33.925430,18.436443&radius=1750
 
 In order to provide a geographic bounding box through the query string, a comma-separated SW (south west) latitude, SW longitude, NE (north east) latitude and NE longitude must be provided in that order.  These coordiantes represent the south west and north east corners of the box.
 
-```http
+```
 GET api/stops?bbox=-33.944,18.36,-33.895,18.43
 ```
 
@@ -334,7 +334,7 @@ Distance is returned as an object consisting of the distance value (an integer) 
 
 ##### Sample response
 
-```http
+```
 {  
     "distance": {  
         "value":133,
@@ -394,13 +394,13 @@ Retrieves a collection of agencies.
 
 ##### Sample request
 
-```http
+```
 GET api/agencies?bbox=-33.94,18.36,-33.89,18.43
 ```
 
 ##### Sample response
 
-```http
+```
 200 Ok
 [
     {
@@ -436,13 +436,13 @@ Retrieves an agency by its identifier.
 
 ##### Sample request
 
-```http
+```
 GET api/agencies/5kcfZkKW0ku4Uk-A6j8MFA
 ```
 
 ##### Sample response
 
-```http
+```
 200 Ok
 {
     "id": "5kcfZkKW0ku4Uk-A6j8MFA",
@@ -489,13 +489,13 @@ Retrieves a collection of stops.
 
 ##### Sample request
 
-```http
+```
 GET api/stops?agencies=5kcfZkKW0ku4Uk-A6j8MFA&servicesLines=kYdaW1_dKUe7WZegmV1bFw&point=-33.923400,18.421586&radius=200
 ```
 
 ##### Sample response
 
-```http
+```
 200 Ok
 Content-Type: application/json
 [
@@ -556,7 +556,7 @@ Retrieves a stop by its identifier.
 
 ##### Sample request
 
-```http
+```
 GET api/stops/eBTeYLPXOkWm5zyfjZVaZg
 ```
 
@@ -801,13 +801,13 @@ Retrieves a collection of lines.
 
 ##### Sample request
 
-```http
+```
 GET api/lines?agencies=5kcfZkKW0ku4Uk-A6j8MFA&limit=2
 ```
 
 ##### Sample response
 
-```http
+```
 200 Ok
 [
     {
@@ -853,13 +853,13 @@ Retrieves a line by its identifier.
 
 ##### Sample request
 
-```http
+```
 GET api/lines/rBD_j-ZRdEiiHMc9lNzQtA
 ```
 
 ##### Sample response
 
-```http
+```
 200 Ok
 {
     "id": "rBD_j-ZRdEiiHMc9lNzQtA",
@@ -1069,7 +1069,7 @@ POST api/journeys
 
 ##### Sample response
 
-```json
+```
 201 Created
 Content-Type: application/json
 {
@@ -4639,7 +4639,7 @@ Accept: application/json
 
 ##### Sample response
 
-```json
+```
 200 Ok
 Content-Type: application/json
 {
@@ -4793,7 +4793,7 @@ When creating or retrieving a journey, or when retrieving a journey's itinerarie
 
 When creating a new journey:
 
-```json
+```
 POST api/journeys
 Accept: application/json
 Content-Type: application/json
@@ -4835,7 +4835,7 @@ Accept: application/json
 
 ##### Sample response
 
-```json
+```
 200 Ok
 Content-Type: application/json
 {
@@ -5274,14 +5274,14 @@ Retrieves a collection of fare products.
 
 ##### Sample request
 
-```json
+```
 GET api/fareproducts?agencies=CUJ2ZhcOm0y7wO1KsjUgPA
 Accept: application/json
 ```
 
 ##### Sample response
 
-```json
+```
 200 Ok
 Content-Type: application/json
 [
