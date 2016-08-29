@@ -12,7 +12,7 @@ Read the following sections to get you started using the API.
 
 The following address is the standard URL endpoint to be used to access the various resources of the API.
 
-https://platform.whereismytransport.com/api
+`https://platform.whereismytransport.com/api`
 
 ##### Sample request
 
@@ -26,7 +26,7 @@ The API uses standard HTTP verbs as part of the uniform interface and must be us
 
 | Verb | Description |
 | :-------- | :---------- |
-| `GET` | To get a resource or list of resources. |
+| `GET` | To retrieve a resource or collection of resources. |
 | `POST` | To create a resource. |
 
 #### HTTP status codes 
@@ -48,21 +48,21 @@ The status code in an HTTP request's response describes the outcome of the perfo
 
 #### Content type
 
-The `Content-Type` header describes the format of the data being posted to the server. All POST requests must specify the `Content-Type` header. The only supported format is `application/json`. If the `Content-Type` header is not specified or the type is set to a value other than `application/json` then a `415` [HTTP status code](#status-codes) will be returned.
+The **Content-Type** header describes the format of the data being posted to the server. All POST requests must specify the **Content-Type** header. The only supported format is **application/json**. If the **Content-Type** header is not specified or the type is set to a value other than **application/json** then a **415** [HTTP status code](#status-codes) will be returned.
 
 #### Accept type
 
-The `Accept` header describes the format of the content that the client can accept. All requests must specify the `Accept` header. The only supported format is `application/json`. If the `Accept` header is not specified or the type is set to a value other than `application/json` then a `406` [HTTP status code](#status-codes) will be returned.
+The **Accept** header describes the format of the content that the client can accept. All requests must specify the **Accept** header. The only supported format is **application/json**. If the **Accept** header is not specified or the type is set to a value other than **application/json** then a **406** [HTTP status code](#status-codes) will be returned.
 
 #### Compression
 
-The API compresses response data using GZIP compression as defined by the HTTP 1.1 specification. Disabling compression can be done by setting the `Allow-Compression` request header to `false`. The response will always have the `Content-Encoding` header set to `gzip` when the response body is compressed accordingly.
+The API compresses response data using GZIP compression as defined by the HTTP 1.1 specification. Disabling compression can be done by setting the **Allow-Compression** request header to **false**. The response will always have the **Content-Encoding** header set to **gzip** when the response body is compressed accordingly.
 
 **Note:** No other methods of compression are supported. Request compression is not supported.
 
 #### HTTPS
 
-All API access is performed over HTTPS only. If a resource is requested using "http://..." then a `403 Forbidden` status code will be returned.
+All API access is performed over HTTPS only. If a resource is requested using **http://...** then a **403 Forbidden** status code will be returned.
 
 ### Authorisation
 
@@ -70,22 +70,22 @@ The API uses OpenID Connect and OAuth 2.0 protocols for federated access and sec
 
 Using client credentials one can make requests against the security token service to retrieve a token.  When requesting a token, the scopes that are required must also be specified. Currently, the only scope available is `transportapi:all` which provides full access to the API.
 
-**Note:** The content type of `application/x-www-form-urlencoded` must be used for this request.
+**Note:** The content type of **application/x-www-form-urlencoded** must be used for this request.
 
 #### Token endpoint
 
 The following is the full URI endpoint used to retrieve a token.
 
-```
-https://identity.whereismytransport.com/connect/token
-```
+`https://identity.whereismytransport.com/connect/token`
 
 ##### Sample request
 
-```json
+**
 POST https://identity.whereismytransport.com/connect/token
 Content-Type: application/x-www-form-urlencoded
+**
 
+```
 client_id=6a73386c-5bbf-4b4b-ae09-0ed45d87b5ad
 client_secret=neph3dext3Ct+QHc5wClxTWE1Y+AKNTS28UFH39SXy4=
 grant_type=client_credentials
@@ -94,11 +94,7 @@ scope=transportapi:all
 
 ##### Sample response
 
-```
-200 Created
-Content-Type: application/json
-```
-
+**200 Created**
 ```json
 {
     "access_token": "eyJ0eXAiOiJ32aQiLCJhbGciOiJSUzI1NiIsIfg1iCI6ImEzck1VZ01Gd8d0UGNsTGE2eUYz...",
@@ -111,11 +107,11 @@ Once this token is received, it must be added to the Authorization HTTP header i
 
 ##### Sample request
 
-```
+**
 GET api/agencies
 Accept: application/json
 Authorization: Bearer eyJ0eXAiOiJ32aQiLCJhbGciOiJSUzI1NiIsIfg1iCI6ImEzck1VZ01Gd8d0UGNsTGE2eUYz...
-```
+**
 
 ### Errors
 
@@ -130,11 +126,7 @@ The API uses conventional [HTTP status codes](#status-codes) to indicate the res
 
 ##### Sample response
 
-```
-400 Bad Request
-Content-Type: application/json
-```
-
+**400 Bad Request**
 ```json
 {
     "message":"The request has invalid or missing fields. Please visit our documentation.",
@@ -155,8 +147,7 @@ Almost all entities in the Transit API are identified through the use of a globa
 
 ##### Sample response
 
-`GET https://platform.whereismytransport.com/api/agencies/5kcfZkKW0ku4Uk-A6j8MFA`
-
+**GET https://platform.whereismytransport.com/api/agencies/5kcfZkKW0ku4Uk-A6j8MFA**
 ```json
 {
     "id":"5kcfZkKW0ku4Uk-A6j8MFA",
