@@ -12,15 +12,13 @@ Read the following sections to get you started using the API.
 
 The following address is the standard URL endpoint to be used to access the various resources of the API.
 
-`https://platform.whereismytransport.com/api`
+https://platform.whereismytransport.com/api
 
 ##### Sample request
 
 The following is the full URI used to retrieve agencies.
 
-```json
-GET https://transit.whereismytransport.com/api/agencies
-```
+`GET https://transit.whereismytransport.com/api/agencies`
 
 #### HTTP verbs
 
@@ -38,7 +36,7 @@ The status code in an HTTP request's response describes the outcome of the perfo
 | Status code | Description |
 | :------------ | :---------- |
 | `200 Ok` | The GET request was successful. The retrieved resource is returned in the response body. |
-| `201 Created` | The POST request was successful in creating the resource. The new resource is returned in the response body. |
+| `201 Created` | The POST request was successful. The new resource is returned in the response body. |
 | `400 Bad Request` | The request has invalid or missing parameters. |
 | `401 Unauthorized` | Authentication failed. |
 | `403 Forbidden` | Access denied to this resource. |
@@ -78,7 +76,7 @@ Using client credentials one can make requests against the security token servic
 
 The following is the full URI endpoint used to retrieve a token.
 
-```json
+```
 https://identity.whereismytransport.com/connect/token
 ```
 
@@ -96,9 +94,12 @@ scope=transportapi:all
 
 ##### Sample response
 
-```json
+```
 200 Created
 Content-Type: application/json
+```
+
+```json
 {
     "access_token": "eyJ0eXAiOiJ32aQiLCJhbGciOiJSUzI1NiIsIfg1iCI6ImEzck1VZ01Gd8d0UGNsTGE2eUYz...",
     "expires_in": 3600,
@@ -110,7 +111,7 @@ Once this token is received, it must be added to the Authorization HTTP header i
 
 ##### Sample request
 
-```json
+```
 GET api/agencies
 Accept: application/json
 Authorization: Bearer eyJ0eXAiOiJ32aQiLCJhbGciOiJSUzI1NiIsIfg1iCI6ImEzck1VZ01Gd8d0UGNsTGE2eUYz...
@@ -129,17 +130,22 @@ The API uses conventional [HTTP status codes](#status-codes) to indicate the res
 
 ##### Sample response
 
+```
+400 Bad Request
+Content-Type: application/json
+```
+
 ```json
 {
-  "message": "The request has invalid or missing fields. Please visit our documentation.",
-  "fields": {
-    "timeType": [
-      "Value 'After' is invalid. TimeType must be one of 'DepartAfter', 'ArriveBefore'."
-    ],
-    "maxItineraries": [
-      "Value '10' is invalid. The maximum number of itineraries that may be requested is 5."
-    ]
-  }
+    "message":"The request has invalid or missing fields. Please visit our documentation.",
+    "fields":{
+        "timeType":[
+            "Value 'After' is invalid. TimeType must be one of 'DepartAfter', 'ArriveBefore'."
+        ],
+        "maxItineraries":[
+            "Value '10' is invalid. The maximum number of itineraries that may be requested is 5."
+        ]
+    }
 }
 ```
 
@@ -149,14 +155,14 @@ Almost all entities in the Transit API are identified through the use of a globa
 
 ##### Sample response
 
+`GET https://platform.whereismytransport.com/api/agencies/5kcfZkKW0ku4Uk-A6j8MFA`
+
 ```json
-GET https://platform.whereismytransport.com/api/agencies/5kcfZkKW0ku4Uk-A6j8MFA
-Content-Type: application/json
 {
-  "id": "5kcfZkKW0ku4Uk-A6j8MFA",
-  "href": "https://platform.whereismytransport.com/api/agencies/5kcfZkKW0ku4Uk-A6j8MFA",
-  "name": "MyCiTi",
-  "culture": "en"
+    "id":"5kcfZkKW0ku4Uk-A6j8MFA",
+    "href":"https://transit.whereismytransport.com/api/agencies/5kcfZkKW0ku4Uk-A6j8MFA",
+    "name":"MyCiTi",
+    "culture":"en"
 }
 ```
 
