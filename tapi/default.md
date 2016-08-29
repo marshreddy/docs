@@ -1,118 +1,105 @@
-# Transit API Specification
+# Our API Specification
 
 ## Overview
 
-The WhereIsMyTransport Transit API is based on [REST](http://en.wikipedia.org/wiki/Representational_State_Transfer), [JSON](http://www.json.org/), [OAuth 2.0](http://oauth.net/2/) and [OpenID Connect](http://openid.net/connect/). These are standards which are broadly supported in the industry.  [JSON](http://www.json.org/) is the only supported format for the API.
-
-### Beta Specification
-
-This specification describes the beta release as of 31-05-2015 for the WhereIsMyTransport Transit API. While the current design is considered to be in a mature state, it is expected to potentially undergo backwards incompatible changes.  Furthermore, new features are still to be introduced before the release candidate.
-
-This specification includes the basics on how to use the API and a detailed description of all the available resources.
+Central to the WhereIsMyTransport platform is our transport API. It is based on [REST](http://en.wikipedia.org/wiki/Representational_State_Transfer), [JSON](http://www.json.org/), [OAuth 2.0](http://oauth.net/2/) and [OpenID Connect](http://openid.net/connect/). These are standards which are broadly supported in the industry.  Note that [JSON](http://www.json.org/) is the only supported data format.
 
 ### Introduction
 
-Read the following sections to get you started using the Transit API.
+Read the following sections to get you started using the API.
 
 #### API Endpoint
 
-The following is the standard URL endpoint to be used to access the various resources of the Transit API.
+The following address is the standard URL endpoint to be used to access the various resources of the API.
 
-`https://transit.whereismytransport.com`
+https://platform.whereismytransport.com/api
 
 ##### Sample request
 
 The following is the full URI used to retrieve agencies.
 
-```json
-GET https://transit.whereismytransport.com/api/agencies
-```
+`GET https://transit.whereismytransport.com/api/agencies`
 
 #### HTTP verbs
 
-The API uses standard HTTP verbs as part of the uniform interface and must be used in combination with the resource URIs in order to describe the requested action.  The following are supported.
+The API uses standard HTTP verbs as part of the uniform interface and must be used in combination with the resource URIs in order to describe the requested action.
 
 | Verb | Description |
 | :-------- | :---------- |
-| `POST` | To create a resource. |
 | `GET` | To get a resource or list of resources. |
+| `POST` | To create a resource. |
 
 #### HTTP status codes 
 
-The status code in an HTTP request's response describes the outcome or result of the performed action. Listed below are the supported status codes used in the Transit API.
+The status code in an HTTP request's response describes the outcome of the performed action. Listed below are the supported status codes used in the API.
 
 | Status code | Description |
 | :------------ | :---------- |
 | `200 Ok` | The GET request was successful. The retrieved resource is returned in the response body. |
-| `201 Created` | The POST or PUT request was successful in creating or replacing the resource. The new resource is returned in the response body. |
+| `201 Created` | The POST request was successful. The new resource is returned in the response body. |
 | `400 Bad Request` | The request has invalid or missing parameters. |
-| `401 Unauthorised` | Authentication failed or the user doesn't have permission. |
+| `401 Unauthorized` | Authentication failed. |
 | `403 Forbidden` | Access denied to this resource. |
 | `404 Not Found` | The requested resource does not exist. |
 | `406 Not Acceptable` | The server cannot send data in a format requested in the Accept header. |
-| `415 Unsupported Media Type` | The server does not support the MIME type (media format) of the requested data. |
+| `415 Unsupported Media Type` | The server does not support the format as specified in the Content-Type header. |
 | `429 Too Many Requests` | Too many requests have occurred in a given amount of time. |
 | `500 Internal Server Error` | The server has encountered an unexpected error. |
 
 #### Content type
 
-The `Content-Type` header describes the MIME type of the data being posted to the server. All POST and PUT requests must specify the `Content-Type` header. Currently, the only supported MIME type is `application/json`. If the `Content-Type` header is not specified or the type is set to a value other than `application/json` then a `415` [HTTP status code](#status-codes) will be returned.
-
-##### Sample request
-
-```json
-POST api/agencies
-Accept: application/json
-Content-Type: application/json
-```
+The `Content-Type` header describes the format of the data being posted to the server. All POST requests must specify the `Content-Type` header. The only supported format is `application/json`. If the `Content-Type` header is not specified or the type is set to a value other than `application/json` then a `415` [HTTP status code](#status-codes) will be returned.
 
 #### Accept type
 
-The `Accept` header describes the MIME type of the content that the user agent can accept. All requests must specify the `Accept` header. Currently, the only supported MIME type is `application/json`. If the `Accept` header is not specified or the type is set to a value other than `application/json` then a `406` [HTTP status code](#status-codes) will be returned.
-
-##### Sample request
-
-```json
-GET api/journeys
-Accept: application/json
-```
+The `Accept` header describes the format of the content that the client can accept. All requests must specify the `Accept` header. The only supported format is `application/json`. If the `Accept` header is not specified or the type is set to a value other than `application/json` then a `406` [HTTP status code](#status-codes) will be returned.
 
 #### Compression
 
-The Transit API compresses response data with GZIP compression, using the standards as defined by the HTTP 1.1 specification. Disabling compression can be done by setting the `Allow-Compression` request header to `false`. The response will always have the `Content-Encoding` header set to `gzip` when the response body is compressed accordingly.
+The API compresses response data using GZIP compression as defined by the HTTP 1.1 specification. Disabling compression can be done by setting the `Allow-Compression` request header to `false`. The response will always have the `Content-Encoding` header set to `gzip` when the response body is compressed accordingly.
 
 **Note:** No other methods of compression are supported. Request compression is not supported.
 
 #### HTTPS
 
-All API access is performed over HTTPS only. If a resource is requested using "http://..." then a `403 Forbidden` status code will be received by the client.
+All API access is performed over HTTPS only. If a resource is requested using "http://..." then a `403 Forbidden` status code will be returned.
 
 ### Authorisation
 
-The Transit API uses OpenID Connect and OAuth 2.0 protocols for federated access and security. WhereIsMyTransport has its own security token service which issues tokens to applications so that they can authenticate themselves against the Transit API. To authorise an application, one must first acquire an OAuth client from the WhereIsMyTransport Developer Portal.
+The API uses OpenID Connect and OAuth 2.0 protocols for federated access and security. WhereIsMyTransport provides its own security token service which issues tokens to applications so that they can authenticate themselves against our transport API. To authorise an application, one must first acquire an *client ID* and *client secret* from the WhereIsMyTransport [Developer Portal](https://developer.whereismytransport.com).
 
-**Note:** The Developer Portal is not yet available. Please contact WhereIsMyTransport directly for API access.
-
-Using client credentials one can make requests against the security token service to retrieve a token.  When requesting a token, the scopes that are required must also be specified. Currently, the only scope available is `transitapi:all` which provides full access to the API.
+Using client credentials one can make requests against the security token service to retrieve a token.  When requesting a token, the scopes that are required must also be specified. Currently, the only scope available is `transportapi:all` which provides full access to the API.
 
 **Note:** The content type of `application/x-www-form-urlencoded` must be used for this request.
+
+#### Token endpoint
+
+The following is the full URI endpoint used to retrieve a token.
+
+```
+https://identity.whereismytransport.com/connect/token
+```
 
 ##### Sample request
 
 ```json
-POST connect/token
+POST https://identity.whereismytransport.com/connect/token
 Content-Type: application/x-www-form-urlencoded
-client_id: 6a73386c-5bbf-4b4b-ae09-0ed45d87b5ad
-client_secret: neph3dext3Ct+QHc5wClxTWE1Y+AKNTS28UFH39SXy4=
-grant_type: client_credentials
-scope: transitapi:all
+
+client_id=6a73386c-5bbf-4b4b-ae09-0ed45d87b5ad
+client_secret=neph3dext3Ct+QHc5wClxTWE1Y+AKNTS28UFH39SXy4=
+grant_type=client_credentials
+scope=transportapi:all
 ```
 
 ##### Sample response
 
-```json
+```
 200 Created
 Content-Type: application/json
+```
+
+```json
 {
     "access_token": "eyJ0eXAiOiJ32aQiLCJhbGciOiJSUzI1NiIsIfg1iCI6ImEzck1VZ01Gd8d0UGNsTGE2eUYz...",
     "expires_in": 3600,
@@ -120,33 +107,19 @@ Content-Type: application/json
 }
 ```
 
-Once this token is received, it must be added to the Authorization HTTP header in order to perform successful requests against the Transit API.
+Once this token is received, it must be added to the Authorization HTTP header in order to perform successful requests against the API.
 
 ##### Sample request
 
-```json
+```
 GET api/agencies
 Accept: application/json
 Authorization: Bearer eyJ0eXAiOiJ32aQiLCJhbGciOiJSUzI1NiIsIfg1iCI6ImEzck1VZ01Gd8d0UGNsTGE2eUYz...
 ```
 
-#### Auth Endpoint
-
-The following is the standard URL endpoint to be used for identity and authorisation:
-
-`https://identity.whereismytransport.com`
-
-##### Sample request
-
-The following is the full URI used to retrieve a token.
-
-```json
-POST https://identity.whereismytransport.com/connect/token
-```
-
 ### Errors
 
-The Transit API uses conventional [HTTP status codes](#status-codes) to indicate the result of a request. Codes within the 200s indicate that the request was successful.  Codes within the 400s indicate that the request was somehow badly formed (such as a missing or incorrectly formatted field).  500s are typically returned when something unexpected goes wrong with the system's servers.
+The API uses conventional [HTTP status codes](#status-codes) to indicate the result of a request. Codes within the 200s indicate that the request was successful.  Codes within the 400s indicate that the request was somehow badly formed (such as a missing or incorrectly formatted field). 500s are typically returned when something unexpected goes wrong on the server.
 
 #### Error response model 
 
@@ -157,15 +130,20 @@ The Transit API uses conventional [HTTP status codes](#status-codes) to indicate
 
 ##### Sample response
 
+```
+400 Bad Request
+Content-Type: application/json
+```
+
 ```json
 {
-    "message": "The request has invalid or missing fields.",
-    "fields": {
-        "earliestDepartureTime": [
-            "The EarliestDepartureTime field is required."
+    "message":"The request has invalid or missing fields. Please visit our documentation.",
+    "fields":{
+        "timeType":[
+            "Value 'After' is invalid. TimeType must be one of 'DepartAfter', 'ArriveBefore'."
         ],
-        "maxItineraries": [
-            "The field MaxItineraries must be between 1 and 5."
+        "maxItineraries":[
+            "Value '10' is invalid. The maximum number of itineraries that may be requested is 5."
         ]
     }
 }
@@ -173,15 +151,18 @@ The Transit API uses conventional [HTTP status codes](#status-codes) to indicate
 
 ### Identifiers
 
-Almost all entities in the Transit API are identified through the use of a globally unique identifier. This identifier is specified as a 22 character long, case-sensitive string of URL-friendly characters; __a__ to __z__, __A__ to __Z__, __0__ to __9__, - (hyphen) and _ (underscore). See the example below.
+Almost all entities in the Transit API are identified through the use of a globally unique identifier. This identifier is specified as a 22 character long, case-sensitive string of URL-friendly characters; __a__ to __z__, __A__ to __Z__, __0__ to __9__, - (hyphen) and _ (underscore). See the `id` field in the sample response below.
 
-##### Sample
+##### Sample response
+
+`GET https://platform.whereismytransport.com/api/agencies/5kcfZkKW0ku4Uk-A6j8MFA`
 
 ```json
-Content-Type: application/json
 {
-    "id": "JBk-xvH7okqTS1c_1-SkAg"
-	...
+    "id":"5kcfZkKW0ku4Uk-A6j8MFA",
+    "href":"https://transit.whereismytransport.com/api/agencies/5kcfZkKW0ku4Uk-A6j8MFA",
+    "name":"MyCiTi",
+    "culture":"en"
 }
 ```
 
@@ -189,7 +170,7 @@ Content-Type: application/json
 
 ### Resource Linking
 
-The Transit API presents a simple and elegant approach to referencing and linking to resources. Every available resource has a hypertext reference field, `href`. This property represents a fully qualified URL to where the resource resides. Presenting such a field for every resource aids discoverability by allowing for new resources to be consumed by just embedding a new reference link.
+The API presents a simple and elegant approach to referencing of and linking to resources. Every available resource has a hypertext reference field, `href`. This value represents a fully qualified URL to where the resource resides. Presenting such a field for every resource aids discoverability by allowing for new resources to be consumed by just embedding a new reference link.
 
 ##### Sample response
 
@@ -215,15 +196,15 @@ Content-Type: application/json
 }
 ```
 
-### Excluding Data 
+### Excluding data 
 
-In order to reduce payload, it is possible to exclude certain objects or collections from the model returned in the body of the HTTP response. This is done through the use of the `exclude` query. Attributes which are _excludable_ are described in this specification with the [Excludable](#excludable) tag.
+In order to reduce payload, it is possible to exclude certain objects or collections from the model returned in the body of the HTTP response. This is done through the use of the `exclude` query. Although not everything can be exluded. Attributes which are _excludable_ are described in this specification with the [Excludable](#excludable) tag.
 
 | Parameter | Type | Required | Description |
 | :-------------- | :--- | :---- | :---- |
 | exclude | string | Optional | Comma-separated object or collection names to exclude from the response. Unknown names will be ignored. |
 
-When excluding resource objects, the containing object with their `id` and `href` fields will remain. This is to preserve discoverability while still reducing payload. Collections, on the other hand, will be excluded entirely.
+When excluding resource objects (i.e. those which have their own URI), the containing object with their `id` and `href` fields will remain. This is to preserve discoverability while still reducing payload. Collections, on the other hand, will be excluded entirely.
 
 ##### Sample request
 
@@ -236,22 +217,13 @@ Accept: application/json
 
 ### Understanding Scheduled Data
 
-Everything retrievable from the Transit API is considered to be scheduled. This means that all queries are "at" a certain scheduled date and time. An agency, for example, may schedule a line's name to change, not now, but only after a certain date.  A new stop could be scheduled to only be returned from the API at a given date. By default, all endpoints are queried for at the current date and time.  This is the recommended approach for most applications. A custom date and time can be supplied for most endpoints using the `at` query string parameter.
+Everything retrievable from the API is considered scheduled data. This means that all queries are "at" a certain scheduled date and time. An agency, for example, may schedule a line's name to change, not now, but only after a certain date.  A new stop could be scheduled to only be returned from the API at a given date. The important thing to note that is an entity could be deprecated in future schedules. This means that any entity resource URI could return a 404. Applications built on this API are highly encouraged to cater for this.
 
-| Parameter | Type | Required | Description |
-| :-------------- | :--- | :--- | :---- |
-| at | [DateTime](#datetime) | Optional | The date and time of the scheduled data to query from. |
-
-##### Sample request
-
-```json
-GET api/agencies?at=2015-08-01T00:00:00
-Accept: application/json
-```
+All endpoints are queried for at the current schedule.  
 
 ### Agencies Filter 
 
-Most requests to the Transit API can be filtered by agencies. If no filter is provided, then all agencies are considered.
+Most requests to the API can be filtered by agencies. If no filter is provided, then all agencies are considered.
 
 | Parameter | Type | Required | Description |
 | :-------------- | :--- | :--- | :---- |
@@ -279,16 +251,16 @@ The sample request above will retrieve stops from the agencies identified by `CU
 
 ### Pagination 
 
-Depending on the structure of a query, a lot of results could be returned from the API. For that reason, the results are paginated so to ensure that responses are easier to handle.
+Depending on the structure of a query, a lot of results could be returned from the API. For that reason, the results are paginated so to ensure that responses are easier to handle and that payload it kept to a manageable size.
 
 | Parameter | Type | Required | Description |
 | :-------------- | :--- | :---- | :---- |
-| limit | int | Optional | The maximum number of entities to be returned. Default is normally 100. |
-| offset | int | Optional | The zero-based offset of the first entity returned. Default is 0.  |
+| limit | int | Optional | The maximum number of entities to be returned. The default and maximum is typically 100. |
+| offset | int | Optional | The zero-based offset of the first entity returned. The default is 0.  |
 
 ##### Sample request
 
-The request below will get 10 stops from the 50th stop onwards.
+The request below will retrieve 10 stops from the 50th stop onwards.
 
 ```json
 GET api/stops?limit=10&offset=50
