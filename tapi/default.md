@@ -1009,11 +1009,36 @@ Creating a new journey is done by posting the journey's criteria to the resource
 | geometry | [GeoJSON](#geojson) MultiPoint | Required | An ordered GeoJSON MultiPoint representing the departure and arrival points for the the journey. Exactly two points must be provided. |
 | time | [DateTime](#datetime) | Optional | The requested date and time for the journey. Defaults to Now. |
 | timeType | [TimeType](#time-type) | Optional | Specifies whether this is an ArriveBefore or DepartAfter request. Defaults to DepartAfter. |
-| profile | Array of [Profile](#profile) | Required | The profile used to calculate and order itineraries. |
+| profile | [Profile](#profile) | Required | The profile used to calculate and order itineraries. |
 | fareProducts | Array of [Identifier](#identifiers) | Optional | The list of [fare products](#fare-products) identifiers to try to use when calculating the journey fare. |
 | maxItineraries | integer | Optional | The maximum number of itineraries to return. This must be a value between or including 1 and 5. Default is 3. |
 | only | [Filter](#filter) | Optional | The explicit set of modes or agencies to use. If unset, all modes and agencies are used. |
 | omit | [Filter](#filter) | Optional | The explicit set of modes or agencies to exclude. Omit will always take preference. |
+
+### Time Type
+
+The time type specifies can either be **DepartAfter** or **ArriveBefore**.
+
+**DepartAfter** (the default) indicates that the journey must be calculated to depart after the specified time, at the earliest.
+
+**ArriveBefore** indicates that the journey must be calculated to arrive before the specified time, at the latest.
+
+### Profile
+
+The profile specified how the itineraries should be prioritised.
+
+**ClosestToTime** (the default) returns itineraries absolutely closest to the requested date; earliest for **DepartAfter**, and latest for **ArriveBefore**.
+
+**FewestTransfers** returns itineraries with fewest connections between vehicles, and then also prioritising closest to time.
+
+### Filter
+
+The profile used to calculate the itinerary options for a journey.
+
+| Field | Type | Description |
+| :--------- | :--- | :--- |
+| agencies | Array of [Identifier](#identifiers) | A list of agencies to consider for the filter. |
+| modes | Array of [Mode](#mode) | A list of modes to consider for the filter. |
 
 ##### Sample request
 
@@ -1032,7 +1057,13 @@ POST api/journeys
                 -33.966573
             ]
         ]
-    }
+    },
+    "omit": {
+        "modes": [
+            "Rail"
+        ]
+    },
+    "maxItineraries": 1
 }
 ```
 
@@ -1042,8 +1073,8 @@ POST api/journeys
 201 Created
 Content-Type: application/json
 {
-    "id": "FvIwnLmLy0uauqZxAQXaFA",
-    "href": "https://transit.whereismytransport.com/api/journeys/FvIwnLmLy0uauqZxAQXaFA",
+    "id": "PEP5VsjJ6kuo6KZxAQjq2Q",
+    "href": "https://transit.whereismytransport.com/api/journeys/PEP5VsjJ6kuo6KZxAQjq2Q",
     "geometry": {
         "type": "MultiPoint",
         "coordinates": [
@@ -1057,39 +1088,41 @@ Content-Type: application/json
             ]
         ]
     },
-    "time": "2016-08-29T15:53:22Z",
+    "time": "2016-08-29T16:04:32Z",
     "timeType": "DepartAfter",
     "profile": "ClosestToTime",
     "fareProducts": [],
-    "maxItineraries": 3,
+    "maxItineraries": 1,
     "only": {
         "agencies": [],
         "modes": []
     },
     "omit": {
         "agencies": [],
-        "modes": []
+        "modes": [
+            "Rail"
+        ]
     },
     "itineraries": [
         {
-            "id": "UZyXS7BFlUyXBaZxAQXa7A",
-            "href": "https://transit.whereismytransport.com/api/journeys/FvIwnLmLy0uauqZxAQXaFA/itineraries/UZyXS7BFlUyXBaZxAQXa7A",
-            "departureTime": "2016-08-29T15:55:08Z",
-            "arrivalTime": "2016-08-29T16:22:00Z",
+            "id": "5CxmV36Blk6n6qZxAQjrdQ",
+            "href": "https://transit.whereismytransport.com/api/journeys/PEP5VsjJ6kuo6KZxAQjq2Q/itineraries/5CxmV36Blk6n6qZxAQjrdQ",
+            "departureTime": "2016-08-29T16:43:31Z",
+            "arrivalTime": "2016-08-29T17:50:40Z",
             "distance": {
-                "value": 8942,
+                "value": 14635,
                 "unit": "m"
             },
-            "duration": 1612,
+            "duration": 3429,
             "legs": [
                 {
-                    "href": "https://transit.whereismytransport.com/api/journeys/FvIwnLmLy0uauqZxAQXaFA/itineraries/UZyXS7BFlUyXBaZxAQXa7A/legs/0",
+                    "href": "https://transit.whereismytransport.com/api/journeys/PEP5VsjJ6kuo6KZxAQjq2Q/itineraries/5CxmV36Blk6n6qZxAQjrdQ/legs/0",
                     "type": "Walking",
                     "distance": {
-                        "value": 321,
+                        "value": 1372,
                         "unit": "m"
                     },
-                    "duration": 231,
+                    "duration": 988,
                     "waypoints": [
                         {
                             "location": {
@@ -1102,34 +1135,34 @@ Content-Type: application/json
                                     ]
                                 }
                             },
-                            "arrivalTime": "2016-08-29T15:55:08Z",
-                            "departureTime": "2016-08-29T15:55:08Z"
+                            "arrivalTime": "2016-08-29T16:43:31Z",
+                            "departureTime": "2016-08-29T16:43:31Z"
                         },
                         {
                             "stop": {
-                                "id": "QTtT2sMlGkKpGEBV7TlBpA",
-                                "href": "https://transit.whereismytransport.com/api/stops/QTtT2sMlGkKpGEBV7TlBpA",
+                                "id": "McWcQewKAUCZbluWHQk5kQ",
+                                "href": "https://transit.whereismytransport.com/api/stops/McWcQewKAUCZbluWHQk5kQ",
                                 "agency": {
-                                    "id": "xp_eNbqkYEaZP2YZkHwQqg",
-                                    "href": "https://transit.whereismytransport.com/api/agencies/xp_eNbqkYEaZP2YZkHwQqg",
-                                    "name": "Metrorail Western Cape",
+                                    "id": "2yQYhQPxpEeYUIprNP__TQ",
+                                    "href": "https://transit.whereismytransport.com/api/agencies/2yQYhQPxpEeYUIprNP__TQ",
+                                    "name": "Jammie Shuttle",
                                     "culture": "en"
                                 },
-                                "name": "Cape Town",
-                                "code": "1434904469",
+                                "name": "Hiddingh Hall",
+                                "code": "754628200",
                                 "geometry": {
                                     "type": "Point",
                                     "coordinates": [
-                                        18.424846,
-                                        -33.922993
+                                        18.413234,
+                                        -33.929981
                                     ]
                                 },
                                 "modes": [
-                                    "Rail"
+                                    "Bus"
                                 ]
                             },
-                            "arrivalTime": "2016-08-29T15:59:00Z",
-                            "departureTime": "2016-08-29T15:59:00Z"
+                            "arrivalTime": "2016-08-29T17:00:00Z",
+                            "departureTime": "2016-08-29T17:00:00Z"
                         }
                     ],
                     "geometry": {
@@ -1140,40 +1173,156 @@ Content-Type: application/json
                                 -33.922827
                             ],
                             [
-                                18.422533,
-                                -33.922561
+                                18.42168,
+                                -33.923467
                             ],
                             [
-                                18.423072,
-                                -33.922212
+                                18.421217,
+                                -33.923917
                             ],
                             [
-                                18.423177,
-                                -33.922146
+                                18.420237,
+                                -33.92481
                             ],
                             [
-                                18.423266,
-                                -33.922225
+                                18.42014,
+                                -33.924868
                             ],
                             [
-                                18.424242,
-                                -33.922944
+                                18.420078,
+                                -33.924887
                             ],
                             [
-                                18.424456,
-                                -33.922744
+                                18.420015,
+                                -33.924886
                             ],
                             [
-                                18.424778,
-                                -33.922977
+                                18.419058,
+                                -33.925823
                             ],
                             [
-                                18.424826,
-                                -33.923012
+                                18.418622,
+                                -33.925791
                             ],
                             [
-                                18.42522,
-                                -33.92288
+                                18.41841,
+                                -33.925824
+                            ],
+                            [
+                                18.418241,
+                                -33.925905
+                            ],
+                            [
+                                18.418014,
+                                -33.926072
+                            ],
+                            [
+                                18.417499,
+                                -33.926566
+                            ],
+                            [
+                                18.417441,
+                                -33.926552
+                            ],
+                            [
+                                18.417388,
+                                -33.926577
+                            ],
+                            [
+                                18.417372,
+                                -33.926624
+                            ],
+                            [
+                                18.417401,
+                                -33.926668
+                            ],
+                            [
+                                18.416866,
+                                -33.927199
+                            ],
+                            [
+                                18.416883,
+                                -33.927226
+                            ],
+                            [
+                                18.416863,
+                                -33.927284
+                            ],
+                            [
+                                18.416793,
+                                -33.927301
+                            ],
+                            [
+                                18.416759,
+                                -33.927286
+                            ],
+                            [
+                                18.416138,
+                                -33.927863
+                            ],
+                            [
+                                18.416099,
+                                -33.927834
+                            ],
+                            [
+                                18.415707,
+                                -33.9282
+                            ],
+                            [
+                                18.415237,
+                                -33.927869
+                            ],
+                            [
+                                18.414735,
+                                -33.928346
+                            ],
+                            [
+                                18.414637,
+                                -33.928372
+                            ],
+                            [
+                                18.414562,
+                                -33.928367
+                            ],
+                            [
+                                18.414347,
+                                -33.928281
+                            ],
+                            [
+                                18.414215,
+                                -33.928229
+                            ],
+                            [
+                                18.413789,
+                                -33.928104
+                            ],
+                            [
+                                18.413662,
+                                -33.928084
+                            ],
+                            [
+                                18.413411,
+                                -33.928568
+                            ],
+                            [
+                                18.413096,
+                                -33.929245
+                            ],
+                            [
+                                18.412878,
+                                -33.929749
+                            ],
+                            [
+                                18.412986,
+                                -33.929745
+                            ],
+                            [
+                                18.413276,
+                                -33.929937
+                            ],
+                            [
+                                18.41326,
+                                -33.92993
                             ]
                         ]
                     },
@@ -1181,838 +1330,3104 @@ Content-Type: application/json
                         {
                             "instruction": "Continue onto Adderley Street",
                             "distance": {
-                                "value": 111,
+                                "value": 314,
                                 "unit": "m"
                             }
                         },
                         {
-                            "instruction": "Turn right onto Strand Street, R102",
+                            "instruction": "Turn left onto Government Avenue",
                             "distance": {
-                                "value": 132,
+                                "value": 136,
                                 "unit": "m"
                             }
                         },
                         {
-                            "instruction": "Turn left",
+                            "instruction": "Turn right",
                             "distance": {
-                                "value": 76,
+                                "value": 502,
+                                "unit": "m"
+                            }
+                        },
+                        {
+                            "instruction": "Turn left onto Queen Victoria Street",
+                            "distance": {
+                                "value": 109,
+                                "unit": "m"
+                            }
+                        },
+                        {
+                            "instruction": "Continue onto Grey's Pass",
+                            "distance": {
+                                "value": 67,
+                                "unit": "m"
+                            }
+                        },
+                        {
+                            "instruction": "Turn left onto Orange Street, M3",
+                            "distance": {
+                                "value": 199,
+                                "unit": "m"
+                            }
+                        },
+                        {
+                            "instruction": "Turn sharp left",
+                            "distance": {
+                                "value": 44,
                                 "unit": "m"
                             }
                         }
                     ]
                 },
                 {
-                    "href": "https://transit.whereismytransport.com/api/journeys/FvIwnLmLy0uauqZxAQXaFA/itineraries/UZyXS7BFlUyXBaZxAQXa7A/legs/1",
+                    "href": "https://transit.whereismytransport.com/api/journeys/PEP5VsjJ6kuo6KZxAQjq2Q/itineraries/5CxmV36Blk6n6qZxAQjrdQ/legs/1",
                     "type": "Transit",
                     "distance": {
-                        "value": 7955,
+                        "value": 8554,
                         "unit": "m"
                     },
-                    "duration": 900,
-                    "fare": {
-                        "description": "Default fare",
-                        "fareProduct": {
-                            "id": "j4aUOTtRuUC8KANPs9VRkA",
-                            "href": "https://transit.whereismytransport.com/api/fareproducts/j4aUOTtRuUC8KANPs9VRkA",
-                            "agency": {
-                                "id": "xp_eNbqkYEaZP2YZkHwQqg",
-                                "href": "https://transit.whereismytransport.com/api/agencies/xp_eNbqkYEaZP2YZkHwQqg",
-                                "name": "Metrorail Western Cape",
-                                "culture": "en"
-                            },
-                            "name": "Metro Plus",
-                            "isDefault": true,
-                            "description": "Standard First Class fare with no discount."
-                        },
-                        "cost": {
-                            "amount": 10.5,
-                            "currencyCode": "ZAR"
-                        },
-                        "messages": []
-                    },
+                    "duration": 1200,
                     "line": {
-                        "id": "bxjXkT56-kaJsy3RURC1fg",
-                        "href": "https://transit.whereismytransport.com/api/lines/bxjXkT56-kaJsy3RURC1fg",
+                        "id": "yGZHGrc3sUOhNFLoer-Z_g",
+                        "href": "https://transit.whereismytransport.com/api/lines/yGZHGrc3sUOhNFLoer-Z_g",
                         "agency": {
-                            "id": "xp_eNbqkYEaZP2YZkHwQqg",
-                            "href": "https://transit.whereismytransport.com/api/agencies/xp_eNbqkYEaZP2YZkHwQqg",
-                            "name": "Metrorail Western Cape",
+                            "id": "2yQYhQPxpEeYUIprNP__TQ",
+                            "href": "https://transit.whereismytransport.com/api/agencies/2yQYhQPxpEeYUIprNP__TQ",
+                            "name": "Jammie Shuttle",
                             "culture": "en"
                         },
-                        "name": "Southern Line to Retreat",
-                        "shortName": "Southern Line",
-                        "mode": "Rail",
-                        "colour": "#ffed1c24",
+                        "name": "Route 10 to UCT South",
+                        "shortName": "Route 10",
+                        "mode": "Bus",
+                        "colour": "#ffeccb69",
                         "textColour": "#ffffffff"
                     },
-                    "vehicle": {
-                        "designation": "0219",
-                        "direction": "OneDirection"
-                    },
+                    "vehicle": {},
                     "waypoints": [
                         {
                             "stop": {
-                                "id": "QTtT2sMlGkKpGEBV7TlBpA",
-                                "href": "https://transit.whereismytransport.com/api/stops/QTtT2sMlGkKpGEBV7TlBpA",
+                                "id": "McWcQewKAUCZbluWHQk5kQ",
+                                "href": "https://transit.whereismytransport.com/api/stops/McWcQewKAUCZbluWHQk5kQ",
                                 "agency": {
-                                    "id": "xp_eNbqkYEaZP2YZkHwQqg",
-                                    "href": "https://transit.whereismytransport.com/api/agencies/xp_eNbqkYEaZP2YZkHwQqg",
-                                    "name": "Metrorail Western Cape",
+                                    "id": "2yQYhQPxpEeYUIprNP__TQ",
+                                    "href": "https://transit.whereismytransport.com/api/agencies/2yQYhQPxpEeYUIprNP__TQ",
+                                    "name": "Jammie Shuttle",
                                     "culture": "en"
                                 },
-                                "name": "Cape Town",
-                                "code": "1434904469",
+                                "name": "Hiddingh Hall",
+                                "code": "754628200",
                                 "geometry": {
                                     "type": "Point",
                                     "coordinates": [
-                                        18.424846,
-                                        -33.922993
+                                        18.413234,
+                                        -33.929981
                                     ]
                                 },
                                 "modes": [
-                                    "Rail"
+                                    "Bus"
                                 ]
                             },
-                            "arrivalTime": "2016-08-29T15:59:00Z",
-                            "departureTime": "2016-08-29T15:59:00Z"
+                            "arrivalTime": "2016-08-29T17:00:00Z",
+                            "departureTime": "2016-08-29T17:00:00Z"
                         },
                         {
                             "stop": {
-                                "id": "Zuoq-0ebDkqCXXF57rYEeA",
-                                "href": "https://transit.whereismytransport.com/api/stops/Zuoq-0ebDkqCXXF57rYEeA",
+                                "id": "C5UPegWudUa0h8LSSsVvrg",
+                                "href": "https://transit.whereismytransport.com/api/stops/C5UPegWudUa0h8LSSsVvrg",
                                 "agency": {
-                                    "id": "xp_eNbqkYEaZP2YZkHwQqg",
-                                    "href": "https://transit.whereismytransport.com/api/agencies/xp_eNbqkYEaZP2YZkHwQqg",
-                                    "name": "Metrorail Western Cape",
+                                    "id": "2yQYhQPxpEeYUIprNP__TQ",
+                                    "href": "https://transit.whereismytransport.com/api/agencies/2yQYhQPxpEeYUIprNP__TQ",
+                                    "name": "Jammie Shuttle",
                                     "culture": "en"
                                 },
-                                "name": "Woodstock",
-                                "code": "1588952223",
+                                "name": "UCT South",
+                                "code": "1383136465",
                                 "geometry": {
                                     "type": "Point",
                                     "coordinates": [
-                                        18.446022,
-                                        -33.925818
+                                        18.459573,
+                                        -33.960395
                                     ]
                                 },
                                 "modes": [
-                                    "Rail"
+                                    "Bus"
                                 ]
                             },
-                            "arrivalTime": "2016-08-29T16:02:00Z",
-                            "departureTime": "2016-08-29T16:02:00Z"
-                        },
-                        {
-                            "stop": {
-                                "id": "yuw4438WcEeB_5ofin89pA",
-                                "href": "https://transit.whereismytransport.com/api/stops/yuw4438WcEeB_5ofin89pA",
-                                "agency": {
-                                    "id": "xp_eNbqkYEaZP2YZkHwQqg",
-                                    "href": "https://transit.whereismytransport.com/api/agencies/xp_eNbqkYEaZP2YZkHwQqg",
-                                    "name": "Metrorail Western Cape",
-                                    "culture": "en"
-                                },
-                                "name": "Salt River",
-                                "code": "1864220716",
-                                "geometry": {
-                                    "type": "Point",
-                                    "coordinates": [
-                                        18.465278,
-                                        -33.927222
-                                    ]
-                                },
-                                "modes": [
-                                    "Rail"
-                                ]
-                            },
-                            "arrivalTime": "2016-08-29T16:05:00Z",
-                            "departureTime": "2016-08-29T16:05:00Z"
-                        },
-                        {
-                            "stop": {
-                                "id": "8DJV2nsQf0i63A2w2r8oHQ",
-                                "href": "https://transit.whereismytransport.com/api/stops/8DJV2nsQf0i63A2w2r8oHQ",
-                                "agency": {
-                                    "id": "xp_eNbqkYEaZP2YZkHwQqg",
-                                    "href": "https://transit.whereismytransport.com/api/agencies/xp_eNbqkYEaZP2YZkHwQqg",
-                                    "name": "Metrorail Western Cape",
-                                    "culture": "en"
-                                },
-                                "name": "Observatory",
-                                "code": "1495645232",
-                                "geometry": {
-                                    "type": "Point",
-                                    "coordinates": [
-                                        18.471526,
-                                        -33.938067
-                                    ]
-                                },
-                                "modes": [
-                                    "Rail"
-                                ]
-                            },
-                            "arrivalTime": "2016-08-29T16:08:00Z",
-                            "departureTime": "2016-08-29T16:08:00Z"
-                        },
-                        {
-                            "stop": {
-                                "id": "dLehMUV95EOIji5vJSND1A",
-                                "href": "https://transit.whereismytransport.com/api/stops/dLehMUV95EOIji5vJSND1A",
-                                "agency": {
-                                    "id": "xp_eNbqkYEaZP2YZkHwQqg",
-                                    "href": "https://transit.whereismytransport.com/api/agencies/xp_eNbqkYEaZP2YZkHwQqg",
-                                    "name": "Metrorail Western Cape",
-                                    "culture": "en"
-                                },
-                                "name": "Mowbray",
-                                "code": "1917047691",
-                                "geometry": {
-                                    "type": "Point",
-                                    "coordinates": [
-                                        18.473603,
-                                        -33.946733
-                                    ]
-                                },
-                                "modes": [
-                                    "Rail"
-                                ]
-                            },
-                            "arrivalTime": "2016-08-29T16:10:00Z",
-                            "departureTime": "2016-08-29T16:10:00Z"
-                        },
-                        {
-                            "stop": {
-                                "id": "FHAmVfZFW0O40TawMeo4lQ",
-                                "href": "https://transit.whereismytransport.com/api/stops/FHAmVfZFW0O40TawMeo4lQ",
-                                "agency": {
-                                    "id": "xp_eNbqkYEaZP2YZkHwQqg",
-                                    "href": "https://transit.whereismytransport.com/api/agencies/xp_eNbqkYEaZP2YZkHwQqg",
-                                    "name": "Metrorail Western Cape",
-                                    "culture": "en"
-                                },
-                                "name": "Rosebank",
-                                "code": "860637881",
-                                "geometry": {
-                                    "type": "Point",
-                                    "coordinates": [
-                                        18.472998,
-                                        -33.95457
-                                    ]
-                                },
-                                "modes": [
-                                    "Rail"
-                                ]
-                            },
-                            "arrivalTime": "2016-08-29T16:12:00Z",
-                            "departureTime": "2016-08-29T16:12:00Z"
-                        },
-                        {
-                            "stop": {
-                                "id": "GAW_yYTHwkSTn_6RjZ5v9g",
-                                "href": "https://transit.whereismytransport.com/api/stops/GAW_yYTHwkSTn_6RjZ5v9g",
-                                "agency": {
-                                    "id": "xp_eNbqkYEaZP2YZkHwQqg",
-                                    "href": "https://transit.whereismytransport.com/api/agencies/xp_eNbqkYEaZP2YZkHwQqg",
-                                    "name": "Metrorail Western Cape",
-                                    "culture": "en"
-                                },
-                                "name": "Rondebosch",
-                                "code": "1964415770",
-                                "geometry": {
-                                    "type": "Point",
-                                    "coordinates": [
-                                        18.472641,
-                                        -33.962226
-                                    ]
-                                },
-                                "modes": [
-                                    "Rail"
-                                ]
-                            },
-                            "arrivalTime": "2016-08-29T16:14:00Z",
-                            "departureTime": "2016-08-29T16:14:00Z"
+                            "arrivalTime": "2016-08-29T17:20:00Z",
+                            "departureTime": "2016-08-29T17:20:00Z"
                         }
                     ],
                     "geometry": {
                         "type": "LineString",
                         "coordinates": [
                             [
-                                18.42522,
-                                -33.92288
+                                18.41326,
+                                -33.92993
                             ],
                             [
-                                18.42677,
-                                -33.92394
+                                18.41326,
+                                -33.92993
+                            ],
+                            [
+                                18.41324,
+                                -33.92991
+                            ],
+                            [
+                                18.41317,
+                                -33.92986
+                            ],
+                            [
+                                18.41293,
+                                -33.9297
+                            ],
+                            [
+                                18.4129,
+                                -33.92976
+                            ],
+                            [
+                                18.41279,
+                                -33.92999
+                            ],
+                            [
+                                18.41278,
+                                -33.9301
+                            ],
+                            [
+                                18.41279,
+                                -33.93016
+                            ],
+                            [
+                                18.41282,
+                                -33.93027
+                            ],
+                            [
+                                18.41284,
+                                -33.9303
+                            ],
+                            [
+                                18.41286,
+                                -33.93037
+                            ],
+                            [
+                                18.41293,
+                                -33.93048
+                            ],
+                            [
+                                18.41306,
+                                -33.93068
+                            ],
+                            [
+                                18.41333,
+                                -33.9311
+                            ],
+                            [
+                                18.41338,
+                                -33.93118
+                            ],
+                            [
+                                18.41352,
+                                -33.93127
+                            ],
+                            [
+                                18.41371,
+                                -33.93153
+                            ],
+                            [
+                                18.414,
+                                -33.93196
+                            ],
+                            [
+                                18.41446,
+                                -33.93265
+                            ],
+                            [
+                                18.41469,
+                                -33.93297
+                            ],
+                            [
+                                18.41479,
+                                -33.9331
+                            ],
+                            [
+                                18.41489,
+                                -33.93327
+                            ],
+                            [
+                                18.41495,
+                                -33.93334
+                            ],
+                            [
+                                18.415,
+                                -33.93339
+                            ],
+                            [
+                                18.41503,
+                                -33.93342
+                            ],
+                            [
+                                18.41513,
+                                -33.93351
+                            ],
+                            [
+                                18.41522,
+                                -33.93358
+                            ],
+                            [
+                                18.41538,
+                                -33.93366
+                            ],
+                            [
+                                18.41549,
+                                -33.93371
+                            ],
+                            [
+                                18.41561,
+                                -33.93374
+                            ],
+                            [
+                                18.41574,
+                                -33.93377
+                            ],
+                            [
+                                18.41583,
+                                -33.93379
+                            ],
+                            [
+                                18.41586,
+                                -33.93379
+                            ],
+                            [
+                                18.41594,
+                                -33.9338
+                            ],
+                            [
+                                18.41605,
+                                -33.9338
+                            ],
+                            [
+                                18.41614,
+                                -33.9338
+                            ],
+                            [
+                                18.4162,
+                                -33.9338
+                            ],
+                            [
+                                18.41692,
+                                -33.93383
+                            ],
+                            [
+                                18.41707,
+                                -33.93383
+                            ],
+                            [
+                                18.41727,
+                                -33.93384
+                            ],
+                            [
+                                18.41738,
+                                -33.93385
+                            ],
+                            [
+                                18.41786,
+                                -33.93387
+                            ],
+                            [
+                                18.41814,
+                                -33.93388
+                            ],
+                            [
+                                18.41836,
+                                -33.93389
+                            ],
+                            [
+                                18.41864,
+                                -33.93392
+                            ],
+                            [
+                                18.41885,
+                                -33.93395
+                            ],
+                            [
+                                18.41914,
+                                -33.934
+                            ],
+                            [
+                                18.41926,
+                                -33.93401
+                            ],
+                            [
+                                18.41963,
+                                -33.93406
+                            ],
+                            [
+                                18.41986,
+                                -33.93409
+                            ],
+                            [
+                                18.42009,
+                                -33.93412
+                            ],
+                            [
+                                18.42031,
+                                -33.93416
+                            ],
+                            [
+                                18.42048,
+                                -33.9342
+                            ],
+                            [
+                                18.42069,
+                                -33.93423
+                            ],
+                            [
+                                18.42089,
+                                -33.93426
+                            ],
+                            [
+                                18.42093,
+                                -33.93426
+                            ],
+                            [
+                                18.42102,
+                                -33.93427
+                            ],
+                            [
+                                18.42132,
+                                -33.93429
+                            ],
+                            [
+                                18.42156,
+                                -33.93431
+                            ],
+                            [
+                                18.42182,
+                                -33.93431
+                            ],
+                            [
+                                18.42196,
+                                -33.93431
+                            ],
+                            [
+                                18.42211,
+                                -33.93431
+                            ],
+                            [
+                                18.42231,
+                                -33.9343
+                            ],
+                            [
+                                18.42257,
+                                -33.93428
+                            ],
+                            [
+                                18.42263,
+                                -33.93428
+                            ],
+                            [
+                                18.42303,
+                                -33.93426
+                            ],
+                            [
+                                18.42345,
+                                -33.93424
+                            ],
+                            [
+                                18.42371,
+                                -33.93423
+                            ],
+                            [
+                                18.42396,
+                                -33.93422
+                            ],
+                            [
+                                18.42421,
+                                -33.93422
+                            ],
+                            [
+                                18.42426,
+                                -33.93421
+                            ],
+                            [
+                                18.42432,
+                                -33.9342
+                            ],
+                            [
+                                18.42447,
+                                -33.93416
+                            ],
+                            [
+                                18.42455,
+                                -33.93414
+                            ],
+                            [
+                                18.42462,
+                                -33.93412
+                            ],
+                            [
+                                18.42476,
+                                -33.93406
+                            ],
+                            [
+                                18.42491,
+                                -33.93399
+                            ],
+                            [
+                                18.42506,
+                                -33.93392
+                            ],
+                            [
+                                18.42526,
+                                -33.93381
+                            ],
+                            [
+                                18.42529,
+                                -33.9338
+                            ],
+                            [
+                                18.42537,
+                                -33.93375
+                            ],
+                            [
+                                18.4255,
+                                -33.93369
+                            ],
+                            [
+                                18.42563,
+                                -33.93363
+                            ],
+                            [
+                                18.42576,
+                                -33.93359
+                            ],
+                            [
+                                18.42588,
+                                -33.93355
+                            ],
+                            [
+                                18.42595,
+                                -33.93353
+                            ],
+                            [
+                                18.42605,
+                                -33.93349
+                            ],
+                            [
+                                18.42611,
+                                -33.93348
+                            ],
+                            [
+                                18.42619,
+                                -33.93346
+                            ],
+                            [
+                                18.42626,
+                                -33.93344
+                            ],
+                            [
+                                18.42627,
+                                -33.93344
+                            ],
+                            [
+                                18.42643,
+                                -33.93345
+                            ],
+                            [
+                                18.42648,
+                                -33.93346
+                            ],
+                            [
+                                18.42652,
+                                -33.93346
+                            ],
+                            [
+                                18.42659,
+                                -33.93349
+                            ],
+                            [
+                                18.4267,
+                                -33.93354
+                            ],
+                            [
+                                18.4268,
+                                -33.9336
+                            ],
+                            [
+                                18.42688,
+                                -33.93364
+                            ],
+                            [
+                                18.42697,
+                                -33.93369
+                            ],
+                            [
+                                18.42705,
+                                -33.93372
+                            ],
+                            [
+                                18.4271,
+                                -33.93374
                             ],
                             [
                                 18.42715,
-                                -33.92416
+                                -33.93376
                             ],
                             [
-                                18.4274,
-                                -33.92428
+                                18.42724,
+                                -33.93378
                             ],
                             [
-                                18.428,
-                                -33.92454
+                                18.42733,
+                                -33.93381
                             ],
                             [
-                                18.42901,
-                                -33.92485
+                                18.4277,
+                                -33.93389
                             ],
                             [
-                                18.43039,
-                                -33.92532
+                                18.42776,
+                                -33.9339
                             ],
                             [
-                                18.43052,
-                                -33.92537
+                                18.4278,
+                                -33.93391
                             ],
                             [
-                                18.43084,
-                                -33.92548
+                                18.42797,
+                                -33.93394
                             ],
                             [
-                                18.43145,
-                                -33.92566
+                                18.42814,
+                                -33.93397
                             ],
                             [
-                                18.43175,
-                                -33.92573
+                                18.42826,
+                                -33.93399
                             ],
                             [
-                                18.43211,
-                                -33.92581
+                                18.42855,
+                                -33.93404
+                            ],
+                            [
+                                18.42864,
+                                -33.93406
+                            ],
+                            [
+                                18.42882,
+                                -33.93408
+                            ],
+                            [
+                                18.42891,
+                                -33.9341
+                            ],
+                            [
+                                18.42937,
+                                -33.93416
+                            ],
+                            [
+                                18.42953,
+                                -33.93419
+                            ],
+                            [
+                                18.42966,
+                                -33.93423
+                            ],
+                            [
+                                18.42994,
+                                -33.93433
+                            ],
+                            [
+                                18.43043,
+                                -33.93451
+                            ],
+                            [
+                                18.43115,
+                                -33.93478
+                            ],
+                            [
+                                18.43156,
+                                -33.93493
+                            ],
+                            [
+                                18.43163,
+                                -33.93496
+                            ],
+                            [
+                                18.43184,
+                                -33.93504
+                            ],
+                            [
+                                18.43206,
+                                -33.9351
                             ],
                             [
                                 18.43249,
-                                -33.92586
+                                -33.93522
                             ],
                             [
-                                18.43286,
-                                -33.9259
+                                18.43308,
+                                -33.93537
                             ],
                             [
-                                18.43317,
-                                -33.92593
+                                18.43339,
+                                -33.93545
                             ],
                             [
-                                18.4333,
-                                -33.92594
+                                18.43353,
+                                -33.93549
                             ],
                             [
                                 18.43369,
-                                -33.92594
+                                -33.93555
                             ],
                             [
-                                18.43534,
-                                -33.92601
+                                18.43382,
+                                -33.93562
                             ],
                             [
-                                18.43682,
-                                -33.92611
+                                18.43394,
+                                -33.9357
                             ],
                             [
-                                18.43707,
-                                -33.92612
+                                18.43405,
+                                -33.93579
                             ],
                             [
-                                18.43797,
-                                -33.92616
+                                18.43416,
+                                -33.93594
                             ],
                             [
-                                18.44029,
-                                -33.92619
+                                18.43423,
+                                -33.93605
                             ],
                             [
-                                18.44098,
-                                -33.92617
+                                18.43428,
+                                -33.93615
                             ],
                             [
-                                18.4412,
-                                -33.92616
+                                18.43439,
+                                -33.93636
                             ],
                             [
-                                18.44141,
-                                -33.92614
+                                18.43445,
+                                -33.93646
                             ],
                             [
-                                18.44171,
-                                -33.92608
+                                18.43452,
+                                -33.93656
                             ],
                             [
-                                18.44185,
-                                -33.92607
-                            ],
-                            [
-                                18.44216,
-                                -33.92601
-                            ],
-                            [
-                                18.44229,
-                                -33.92599
-                            ],
-                            [
-                                18.44269,
-                                -33.92589
-                            ],
-                            [
-                                18.44277,
-                                -33.92586
-                            ],
-                            [
-                                18.44316,
-                                -33.92577
-                            ],
-                            [
-                                18.44387,
-                                -33.9256
-                            ],
-                            [
-                                18.44406,
-                                -33.92556
-                            ],
-                            [
-                                18.44427,
-                                -33.92553
-                            ],
-                            [
-                                18.44449,
-                                -33.92551
-                            ],
-                            [
-                                18.44501,
-                                -33.92549
-                            ],
-                            [
-                                18.44601865359733,
-                                -33.92548001333072
-                            ],
-                            [
-                                18.44601865359733,
-                                -33.92548001333072
-                            ],
-                            [
-                                18.44602,
-                                -33.92548
-                            ],
-                            [
-                                18.44698,
-                                -33.92547
-                            ],
-                            [
-                                18.44757,
-                                -33.92546
-                            ],
-                            [
-                                18.44791,
-                                -33.92546
-                            ],
-                            [
-                                18.44831,
-                                -33.92545
-                            ],
-                            [
-                                18.44868,
-                                -33.92543
-                            ],
-                            [
-                                18.44876,
-                                -33.92544
-                            ],
-                            [
-                                18.4499,
-                                -33.92556
-                            ],
-                            [
-                                18.45254,
-                                -33.92588
-                            ],
-                            [
-                                18.45311,
-                                -33.92594
-                            ],
-                            [
-                                18.45431,
-                                -33.92609
-                            ],
-                            [
-                                18.45893,
-                                -33.92667
-                            ],
-                            [
-                                18.4611,
-                                -33.92692
-                            ],
-                            [
-                                18.46232,
-                                -33.92708
-                            ],
-                            [
-                                18.46303,
-                                -33.92716
-                            ],
-                            [
-                                18.46333,
-                                -33.9272
-                            ],
-                            [
-                                18.46382,
-                                -33.92725
-                            ],
-                            [
-                                18.46508,
-                                -33.92747
-                            ],
-                            [
-                                18.465222692307687,
-                                -33.92749853846154
-                            ],
-                            [
-                                18.465222692307687,
-                                -33.92749853846154
-                            ],
-                            [
-                                18.46523,
-                                -33.9275
-                            ],
-                            [
-                                18.46561,
-                                -33.92758
-                            ],
-                            [
-                                18.46626,
-                                -33.92773
-                            ],
-                            [
-                                18.46665,
-                                -33.92787
-                            ],
-                            [
-                                18.46698,
-                                -33.92803
-                            ],
-                            [
-                                18.46733,
-                                -33.92822
-                            ],
-                            [
-                                18.46784,
-                                -33.92855
-                            ],
-                            [
-                                18.46811,
-                                -33.92877
-                            ],
-                            [
-                                18.46837,
-                                -33.92903
-                            ],
-                            [
-                                18.46865,
-                                -33.92935
-                            ],
-                            [
-                                18.46887,
-                                -33.92968
-                            ],
-                            [
-                                18.46906,
-                                -33.93002
-                            ],
-                            [
-                                18.46925,
-                                -33.93058
-                            ],
-                            [
-                                18.46928,
-                                -33.9307
-                            ],
-                            [
-                                18.46954,
-                                -33.93141
-                            ],
-                            [
-                                18.46982,
-                                -33.93231
-                            ],
-                            [
-                                18.47,
-                                -33.93291
-                            ],
-                            [
-                                18.47024,
-                                -33.93365
-                            ],
-                            [
-                                18.47063,
-                                -33.93494
-                            ],
-                            [
-                                18.47096,
-                                -33.93603
-                            ],
-                            [
-                                18.47113,
+                                18.43458,
                                 -33.93663
                             ],
                             [
-                                18.47126,
-                                -33.93713
+                                18.43461,
+                                -33.93667
                             ],
                             [
-                                18.47136,
-                                -33.93748
+                                18.43474,
+                                -33.93679
                             ],
                             [
-                                18.471528895225465,
-                                -33.93806616578249
+                                18.43484,
+                                -33.93685
                             ],
                             [
-                                18.471528895225465,
-                                -33.93806616578249
+                                18.43494,
+                                -33.9369
                             ],
                             [
-                                18.47153,
+                                18.435,
+                                -33.93692
+                            ],
+                            [
+                                18.43509,
+                                -33.93695
+                            ],
+                            [
+                                18.4352,
+                                -33.93698
+                            ],
+                            [
+                                18.43532,
+                                -33.937
+                            ],
+                            [
+                                18.43565,
+                                -33.93703
+                            ],
+                            [
+                                18.43569,
+                                -33.93703
+                            ],
+                            [
+                                18.43579,
+                                -33.93704
+                            ],
+                            [
+                                18.43593,
+                                -33.93707
+                            ],
+                            [
+                                18.43609,
+                                -33.9371
+                            ],
+                            [
+                                18.43616,
+                                -33.93712
+                            ],
+                            [
+                                18.43627,
+                                -33.93714
+                            ],
+                            [
+                                18.43647,
+                                -33.93722
+                            ],
+                            [
+                                18.43666,
+                                -33.93732
+                            ],
+                            [
+                                18.43685,
+                                -33.93743
+                            ],
+                            [
+                                18.43699,
+                                -33.93751
+                            ],
+                            [
+                                18.43717,
+                                -33.93762
+                            ],
+                            [
+                                18.43728,
+                                -33.93769
+                            ],
+                            [
+                                18.43738,
+                                -33.93772
+                            ],
+                            [
+                                18.43747,
+                                -33.93775
+                            ],
+                            [
+                                18.43764,
+                                -33.93777
+                            ],
+                            [
+                                18.43812,
+                                -33.93781
+                            ],
+                            [
+                                18.43909,
+                                -33.93789
+                            ],
+                            [
+                                18.43947,
+                                -33.93793
+                            ],
+                            [
+                                18.43954,
+                                -33.93794
+                            ],
+                            [
+                                18.43969,
+                                -33.93797
+                            ],
+                            [
+                                18.43983,
+                                -33.938
+                            ],
+                            [
+                                18.43991,
+                                -33.93803
+                            ],
+                            [
+                                18.44006,
+                                -33.9381
+                            ],
+                            [
+                                18.44035,
+                                -33.93829
+                            ],
+                            [
+                                18.44062,
+                                -33.93848
+                            ],
+                            [
+                                18.44073,
+                                -33.93854
+                            ],
+                            [
+                                18.44084,
+                                -33.9386
+                            ],
+                            [
+                                18.44097,
+                                -33.93865
+                            ],
+                            [
+                                18.44101,
+                                -33.93866
+                            ],
+                            [
+                                18.4411,
+                                -33.93869
+                            ],
+                            [
+                                18.44126,
+                                -33.93871
+                            ],
+                            [
+                                18.44145,
+                                -33.9387
+                            ],
+                            [
+                                18.44159,
+                                -33.93868
+                            ],
+                            [
+                                18.44168,
+                                -33.93867
+                            ],
+                            [
+                                18.44181,
+                                -33.93862
+                            ],
+                            [
+                                18.44197,
+                                -33.93854
+                            ],
+                            [
+                                18.44218,
+                                -33.93845
+                            ],
+                            [
+                                18.4425,
+                                -33.9383
+                            ],
+                            [
+                                18.4426,
+                                -33.93827
+                            ],
+                            [
+                                18.44277,
+                                -33.93821
+                            ],
+                            [
+                                18.44284,
+                                -33.93819
+                            ],
+                            [
+                                18.44291,
+                                -33.93818
+                            ],
+                            [
+                                18.44313,
+                                -33.93815
+                            ],
+                            [
+                                18.44405,
+                                -33.93803
+                            ],
+                            [
+                                18.44429,
+                                -33.93802
+                            ],
+                            [
+                                18.44444,
+                                -33.93802
+                            ],
+                            [
+                                18.44458,
+                                -33.93804
+                            ],
+                            [
+                                18.44473,
                                 -33.93807
                             ],
                             [
-                                18.4716,
-                                -33.93835
+                                18.44487,
+                                -33.9381
                             ],
                             [
-                                18.4725,
-                                -33.94122
+                                18.4467,
+                                -33.93867
                             ],
                             [
-                                18.47276,
-                                -33.94208
+                                18.44709,
+                                -33.93879
                             ],
                             [
-                                18.47303,
-                                -33.94296
+                                18.44735,
+                                -33.93888
                             ],
                             [
-                                18.47336,
-                                -33.94407
+                                18.44755,
+                                -33.93897
                             ],
                             [
-                                18.47343,
-                                -33.94431
+                                18.44769,
+                                -33.93905
                             ],
                             [
-                                18.47347,
-                                -33.94444
+                                18.44782,
+                                -33.93912
                             ],
                             [
-                                18.47357,
-                                -33.94479
+                                18.44797,
+                                -33.93922
                             ],
                             [
-                                18.47364,
+                                18.44819,
+                                -33.93939
+                            ],
+                            [
+                                18.44828,
+                                -33.93948
+                            ],
+                            [
+                                18.44837,
+                                -33.93956
+                            ],
+                            [
+                                18.44853,
+                                -33.93976
+                            ],
+                            [
+                                18.44858,
+                                -33.93983
+                            ],
+                            [
+                                18.44872,
+                                -33.93997
+                            ],
+                            [
+                                18.44874,
+                                -33.93999
+                            ],
+                            [
+                                18.44883,
+                                -33.94007
+                            ],
+                            [
+                                18.44904,
+                                -33.94019
+                            ],
+                            [
+                                18.44917,
+                                -33.94025
+                            ],
+                            [
+                                18.44934,
+                                -33.9403
+                            ],
+                            [
+                                18.44945,
+                                -33.94032
+                            ],
+                            [
+                                18.44954,
+                                -33.94033
+                            ],
+                            [
+                                18.44965,
+                                -33.94033
+                            ],
+                            [
+                                18.44991,
+                                -33.94031
+                            ],
+                            [
+                                18.45001,
+                                -33.9403
+                            ],
+                            [
+                                18.45025,
+                                -33.94025
+                            ],
+                            [
+                                18.45052,
+                                -33.94018
+                            ],
+                            [
+                                18.4507,
+                                -33.94014
+                            ],
+                            [
+                                18.45091,
+                                -33.94011
+                            ],
+                            [
+                                18.45117,
+                                -33.9401
+                            ],
+                            [
+                                18.45143,
+                                -33.94011
+                            ],
+                            [
+                                18.45201,
+                                -33.94016
+                            ],
+                            [
+                                18.45226,
+                                -33.94019
+                            ],
+                            [
+                                18.45241,
+                                -33.94019
+                            ],
+                            [
+                                18.45258,
+                                -33.94018
+                            ],
+                            [
+                                18.45272,
+                                -33.94016
+                            ],
+                            [
+                                18.45299,
+                                -33.94013
+                            ],
+                            [
+                                18.45331,
+                                -33.94007
+                            ],
+                            [
+                                18.45338,
+                                -33.94006
+                            ],
+                            [
+                                18.45355,
+                                -33.94003
+                            ],
+                            [
+                                18.45376,
+                                -33.94
+                            ],
+                            [
+                                18.45396,
+                                -33.93998
+                            ],
+                            [
+                                18.45427,
+                                -33.93996
+                            ],
+                            [
+                                18.45465,
+                                -33.93995
+                            ],
+                            [
+                                18.45478,
+                                -33.93995
+                            ],
+                            [
+                                18.45492,
+                                -33.93999
+                            ],
+                            [
+                                18.45526,
+                                -33.94001
+                            ],
+                            [
+                                18.45577,
+                                -33.94004
+                            ],
+                            [
+                                18.45601,
+                                -33.94005
+                            ],
+                            [
+                                18.4563,
+                                -33.94007
+                            ],
+                            [
+                                18.45652,
+                                -33.94009
+                            ],
+                            [
+                                18.45676,
+                                -33.94012
+                            ],
+                            [
+                                18.45695,
+                                -33.94015
+                            ],
+                            [
+                                18.45714,
+                                -33.94022
+                            ],
+                            [
+                                18.45737,
+                                -33.94033
+                            ],
+                            [
+                                18.45753,
+                                -33.94041
+                            ],
+                            [
+                                18.45761,
+                                -33.94047
+                            ],
+                            [
+                                18.45782,
+                                -33.94066
+                            ],
+                            [
+                                18.45788,
+                                -33.94075
+                            ],
+                            [
+                                18.45794,
+                                -33.94083
+                            ],
+                            [
+                                18.45796,
+                                -33.94088
+                            ],
+                            [
+                                18.45803,
+                                -33.94105
+                            ],
+                            [
+                                18.45812,
+                                -33.94137
+                            ],
+                            [
+                                18.45818,
+                                -33.94157
+                            ],
+                            [
+                                18.45824,
+                                -33.94173
+                            ],
+                            [
+                                18.45829,
+                                -33.9418
+                            ],
+                            [
+                                18.4584,
+                                -33.94218
+                            ],
+                            [
+                                18.45843,
+                                -33.94227
+                            ],
+                            [
+                                18.45847,
+                                -33.94235
+                            ],
+                            [
+                                18.45856,
+                                -33.94249
+                            ],
+                            [
+                                18.4586,
+                                -33.94255
+                            ],
+                            [
+                                18.45866,
+                                -33.94263
+                            ],
+                            [
+                                18.45869,
+                                -33.94266
+                            ],
+                            [
+                                18.45878,
+                                -33.94276
+                            ],
+                            [
+                                18.45894,
+                                -33.94289
+                            ],
+                            [
+                                18.45911,
+                                -33.94301
+                            ],
+                            [
+                                18.45918,
+                                -33.94305
+                            ],
+                            [
+                                18.45932,
+                                -33.9431
+                            ],
+                            [
+                                18.45946,
+                                -33.94315
+                            ],
+                            [
+                                18.45959,
+                                -33.94318
+                            ],
+                            [
+                                18.45972,
+                                -33.94319
+                            ],
+                            [
+                                18.45985,
+                                -33.9432
+                            ],
+                            [
+                                18.46002,
+                                -33.94321
+                            ],
+                            [
+                                18.4602,
+                                -33.9432
+                            ],
+                            [
+                                18.46037,
+                                -33.94318
+                            ],
+                            [
+                                18.4606,
+                                -33.94316
+                            ],
+                            [
+                                18.46088,
+                                -33.94314
+                            ],
+                            [
+                                18.46122,
+                                -33.94312
+                            ],
+                            [
+                                18.4616,
+                                -33.94309
+                            ],
+                            [
+                                18.46189,
+                                -33.94307
+                            ],
+                            [
+                                18.46212,
+                                -33.94305
+                            ],
+                            [
+                                18.46234,
+                                -33.94304
+                            ],
+                            [
+                                18.46247,
+                                -33.94304
+                            ],
+                            [
+                                18.46258,
+                                -33.94303
+                            ],
+                            [
+                                18.46277,
+                                -33.94304
+                            ],
+                            [
+                                18.46293,
+                                -33.94305
+                            ],
+                            [
+                                18.46309,
+                                -33.94305
+                            ],
+                            [
+                                18.46317,
+                                -33.94306
+                            ],
+                            [
+                                18.46327,
+                                -33.94307
+                            ],
+                            [
+                                18.4634,
+                                -33.94309
+                            ],
+                            [
+                                18.46348,
+                                -33.9431
+                            ],
+                            [
+                                18.46365,
+                                -33.94313
+                            ],
+                            [
+                                18.46383,
+                                -33.94317
+                            ],
+                            [
+                                18.46398,
+                                -33.9432
+                            ],
+                            [
+                                18.46424,
+                                -33.94325
+                            ],
+                            [
+                                18.46461,
+                                -33.94338
+                            ],
+                            [
+                                18.46469,
+                                -33.94341
+                            ],
+                            [
+                                18.46477,
+                                -33.94344
+                            ],
+                            [
+                                18.46484,
+                                -33.94347
+                            ],
+                            [
+                                18.46491,
+                                -33.94349
+                            ],
+                            [
+                                18.4651,
+                                -33.9436
+                            ],
+                            [
+                                18.46528,
+                                -33.94372
+                            ],
+                            [
+                                18.46542,
+                                -33.94382
+                            ],
+                            [
+                                18.46546,
+                                -33.94386
+                            ],
+                            [
+                                18.46556,
+                                -33.94396
+                            ],
+                            [
+                                18.46565,
+                                -33.94406
+                            ],
+                            [
+                                18.46572,
+                                -33.94417
+                            ],
+                            [
+                                18.46578,
+                                -33.94424
+                            ],
+                            [
+                                18.46583,
+                                -33.94438
+                            ],
+                            [
+                                18.46586,
+                                -33.94445
+                            ],
+                            [
+                                18.46593,
+                                -33.94458
+                            ],
+                            [
+                                18.46619,
                                 -33.94503
                             ],
                             [
-                                18.4737,
-                                -33.94528
+                                18.46644,
+                                -33.94543
                             ],
                             [
-                                18.47383,
-                                -33.94589
+                                18.4665,
+                                -33.94554
                             ],
                             [
-                                18.47389,
-                                -33.94626
+                                18.46659,
+                                -33.94569
                             ],
                             [
-                                18.47391,
-                                -33.94646
+                                18.46668,
+                                -33.94586
                             ],
                             [
-                                18.47393,
-                                -33.94668
+                                18.46672,
+                                -33.94597
                             ],
                             [
-                                18.47393,
-                                -33.94673
+                                18.46675,
+                                -33.94606
                             ],
                             [
-                                18.47393,
-                                -33.946733
+                                18.46677,
+                                -33.94616
                             ],
                             [
-                                18.47393,
-                                -33.946733
+                                18.46678,
+                                -33.94627
                             ],
                             [
-                                18.47393,
-                                -33.94702
+                                18.46679,
+                                -33.94634
                             ],
                             [
-                                18.47394,
-                                -33.94736
+                                18.46679,
+                                -33.94642
                             ],
                             [
-                                18.47392,
-                                -33.94777
+                                18.46677,
+                                -33.94667
                             ],
                             [
-                                18.47393,
-                                -33.94801
+                                18.46676,
+                                -33.9468
                             ],
                             [
-                                18.4739,
-                                -33.94823
+                                18.46671,
+                                -33.94728
                             ],
                             [
-                                18.47383,
-                                -33.94871
+                                18.4667,
+                                -33.94739
                             ],
                             [
-                                18.4738,
-                                -33.94913
+                                18.4667,
+                                -33.94749
                             ],
                             [
-                                18.47371,
-                                -33.94986
+                                18.46671,
+                                -33.94756
                             ],
                             [
-                                18.47366,
-                                -33.95035
+                                18.46672,
+                                -33.9477
                             ],
                             [
-                                18.47356,
-                                -33.95115
+                                18.46676,
+                                -33.94791
                             ],
                             [
-                                18.47347,
-                                -33.95191
+                                18.46682,
+                                -33.94819
                             ],
                             [
-                                18.47343,
-                                -33.95221
+                                18.46698,
+                                -33.94888
                             ],
                             [
-                                18.47338,
-                                -33.95282
+                                18.46703,
+                                -33.94904
                             ],
                             [
-                                18.47329,
-                                -33.95362
+                                18.46704,
+                                -33.94911
                             ],
                             [
-                                18.4732,
-                                -33.95428
+                                18.46707,
+                                -33.94921
                             ],
                             [
-                                18.47316,
-                                -33.95458
+                                18.46708,
+                                -33.94929
                             ],
                             [
-                                18.47316,
-                                -33.95458
+                                18.46708,
+                                -33.94939
                             ],
                             [
-                                18.47316,
-                                -33.95458
+                                18.46708,
+                                -33.94952
                             ],
                             [
-                                18.47315,
-                                -33.95472
+                                18.46707,
+                                -33.94962
                             ],
                             [
-                                18.47296,
-                                -33.95631
+                                18.46705,
+                                -33.94972
                             ],
                             [
-                                18.47285,
-                                -33.95726
+                                18.46704,
+                                -33.94977
                             ],
                             [
-                                18.47281,
-                                -33.95754
+                                18.46702,
+                                -33.94985
                             ],
                             [
-                                18.47272,
-                                -33.95833
+                                18.46698,
+                                -33.94995
                             ],
                             [
-                                18.47268,
-                                -33.95873
+                                18.46693,
+                                -33.95005
                             ],
                             [
-                                18.4726,
-                                -33.95944
+                                18.46683,
+                                -33.9503
                             ],
                             [
-                                18.47261,
-                                -33.95954
+                                18.46667,
+                                -33.95065
                             ],
                             [
-                                18.4726,
-                                -33.95955
+                                18.4666,
+                                -33.95079
                             ],
                             [
-                                18.47258,
-                                -33.95974
+                                18.46651,
+                                -33.95098
                             ],
                             [
-                                18.47253,
-                                -33.96027
+                                18.46636,
+                                -33.9513
                             ],
                             [
-                                18.47246,
-                                -33.96092
+                                18.4662,
+                                -33.95164
                             ],
                             [
-                                18.47243,
-                                -33.96102
+                                18.46611,
+                                -33.95182
                             ],
                             [
-                                18.47233,
-                                -33.96221
+                                18.46602,
+                                -33.95203
                             ],
                             [
-                                18.47233,
-                                -33.96221
+                                18.4659,
+                                -33.95227
+                            ],
+                            [
+                                18.46577,
+                                -33.95254
+                            ],
+                            [
+                                18.46569,
+                                -33.95266
+                            ],
+                            [
+                                18.46561,
+                                -33.95279
+                            ],
+                            [
+                                18.46556,
+                                -33.95287
+                            ],
+                            [
+                                18.4654,
+                                -33.95327
+                            ],
+                            [
+                                18.46539,
+                                -33.95339
+                            ],
+                            [
+                                18.4654,
+                                -33.95349
+                            ],
+                            [
+                                18.46552,
+                                -33.95381
+                            ],
+                            [
+                                18.46554,
+                                -33.95387
+                            ],
+                            [
+                                18.46554,
+                                -33.95394
+                            ],
+                            [
+                                18.46551,
+                                -33.95405
+                            ],
+                            [
+                                18.4654,
+                                -33.95425
+                            ],
+                            [
+                                18.46532,
+                                -33.95437
+                            ],
+                            [
+                                18.46518,
+                                -33.9546
+                            ],
+                            [
+                                18.46513,
+                                -33.95457
+                            ],
+                            [
+                                18.46509,
+                                -33.95455
+                            ],
+                            [
+                                18.46504,
+                                -33.95453
+                            ],
+                            [
+                                18.46496,
+                                -33.95449
+                            ],
+                            [
+                                18.4649,
+                                -33.95446
+                            ],
+                            [
+                                18.46478,
+                                -33.9544
+                            ],
+                            [
+                                18.46464,
+                                -33.95433
+                            ],
+                            [
+                                18.46455,
+                                -33.95429
+                            ],
+                            [
+                                18.4645,
+                                -33.95426
+                            ],
+                            [
+                                18.46438,
+                                -33.95417
+                            ],
+                            [
+                                18.46434,
+                                -33.95413
+                            ],
+                            [
+                                18.4643,
+                                -33.95407
+                            ],
+                            [
+                                18.46428,
+                                -33.95401
+                            ],
+                            [
+                                18.46427,
+                                -33.95395
+                            ],
+                            [
+                                18.46424,
+                                -33.95374
+                            ],
+                            [
+                                18.46423,
+                                -33.95365
+                            ],
+                            [
+                                18.46418,
+                                -33.95317
+                            ],
+                            [
+                                18.46417,
+                                -33.95308
+                            ],
+                            [
+                                18.46416,
+                                -33.953
+                            ],
+                            [
+                                18.46415,
+                                -33.95296
+                            ],
+                            [
+                                18.46414,
+                                -33.95293
+                            ],
+                            [
+                                18.46411,
+                                -33.95289
+                            ],
+                            [
+                                18.46406,
+                                -33.95284
+                            ],
+                            [
+                                18.464,
+                                -33.9528
+                            ],
+                            [
+                                18.46398,
+                                -33.95279
+                            ],
+                            [
+                                18.46394,
+                                -33.95277
+                            ],
+                            [
+                                18.46386,
+                                -33.95275
+                            ],
+                            [
+                                18.46378,
+                                -33.95275
+                            ],
+                            [
+                                18.46368,
+                                -33.95277
+                            ],
+                            [
+                                18.46359,
+                                -33.9528
+                            ],
+                            [
+                                18.46352,
+                                -33.95285
+                            ],
+                            [
+                                18.46347,
+                                -33.9529
+                            ],
+                            [
+                                18.46344,
+                                -33.95294
+                            ],
+                            [
+                                18.46342,
+                                -33.95301
+                            ],
+                            [
+                                18.46337,
+                                -33.95323
+                            ],
+                            [
+                                18.46319,
+                                -33.95424
+                            ],
+                            [
+                                18.46314,
+                                -33.95455
+                            ],
+                            [
+                                18.46311,
+                                -33.95469
+                            ],
+                            [
+                                18.46302,
+                                -33.95493
+                            ],
+                            [
+                                18.46291,
+                                -33.95522
+                            ],
+                            [
+                                18.46285,
+                                -33.95538
+                            ],
+                            [
+                                18.46286,
+                                -33.95544
+                            ],
+                            [
+                                18.46284,
+                                -33.95553
+                            ],
+                            [
+                                18.46279,
+                                -33.95561
+                            ],
+                            [
+                                18.46272,
+                                -33.9557
+                            ],
+                            [
+                                18.46266,
+                                -33.9557
+                            ],
+                            [
+                                18.46258,
+                                -33.95573
+                            ],
+                            [
+                                18.4625,
+                                -33.95574
+                            ],
+                            [
+                                18.46242,
+                                -33.95573
+                            ],
+                            [
+                                18.4623,
+                                -33.95568
+                            ],
+                            [
+                                18.46223,
+                                -33.95561
+                            ],
+                            [
+                                18.46218,
+                                -33.95553
+                            ],
+                            [
+                                18.46215,
+                                -33.95544
+                            ],
+                            [
+                                18.46213,
+                                -33.9553
+                            ],
+                            [
+                                18.46212,
+                                -33.95521
+                            ],
+                            [
+                                18.46205,
+                                -33.95513
+                            ],
+                            [
+                                18.462,
+                                -33.9551
+                            ],
+                            [
+                                18.46192,
+                                -33.95507
+                            ],
+                            [
+                                18.46148,
+                                -33.95496
+                            ],
+                            [
+                                18.46132,
+                                -33.95492
+                            ],
+                            [
+                                18.46101,
+                                -33.95485
+                            ],
+                            [
+                                18.46087,
+                                -33.95481
+                            ],
+                            [
+                                18.46076,
+                                -33.95479
+                            ],
+                            [
+                                18.46046,
+                                -33.95471
+                            ],
+                            [
+                                18.46037,
+                                -33.95471
+                            ],
+                            [
+                                18.46028,
+                                -33.95474
+                            ],
+                            [
+                                18.4602,
+                                -33.95479
+                            ],
+                            [
+                                18.46014,
+                                -33.95485
+                            ],
+                            [
+                                18.4601,
+                                -33.95494
+                            ],
+                            [
+                                18.4601,
+                                -33.95536
+                            ],
+                            [
+                                18.4601,
+                                -33.95556
+                            ],
+                            [
+                                18.46008,
+                                -33.95573
+                            ],
+                            [
+                                18.46006,
+                                -33.95578
+                            ],
+                            [
+                                18.46003,
+                                -33.95592
+                            ],
+                            [
+                                18.45996,
+                                -33.95611
+                            ],
+                            [
+                                18.45982,
+                                -33.95643
+                            ],
+                            [
+                                18.45973,
+                                -33.95666
+                            ],
+                            [
+                                18.45964,
+                                -33.95687
+                            ],
+                            [
+                                18.45951,
+                                -33.95722
+                            ],
+                            [
+                                18.45934,
+                                -33.95763
+                            ],
+                            [
+                                18.45922,
+                                -33.95793
+                            ],
+                            [
+                                18.45899,
+                                -33.95848
+                            ],
+                            [
+                                18.45887,
+                                -33.95877
+                            ],
+                            [
+                                18.45884,
+                                -33.95884
+                            ],
+                            [
+                                18.45881,
+                                -33.95894
+                            ],
+                            [
+                                18.45879,
+                                -33.95909
+                            ],
+                            [
+                                18.4588,
+                                -33.95918
+                            ],
+                            [
+                                18.45881,
+                                -33.95928
+                            ],
+                            [
+                                18.45887,
+                                -33.95946
+                            ],
+                            [
+                                18.45892,
+                                -33.95958
+                            ],
+                            [
+                                18.459,
+                                -33.9597
+                            ],
+                            [
+                                18.45917,
+                                -33.95994
+                            ],
+                            [
+                                18.45945,
+                                -33.96032
+                            ],
+                            [
+                                18.45949,
+                                -33.96037
+                            ],
+                            [
+                                18.45953,
+                                -33.96042
                             ]
                         ]
                     }
                 },
                 {
-                    "href": "https://transit.whereismytransport.com/api/journeys/FvIwnLmLy0uauqZxAQXaFA/itineraries/UZyXS7BFlUyXBaZxAQXa7A/legs/2",
-                    "type": "Walking",
+                    "href": "https://transit.whereismytransport.com/api/journeys/PEP5VsjJ6kuo6KZxAQjq2Q/itineraries/5CxmV36Blk6n6qZxAQjrdQ/legs/2",
+                    "type": "Transit",
                     "distance": {
-                        "value": 666,
+                        "value": 3820,
                         "unit": "m"
                     },
-                    "duration": 480,
+                    "duration": 600,
+                    "line": {
+                        "id": "TP0onz0EikaqyZ8q3b_9gQ",
+                        "href": "https://transit.whereismytransport.com/api/lines/TP0onz0EikaqyZ8q3b_9gQ",
+                        "agency": {
+                            "id": "2yQYhQPxpEeYUIprNP__TQ",
+                            "href": "https://transit.whereismytransport.com/api/agencies/2yQYhQPxpEeYUIprNP__TQ",
+                            "name": "Jammie Shuttle",
+                            "culture": "en"
+                        },
+                        "name": "Route 9B to UCT South",
+                        "shortName": "Route 9B",
+                        "mode": "Bus",
+                        "colour": "#ff00a84e",
+                        "textColour": "#ffffffff"
+                    },
+                    "vehicle": {
+                        "direction": "OppositeDirection"
+                    },
                     "waypoints": [
                         {
                             "stop": {
-                                "id": "GAW_yYTHwkSTn_6RjZ5v9g",
-                                "href": "https://transit.whereismytransport.com/api/stops/GAW_yYTHwkSTn_6RjZ5v9g",
+                                "id": "C5UPegWudUa0h8LSSsVvrg",
+                                "href": "https://transit.whereismytransport.com/api/stops/C5UPegWudUa0h8LSSsVvrg",
                                 "agency": {
-                                    "id": "xp_eNbqkYEaZP2YZkHwQqg",
-                                    "href": "https://transit.whereismytransport.com/api/agencies/xp_eNbqkYEaZP2YZkHwQqg",
-                                    "name": "Metrorail Western Cape",
+                                    "id": "2yQYhQPxpEeYUIprNP__TQ",
+                                    "href": "https://transit.whereismytransport.com/api/agencies/2yQYhQPxpEeYUIprNP__TQ",
+                                    "name": "Jammie Shuttle",
                                     "culture": "en"
                                 },
-                                "name": "Rondebosch",
-                                "code": "1964415770",
+                                "name": "UCT South",
+                                "code": "1383136465",
                                 "geometry": {
                                     "type": "Point",
                                     "coordinates": [
-                                        18.472641,
-                                        -33.962226
+                                        18.459573,
+                                        -33.960395
                                     ]
                                 },
                                 "modes": [
-                                    "Rail"
+                                    "Bus"
                                 ]
                             },
-                            "arrivalTime": "2016-08-29T16:14:00Z",
-                            "departureTime": "2016-08-29T16:14:00Z"
+                            "arrivalTime": "2016-08-29T17:30:00Z",
+                            "departureTime": "2016-08-29T17:30:00Z"
+                        },
+                        {
+                            "stop": {
+                                "id": "HFL2KXjdbkuL4vn9QEW3Rw",
+                                "href": "https://transit.whereismytransport.com/api/stops/HFL2KXjdbkuL4vn9QEW3Rw",
+                                "agency": {
+                                    "id": "2yQYhQPxpEeYUIprNP__TQ",
+                                    "href": "https://transit.whereismytransport.com/api/agencies/2yQYhQPxpEeYUIprNP__TQ",
+                                    "name": "Jammie Shuttle",
+                                    "culture": "en"
+                                },
+                                "name": "Tugwell",
+                                "code": "1794862348",
+                                "geometry": {
+                                    "type": "Point",
+                                    "coordinates": [
+                                        18.470761,
+                                        -33.954354
+                                    ]
+                                },
+                                "modes": [
+                                    "Bus"
+                                ]
+                            },
+                            "arrivalTime": "2016-08-29T17:35:00Z",
+                            "departureTime": "2016-08-29T17:35:00Z"
+                        },
+                        {
+                            "stop": {
+                                "id": "G4Qx8shvl0qxTGCJhN1hlA",
+                                "href": "https://transit.whereismytransport.com/api/stops/G4Qx8shvl0qxTGCJhN1hlA",
+                                "agency": {
+                                    "id": "2yQYhQPxpEeYUIprNP__TQ",
+                                    "href": "https://transit.whereismytransport.com/api/agencies/2yQYhQPxpEeYUIprNP__TQ",
+                                    "name": "Jammie Shuttle",
+                                    "culture": "en"
+                                },
+                                "name": "Groote Schuur",
+                                "code": "1596544810",
+                                "geometry": {
+                                    "type": "Point",
+                                    "coordinates": [
+                                        18.470524,
+                                        -33.961312
+                                    ]
+                                },
+                                "modes": [
+                                    "Bus"
+                                ]
+                            },
+                            "arrivalTime": "2016-08-29T17:40:00Z",
+                            "departureTime": "2016-08-29T17:40:00Z"
+                        }
+                    ],
+                    "geometry": {
+                        "type": "LineString",
+                        "coordinates": [
+                            [
+                                18.459539,
+                                -33.960429
+                            ],
+                            [
+                                18.45957,
+                                -33.96046
+                            ],
+                            [
+                                18.45972,
+                                -33.96059
+                            ],
+                            [
+                                18.45984,
+                                -33.96068
+                            ],
+                            [
+                                18.45995,
+                                -33.96078
+                            ],
+                            [
+                                18.45998,
+                                -33.96084
+                            ],
+                            [
+                                18.46001,
+                                -33.96088
+                            ],
+                            [
+                                18.46006,
+                                -33.96098
+                            ],
+                            [
+                                18.46008,
+                                -33.96105
+                            ],
+                            [
+                                18.4601,
+                                -33.96114
+                            ],
+                            [
+                                18.46012,
+                                -33.96124
+                            ],
+                            [
+                                18.46011,
+                                -33.96133
+                            ],
+                            [
+                                18.4601,
+                                -33.96143
+                            ],
+                            [
+                                18.46007,
+                                -33.96154
+                            ],
+                            [
+                                18.45978,
+                                -33.96244
+                            ],
+                            [
+                                18.4597,
+                                -33.96265
+                            ],
+                            [
+                                18.45955,
+                                -33.96294
+                            ],
+                            [
+                                18.45938,
+                                -33.96321
+                            ],
+                            [
+                                18.45932,
+                                -33.96332
+                            ],
+                            [
+                                18.45925,
+                                -33.96346
+                            ],
+                            [
+                                18.45921,
+                                -33.96354
+                            ],
+                            [
+                                18.45917,
+                                -33.96359
+                            ],
+                            [
+                                18.45916,
+                                -33.96363
+                            ],
+                            [
+                                18.45914,
+                                -33.96368
+                            ],
+                            [
+                                18.45909,
+                                -33.96377
+                            ],
+                            [
+                                18.45905,
+                                -33.96386
+                            ],
+                            [
+                                18.45898,
+                                -33.96394
+                            ],
+                            [
+                                18.45886,
+                                -33.96405
+                            ],
+                            [
+                                18.45881,
+                                -33.96412
+                            ],
+                            [
+                                18.45879,
+                                -33.96416
+                            ],
+                            [
+                                18.45879,
+                                -33.96418
+                            ],
+                            [
+                                18.45878,
+                                -33.9642
+                            ],
+                            [
+                                18.45879,
+                                -33.96423
+                            ],
+                            [
+                                18.45879,
+                                -33.96426
+                            ],
+                            [
+                                18.45884,
+                                -33.96443
+                            ],
+                            [
+                                18.45899,
+                                -33.96433
+                            ],
+                            [
+                                18.45918,
+                                -33.9642
+                            ],
+                            [
+                                18.45923,
+                                -33.96415
+                            ],
+                            [
+                                18.45929,
+                                -33.96407
+                            ],
+                            [
+                                18.45932,
+                                -33.96401
+                            ],
+                            [
+                                18.45937,
+                                -33.96391
+                            ],
+                            [
+                                18.45952,
+                                -33.96354
+                            ],
+                            [
+                                18.45967,
+                                -33.96327
+                            ],
+                            [
+                                18.45969,
+                                -33.96321
+                            ],
+                            [
+                                18.45987,
+                                -33.96275
+                            ],
+                            [
+                                18.46006,
+                                -33.96214
+                            ],
+                            [
+                                18.46017,
+                                -33.96181
+                            ],
+                            [
+                                18.46033,
+                                -33.96134
+                            ],
+                            [
+                                18.46039,
+                                -33.96119
+                            ],
+                            [
+                                18.46047,
+                                -33.96107
+                            ],
+                            [
+                                18.46059,
+                                -33.96092
+                            ],
+                            [
+                                18.46072,
+                                -33.9608
+                            ],
+                            [
+                                18.46086,
+                                -33.96069
+                            ],
+                            [
+                                18.46102,
+                                -33.96059
+                            ],
+                            [
+                                18.46112,
+                                -33.96053
+                            ],
+                            [
+                                18.46126,
+                                -33.96047
+                            ],
+                            [
+                                18.46133,
+                                -33.96045
+                            ],
+                            [
+                                18.46151,
+                                -33.9604
+                            ],
+                            [
+                                18.46178,
+                                -33.96034
+                            ],
+                            [
+                                18.46183,
+                                -33.96033
+                            ],
+                            [
+                                18.4621,
+                                -33.96026
+                            ],
+                            [
+                                18.46227,
+                                -33.9602
+                            ],
+                            [
+                                18.46234,
+                                -33.96017
+                            ],
+                            [
+                                18.46248,
+                                -33.96011
+                            ],
+                            [
+                                18.4626,
+                                -33.96005
+                            ],
+                            [
+                                18.4627,
+                                -33.95999
+                            ],
+                            [
+                                18.4628,
+                                -33.95991
+                            ],
+                            [
+                                18.46293,
+                                -33.95979
+                            ],
+                            [
+                                18.46301,
+                                -33.9597
+                            ],
+                            [
+                                18.46305,
+                                -33.95963
+                            ],
+                            [
+                                18.46311,
+                                -33.95954
+                            ],
+                            [
+                                18.46316,
+                                -33.95943
+                            ],
+                            [
+                                18.4632,
+                                -33.95934
+                            ],
+                            [
+                                18.46325,
+                                -33.95923
+                            ],
+                            [
+                                18.46332,
+                                -33.95901
+                            ],
+                            [
+                                18.46339,
+                                -33.95879
+                            ],
+                            [
+                                18.46351,
+                                -33.95842
+                            ],
+                            [
+                                18.46358,
+                                -33.95816
+                            ],
+                            [
+                                18.46365,
+                                -33.9578
+                            ],
+                            [
+                                18.46374,
+                                -33.95725
+                            ],
+                            [
+                                18.46376,
+                                -33.95696
+                            ],
+                            [
+                                18.46379,
+                                -33.95652
+                            ],
+                            [
+                                18.46381,
+                                -33.95617
+                            ],
+                            [
+                                18.46382,
+                                -33.95605
+                            ],
+                            [
+                                18.46382,
+                                -33.95599
+                            ],
+                            [
+                                18.46384,
+                                -33.95583
+                            ],
+                            [
+                                18.46385,
+                                -33.95572
+                            ],
+                            [
+                                18.46386,
+                                -33.95562
+                            ],
+                            [
+                                18.46392,
+                                -33.95543
+                            ],
+                            [
+                                18.46396,
+                                -33.95531
+                            ],
+                            [
+                                18.464,
+                                -33.95521
+                            ],
+                            [
+                                18.46405,
+                                -33.9551
+                            ],
+                            [
+                                18.46411,
+                                -33.95499
+                            ],
+                            [
+                                18.46447,
+                                -33.95442
+                            ],
+                            [
+                                18.46452,
+                                -33.95435
+                            ],
+                            [
+                                18.46455,
+                                -33.95429
+                            ],
+                            [
+                                18.46457,
+                                -33.95426
+                            ],
+                            [
+                                18.4647,
+                                -33.95405
+                            ],
+                            [
+                                18.46478,
+                                -33.95382
+                            ],
+                            [
+                                18.46479,
+                                -33.95375
+                            ],
+                            [
+                                18.46477,
+                                -33.95369
+                            ],
+                            [
+                                18.46475,
+                                -33.95365
+                            ],
+                            [
+                                18.46472,
+                                -33.95361
+                            ],
+                            [
+                                18.46467,
+                                -33.95358
+                            ],
+                            [
+                                18.46462,
+                                -33.95355
+                            ],
+                            [
+                                18.46455,
+                                -33.95354
+                            ],
+                            [
+                                18.4645,
+                                -33.95355
+                            ],
+                            [
+                                18.46447,
+                                -33.95356
+                            ],
+                            [
+                                18.46441,
+                                -33.95358
+                            ],
+                            [
+                                18.46435,
+                                -33.95362
+                            ],
+                            [
+                                18.4643,
+                                -33.95367
+                            ],
+                            [
+                                18.46424,
+                                -33.95374
+                            ],
+                            [
+                                18.46427,
+                                -33.95395
+                            ],
+                            [
+                                18.46428,
+                                -33.95401
+                            ],
+                            [
+                                18.4643,
+                                -33.95407
+                            ],
+                            [
+                                18.46434,
+                                -33.95413
+                            ],
+                            [
+                                18.46438,
+                                -33.95417
+                            ],
+                            [
+                                18.4645,
+                                -33.95426
+                            ],
+                            [
+                                18.46455,
+                                -33.95429
+                            ],
+                            [
+                                18.46464,
+                                -33.95433
+                            ],
+                            [
+                                18.46478,
+                                -33.9544
+                            ],
+                            [
+                                18.4649,
+                                -33.95446
+                            ],
+                            [
+                                18.46496,
+                                -33.95449
+                            ],
+                            [
+                                18.46504,
+                                -33.95453
+                            ],
+                            [
+                                18.46509,
+                                -33.95455
+                            ],
+                            [
+                                18.46513,
+                                -33.95457
+                            ],
+                            [
+                                18.46518,
+                                -33.9546
+                            ],
+                            [
+                                18.46531,
+                                -33.95467
+                            ],
+                            [
+                                18.46564,
+                                -33.95483
+                            ],
+                            [
+                                18.46589,
+                                -33.95496
+                            ],
+                            [
+                                18.46601,
+                                -33.95503
+                            ],
+                            [
+                                18.46613,
+                                -33.9551
+                            ],
+                            [
+                                18.46626,
+                                -33.95515
+                            ],
+                            [
+                                18.46636,
+                                -33.95519
+                            ],
+                            [
+                                18.46644,
+                                -33.95521
+                            ],
+                            [
+                                18.46658,
+                                -33.95523
+                            ],
+                            [
+                                18.46668,
+                                -33.95525
+                            ],
+                            [
+                                18.46679,
+                                -33.95525
+                            ],
+                            [
+                                18.46694,
+                                -33.95524
+                            ],
+                            [
+                                18.46708,
+                                -33.95523
+                            ],
+                            [
+                                18.46721,
+                                -33.95522
+                            ],
+                            [
+                                18.46731,
+                                -33.95521
+                            ],
+                            [
+                                18.4674,
+                                -33.95521
+                            ],
+                            [
+                                18.46751,
+                                -33.95521
+                            ],
+                            [
+                                18.46762,
+                                -33.95521
+                            ],
+                            [
+                                18.46775,
+                                -33.95523
+                            ],
+                            [
+                                18.46791,
+                                -33.95527
+                            ],
+                            [
+                                18.4681,
+                                -33.95532
+                            ],
+                            [
+                                18.46831,
+                                -33.95537
+                            ],
+                            [
+                                18.4684,
+                                -33.95539
+                            ],
+                            [
+                                18.46851,
+                                -33.95542
+                            ],
+                            [
+                                18.46869,
+                                -33.95546
+                            ],
+                            [
+                                18.46874,
+                                -33.95547
+                            ],
+                            [
+                                18.46876,
+                                -33.95547
+                            ],
+                            [
+                                18.46887,
+                                -33.95547
+                            ],
+                            [
+                                18.46913,
+                                -33.95551
+                            ],
+                            [
+                                18.46936,
+                                -33.95553
+                            ],
+                            [
+                                18.46962,
+                                -33.95553
+                            ],
+                            [
+                                18.46982,
+                                -33.95552
+                            ],
+                            [
+                                18.4701,
+                                -33.95549
+                            ],
+                            [
+                                18.47023,
+                                -33.95548
+                            ],
+                            [
+                                18.47035,
+                                -33.95547
+                            ],
+                            [
+                                18.47045,
+                                -33.95547
+                            ],
+                            [
+                                18.47046,
+                                -33.95542
+                            ],
+                            [
+                                18.47048,
+                                -33.95535
+                            ],
+                            [
+                                18.4705,
+                                -33.95529
+                            ],
+                            [
+                                18.47053,
+                                -33.95523
+                            ],
+                            [
+                                18.47055,
+                                -33.95518
+                            ],
+                            [
+                                18.47058,
+                                -33.95512
+                            ],
+                            [
+                                18.4706,
+                                -33.95506
+                            ],
+                            [
+                                18.47061,
+                                -33.955
+                            ],
+                            [
+                                18.47063,
+                                -33.95494
+                            ],
+                            [
+                                18.47064,
+                                -33.95489
+                            ],
+                            [
+                                18.47066,
+                                -33.95481
+                            ],
+                            [
+                                18.47069,
+                                -33.95467
+                            ],
+                            [
+                                18.47073,
+                                -33.95453
+                            ],
+                            [
+                                18.47074,
+                                -33.95452
+                            ],
+                            [
+                                18.47077,
+                                -33.95446
+                            ],
+                            [
+                                18.4708,
+                                -33.95442
+                            ],
+                            [
+                                18.47083,
+                                -33.95438
+                            ],
+                            [
+                                18.4708309,
+                                -33.9543773
+                            ],
+                            [
+                                18.4708309,
+                                -33.9543773
+                            ],
+                            [
+                                18.47084,
+                                -33.95435
+                            ],
+                            [
+                                18.47086,
+                                -33.95425
+                            ],
+                            [
+                                18.47087,
+                                -33.95412
+                            ],
+                            [
+                                18.47089,
+                                -33.95403
+                            ],
+                            [
+                                18.47093,
+                                -33.95392
+                            ],
+                            [
+                                18.47098,
+                                -33.95378
+                            ],
+                            [
+                                18.47113,
+                                -33.95381
+                            ],
+                            [
+                                18.47174,
+                                -33.95393
+                            ],
+                            [
+                                18.47202,
+                                -33.95398
+                            ],
+                            [
+                                18.472,
+                                -33.95408
+                            ],
+                            [
+                                18.47197,
+                                -33.95425
+                            ],
+                            [
+                                18.47195,
+                                -33.95434
+                            ],
+                            [
+                                18.47183,
+                                -33.95484
+                            ],
+                            [
+                                18.47172,
+                                -33.95524
+                            ],
+                            [
+                                18.47169,
+                                -33.95536
+                            ],
+                            [
+                                18.47159,
+                                -33.95571
+                            ],
+                            [
+                                18.47154,
+                                -33.9559
+                            ],
+                            [
+                                18.47151,
+                                -33.95602
+                            ],
+                            [
+                                18.47145,
+                                -33.95628
+                            ],
+                            [
+                                18.47135,
+                                -33.95663
+                            ],
+                            [
+                                18.47128,
+                                -33.95686
+                            ],
+                            [
+                                18.47126,
+                                -33.95696
+                            ],
+                            [
+                                18.47118,
+                                -33.95722
+                            ],
+                            [
+                                18.47107,
+                                -33.95763
+                            ],
+                            [
+                                18.47103,
+                                -33.95777
+                            ],
+                            [
+                                18.47097,
+                                -33.95795
+                            ],
+                            [
+                                18.47095,
+                                -33.95808
+                            ],
+                            [
+                                18.4709,
+                                -33.95848
+                            ],
+                            [
+                                18.47084,
+                                -33.95889
+                            ],
+                            [
+                                18.47082,
+                                -33.959
+                            ],
+                            [
+                                18.4708,
+                                -33.95905
+                            ],
+                            [
+                                18.47077,
+                                -33.95914
+                            ],
+                            [
+                                18.47074,
+                                -33.95921
+                            ],
+                            [
+                                18.47069,
+                                -33.95929
+                            ],
+                            [
+                                18.47046,
+                                -33.95965
+                            ],
+                            [
+                                18.4704,
+                                -33.95977
+                            ],
+                            [
+                                18.4703,
+                                -33.95989
+                            ],
+                            [
+                                18.47008,
+                                -33.96024
+                            ],
+                            [
+                                18.47005,
+                                -33.96033
+                            ],
+                            [
+                                18.47003,
+                                -33.9604
+                            ],
+                            [
+                                18.47001,
+                                -33.9606
+                            ],
+                            [
+                                18.46999,
+                                -33.96079
+                            ],
+                            [
+                                18.46998,
+                                -33.96099
+                            ],
+                            [
+                                18.46996,
+                                -33.96114
+                            ],
+                            [
+                                18.46993,
+                                -33.96137
+                            ],
+                            [
+                                18.47008,
+                                -33.96137
+                            ],
+                            [
+                                18.47034,
+                                -33.96142
+                            ],
+                            [
+                                18.47044,
+                                -33.96148
+                            ],
+                            [
+                                18.4705,
+                                -33.96148
+                            ],
+                            [
+                                18.47048,
+                                -33.96143
+                            ],
+                            [
+                                18.47048,
+                                -33.9614
+                            ],
+                            [
+                                18.47048,
+                                -33.96136
+                            ],
+                            [
+                                18.47051,
+                                -33.96132
+                            ],
+                            [
+                                18.47051,
+                                -33.96131
+                            ],
+                            [
+                                18.470513384615384,
+                                -33.96130492307692
+                            ]
+                        ]
+                    }
+                },
+                {
+                    "href": "https://transit.whereismytransport.com/api/journeys/PEP5VsjJ6kuo6KZxAQjq2Q/itineraries/5CxmV36Blk6n6qZxAQjrdQ/legs/3",
+                    "type": "Walking",
+                    "distance": {
+                        "value": 889,
+                        "unit": "m"
+                    },
+                    "duration": 640,
+                    "waypoints": [
+                        {
+                            "stop": {
+                                "id": "G4Qx8shvl0qxTGCJhN1hlA",
+                                "href": "https://transit.whereismytransport.com/api/stops/G4Qx8shvl0qxTGCJhN1hlA",
+                                "agency": {
+                                    "id": "2yQYhQPxpEeYUIprNP__TQ",
+                                    "href": "https://transit.whereismytransport.com/api/agencies/2yQYhQPxpEeYUIprNP__TQ",
+                                    "name": "Jammie Shuttle",
+                                    "culture": "en"
+                                },
+                                "name": "Groote Schuur",
+                                "code": "1596544810",
+                                "geometry": {
+                                    "type": "Point",
+                                    "coordinates": [
+                                        18.470524,
+                                        -33.961312
+                                    ]
+                                },
+                                "modes": [
+                                    "Bus"
+                                ]
+                            },
+                            "arrivalTime": "2016-08-29T17:40:00Z",
+                            "departureTime": "2016-08-29T17:40:00Z"
                         },
                         {
                             "location": {
@@ -2025,68 +4440,84 @@ Content-Type: application/json
                                     ]
                                 }
                             },
-                            "arrivalTime": "2016-08-29T16:22:00Z",
-                            "departureTime": "2016-08-29T16:22:00Z"
+                            "arrivalTime": "2016-08-29T17:50:40Z",
+                            "departureTime": "2016-08-29T17:50:40Z"
                         }
                     ],
                     "geometry": {
                         "type": "LineString",
                         "coordinates": [
                             [
-                                18.47233,
-                                -33.96221
+                                18.470513384615384,
+                                -33.96130492307692
                             ],
                             [
-                                18.472633,
-                                -33.962238
+                                18.470532,
+                                -33.961314
                             ],
                             [
-                                18.472653,
-                                -33.962247
+                                18.470503,
+                                -33.96138
                             ],
                             [
-                                18.472797,
-                                -33.962298
+                                18.470468,
+                                -33.961538
                             ],
                             [
-                                18.472815,
-                                -33.962349
+                                18.470796,
+                                -33.961516
                             ],
                             [
-                                18.473148,
-                                -33.963152
+                                18.471215,
+                                -33.961435
                             ],
                             [
-                                18.472842,
-                                -33.963243
+                                18.471522,
+                                -33.961327
                             ],
                             [
-                                18.472767,
-                                -33.963299
+                                18.471695,
+                                -33.961727
                             ],
                             [
-                                18.472722,
-                                -33.963357
+                                18.471799,
+                                -33.962048
                             ],
                             [
-                                18.472606,
-                                -33.964223
+                                18.472101,
+                                -33.962758
                             ],
                             [
-                                18.472452,
-                                -33.96498
+                                18.472137,
+                                -33.962959
                             ],
                             [
-                                18.472441,
-                                -33.965114
+                                18.472017,
+                                -33.964536
                             ],
                             [
-                                18.472458,
-                                -33.96521
+                                18.471867,
+                                -33.965397
                             ],
                             [
-                                18.472504,
-                                -33.965332
+                                18.471855,
+                                -33.965467
+                            ],
+                            [
+                                18.471944,
+                                -33.965455
+                            ],
+                            [
+                                18.471957,
+                                -33.965386
+                            ],
+                            [
+                                18.472121,
+                                -33.965409
+                            ],
+                            [
+                                18.472184,
+                                -33.965395
                             ],
                             [
                                 18.472202,
@@ -2122,33 +4553,33 @@ Content-Type: application/json
                         {
                             "instruction": "Continue",
                             "distance": {
-                                "value": 16,
+                                "value": 25,
                                 "unit": "m"
                             }
                         },
                         {
-                            "instruction": "Turn right onto Station Road",
+                            "instruction": "Turn sharp left onto Belmont Road, M92",
                             "distance": {
-                                "value": 100,
+                                "value": 101,
                                 "unit": "m"
                             }
                         },
                         {
-                            "instruction": "Turn right onto Myrtle Road",
+                            "instruction": "Turn right onto St. Andrews Road",
                             "distance": {
-                                "value": 269,
+                                "value": 470,
                                 "unit": "m"
                             }
                         },
                         {
-                            "instruction": "Turn right onto Rouwkoop Road",
+                            "instruction": "Turn sharp left",
                             "distance": {
-                                "value": 29,
+                                "value": 40,
                                 "unit": "m"
                             }
                         },
                         {
-                            "instruction": "Continue onto White Road",
+                            "instruction": "Turn right onto White Road",
                             "distance": {
                                 "value": 125,
                                 "unit": "m"
@@ -2173,7 +4604,7 @@ Content-Type: application/json
 
 A leg is a section of an itinerary carried out by a passenger on one mode of transit (including walking) from some departure point to an arrival point.
 
-#### Types of legs {#types-of-legs}
+#### Types of legs
 
 The Transit API currently supports two types of legs, each with a different response model.
 
