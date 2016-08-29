@@ -14,11 +14,7 @@ The following address is the standard URL endpoint to be used to access the vari
 
 `https://platform.whereismytransport.com/api`
 
-##### Sample request
-
-The following is the full URI used to retrieve agencies.
-
-`GET https://transit.whereismytransport.com/api/agencies`
+For example, the agencies endpoint would be queried at **GET https://platform.whereismytransport.com/api/agencies**.
 
 #### HTTP verbs
 
@@ -46,13 +42,28 @@ The status code in an HTTP request's response describes the outcome of the perfo
 | `429 Too Many Requests` | Too many requests have occurred in a given amount of time. |
 | `500 Internal Server Error` | The server has encountered an unexpected error. |
 
-#### Content type
-
-The **Content-Type** header describes the format of the data being posted to the server. All POST requests must specify the **Content-Type** header. The only supported format is **application/json**. If the **Content-Type** header is not specified or the type is set to a value other than **application/json** then a **415** [HTTP status code](#status-codes) will be returned.
-
 #### Accept type
 
-The **Accept** header describes the format of the content that the client can accept. All requests must specify the **Accept** header. The only supported format is **application/json**. If the **Accept** header is not specified or the type is set to a value other than **application/json** then a **406** [HTTP status code](#status-codes) will be returned.
+The **Accept** header describes the format of the content that the client can accept. All requests must specify this header as **application/json**. If the **Accept** header is not specified or the type is set to a value other than **application/json** then a **406** [HTTP status code](#status-codes) will be returned.
+
+### Sample request
+
+```http
+GET api/agencies
+Accept: application/json
+```
+
+#### Content type
+
+The **Content-Type** header describes the format of the data being posted to the server. All POST requests must specify this header as **application/json**. If the **Content-Type** header is not specified or the type is set to a value other than **application/json** then a **415** [HTTP status code](#status-codes) will be returned.
+
+### Sample request
+
+```http
+POST api/journeys
+Accept: application/json
+Content-Type: application/json
+```
 
 #### Compression
 
@@ -62,11 +73,11 @@ The API compresses response data using GZIP compression as defined by the HTTP 1
 
 #### HTTPS
 
-All API access is performed over HTTPS only. If a resource is requested using **http://...** then a **403 Forbidden** status code will be returned.
+All API access is performed over HTTPS only. If a resource is requested using **http://** then a **403 Forbidden** status code will be returned.
 
 ### Authorisation
 
-The API uses OpenID Connect and OAuth 2.0 protocols for federated access and security. WhereIsMyTransport provides its own security token service which issues tokens to applications so that they can authenticate themselves against our transport API. To authorise an application, one must first acquire an *client ID* and *client secret* from the WhereIsMyTransport [Developer Portal](https://developer.whereismytransport.com).
+The API uses OpenID Connect and OAuth 2.0 protocols for federated access and security. WhereIsMyTransport provides its own security token service which issues tokens to applications so that they can authenticate themselves against our transport API. To authorise an application, one must first acquire a **client_id** and **client_secret** from the WhereIsMyTransport [Developer Portal](https://developer.whereismytransport.com).
 
 Using client credentials one can make requests against the security token service to retrieve a token.  When requesting a token, the scopes that are required must also be specified. Currently, the only scope available is `transportapi:all` which provides full access to the API.
 
@@ -80,12 +91,9 @@ The following is the full URI endpoint used to retrieve a token.
 
 ##### Sample request
 
-**
+```http
 POST https://identity.whereismytransport.com/connect/token
 Content-Type: application/x-www-form-urlencoded
-**
-
-```
 client_id=6a73386c-5bbf-4b4b-ae09-0ed45d87b5ad
 client_secret=neph3dext3Ct+QHc5wClxTWE1Y+AKNTS28UFH39SXy4=
 grant_type=client_credentials
@@ -94,8 +102,8 @@ scope=transportapi:all
 
 ##### Sample response
 
-**200 Created**
-```json
+```http
+201 Created
 {
     "access_token": "eyJ0eXAiOiJ32aQiLCJhbGciOiJSUzI1NiIsIfg1iCI6ImEzck1VZ01Gd8d0UGNsTGE2eUYz...",
     "expires_in": 3600,
@@ -107,11 +115,10 @@ Once this token is received, it must be added to the Authorization HTTP header i
 
 ##### Sample request
 
-**
+```http
 GET api/agencies
-Accept: application/json
 Authorization: Bearer eyJ0eXAiOiJ32aQiLCJhbGciOiJSUzI1NiIsIfg1iCI6ImEzck1VZ01Gd8d0UGNsTGE2eUYz...
-**
+```
 
 ### Errors
 
@@ -126,8 +133,8 @@ The API uses conventional [HTTP status codes](#status-codes) to indicate the res
 
 ##### Sample response
 
-**400 Bad Request**
-```json
+```http
+400 Bad Request
 {
     "message":"The request has invalid or missing fields. Please visit our documentation.",
     "fields":{
@@ -145,13 +152,18 @@ The API uses conventional [HTTP status codes](#status-codes) to indicate the res
 
 Almost all entities in the Transit API are identified through the use of a globally unique identifier. This identifier is specified as a 22 character long, case-sensitive string of URL-friendly characters; __a__ to __z__, __A__ to __Z__, __0__ to __9__, - (hyphen) and _ (underscore). See the `id` field in the sample response below.
 
+#### Sample request
+
+```http
+GET api/agencies/5kcfZkKW0ku4Uk-A6j8MFA
+```
+
 ##### Sample response
 
-**GET https://platform.whereismytransport.com/api/agencies/5kcfZkKW0ku4Uk-A6j8MFA**
-```json
+```http
 {
     "id":"5kcfZkKW0ku4Uk-A6j8MFA",
-    "href":"https://transit.whereismytransport.com/api/agencies/5kcfZkKW0ku4Uk-A6j8MFA",
+    "href":"https://platform.whereismytransport.com/api/agencies/5kcfZkKW0ku4Uk-A6j8MFA",
     "name":"MyCiTi",
     "culture":"en"
 }
@@ -161,18 +173,18 @@ Almost all entities in the Transit API are identified through the use of a globa
 
 ### Resource Linking
 
-The API presents a simple and elegant approach to referencing of and linking to resources. Every available resource has a hypertext reference field, `href`. This value represents a fully qualified URL to where the resource resides. Presenting such a field for every resource aids discoverability by allowing for new resources to be consumed by just embedding a new reference link.
+The API presents a simple and elegant approach to referencing of and linking to resources. Every available resource has a hypertext reference field, **href**. This value represents a fully qualified URL to where the resource resides. Presenting such a field for every resource aids discoverability by allowing for new resources to be consumed by just embedding a new reference link.
 
 ##### Sample response
 
-```json
-Content-Type: application/json
+```http
+200 Ok
 {
     "id": "9hKEat91jEG0z6XoAMKShw",
-    "href": "https://transit.whereismytransport.com/api/stops/9hKEat91jEG0z6XoAMKShw",
+    "href": "https://platform.whereismytransport.com/api/stops/9hKEat91jEG0z6XoAMKShw",
     "agency": {
         "id": "edObkk6o-0WN3tNZBLqKPg",
-        "href": "https://transit.whereismytransport.com/api/agencies/edObkk6o-0WN3tNZBLqKPg",
+        "href": "https://platform.whereismytransport.com/api/agencies/edObkk6o-0WN3tNZBLqKPg",
         "name": "Gautrain",
         "culture": "en"
     },
@@ -199,11 +211,10 @@ When excluding resource objects (i.e. those which have their own URI), the conta
 
 ##### Sample request
 
-The request below will exclude `geometry` and `directions` from the resource model.
+The request below will exclude **geometry** and **directions** from the resource model.
 
-```json
+```http
 GET api/journeys/8GYKddjcAk6j7aVUAMV3pw?exclude=geometry,directions
-Accept: application/json
 ```
 
 ### Understanding Scheduled Data
@@ -222,23 +233,21 @@ Most requests to the API can be filtered by agencies. If no filter is provided, 
 
 ##### Sample request
 
-```json
+```http
 GET api/stops?agencies=CUJ2ZhcOm0y7wO1KsjUgPA
-Accept: application/json
 ```
 
-The sample request above will only retrieve stops from the agency identified by `CUJ2ZhcOm0y7wO1KsjUgPA`.
+The sample request above will only retrieve stops from the agency identified by **CUJ2ZhcOm0y7wO1KsjUgPA**.
 
 More than one agency can be specified. This is done using a comma-separated list.
 
 ##### Sample request
 
-```json
+```http
 GET api/stops?agencies=CUJ2ZhcOm0y7wO1KsjUgPA,TQM8HCPXFEFXwm45QGvN_f
-Accept: application/json
 ```
 
-The sample request above will retrieve stops from the agencies identified by `CUJ2ZhcOm0y7wO1KsjUgPA` or `TQM8HCPXFEFXwm45QGvN_f`.
+The sample request above will retrieve stops from the agencies identified by **CUJ2ZhcOm0y7wO1KsjUgPA** or **TQM8HCPXFEFXwm45QGvN_f**.
 
 ### Pagination 
 
@@ -253,9 +262,8 @@ Depending on the structure of a query, a lot of results could be returned from t
 
 The request below will retrieve 10 stops from the 50th stop onwards.
 
-```json
+```http
 GET api/stops?limit=10&offset=50
-Accept: application/json
 ```
 
 ### Formatting Standards 
@@ -264,7 +272,7 @@ Accept: application/json
 
 A typical format for encoding of date and time in JSON is to use the ISO 8601 standard. This is a well-established specification which is both human readable and widely supported by many web-based frameworks.
 
-ISO 8601 date and time strings can be represented as "2015-11-19T07:22Z" (7:22 AM on the 19th November 2015).
+ISO 8601 date and time strings can be represented as "2016-11-19T07:22Z" (7:22 AM on the 19th November 2016).
 
 More information can be found [here](https://en.wikipedia.org/wiki/ISO_8601).
 
@@ -280,19 +288,18 @@ The detailed specification can be found [here](https://www.ietf.org/rfc/rfc4646.
 
 #### Cost 
 
-Monetary amounts are represented by the cost object, which is made up of an amount, as a decimal value, and the applicable currency code. The currency code is such as defined in ISO 4217. For example, _ZAR_ represents the South African Rand. More information and a full list of currency codes can be found [here](https://en.wikipedia.org/wiki/ISO_4217).
+Monetary amounts are represented by the cost object, which is made up of an amount, as a decimal value, and the applicable currency code. The currency code is such as defined in ISO 4217. For example, **ZAR** represents the South African Rand. More information and a full list of currency codes can be found [here](https://en.wikipedia.org/wiki/ISO_4217).
 
 ##### Sample
 
 The following cost object represents the value of R10,50.
 
-```json
-Content-Type: application/json
+```http
 {
-	"cost": {
-		"amount": 10.50,
-		"currencyCode": "ZAR"
-	}
+    "cost":{
+        "amount":10.50,
+        "currencyCode":"ZAR"
+    }
 }
 ```
 
@@ -308,16 +315,15 @@ A typical GeoJSON structure consists of a type attribute and an array of coordin
 
 The following GeoJSON Point represents the coordinates for Cape Town's city centre.
 
-```json
-Content-Type: application/json
+```http
 {
-	"geometry": {
-		"type": "Point",
-		"coordinates": [
-			18.417035,
-			-33.926852
-		]
-	}
+    "geometry": {
+        "type":"Point",
+        "coordinates":[
+            18.417035,
+            -33.926852
+        ]
+    }
 }
 ```
 
@@ -327,18 +333,16 @@ In order to provide a geographic position through the query string, a comma-sepa
 
 ##### Sample request
 
-```json
+```http
 GET api/stops?point=-33.925430,18.436443&radius=1750
-Accept: application/json
 ```
 
 #### Bounding Box 
 
 In order to provide a geographic bounding box through the query string, a comma-separated SW (south west) latitude, SW longitude, NE (north east) latitude and NE longitude must be provided in that order.  These coordiantes represent the south west and north east corners of the box.
 
-```json
+```http
 GET api/stops?bbox=-33.944,18.36,-33.895,18.43
-Accept: application/json
 ```
 
 #### Distance 
@@ -347,22 +351,20 @@ Distance is returned as an object consisting of the distance value (an integer) 
 
 ##### Sample response
 
-```json
-Content-Type: application/json
-{
-	"distance": {
-		"value": 133,
-		"unit": "m"
-	},
-	...
+```http
+{  
+    "distance": {  
+        "value":133,
+        "unit":"m"
+    }
 }
 ```
 
-**Note:** The Transit API currently only supports the metric system. Distance is returned in metres.
+**Note:** The API currently only supports the metric system. Distance is returned in metres.
 
 ## Specification
 
-### Modes 
+### Modes
 
 The mode of transit describes the type of vehicle that is used along a line. The following table describes the modes currently supported by the Transit API.
 
@@ -383,7 +385,7 @@ The mode of transit describes the type of vehicle that is used along a line. The
 
 A transit agency, or operator, is an organisation which provides and governs a transport service which is available for use by either the general public (in most cases) or through some private arrangement.
 
-#### Agency response model 
+#### Agency response model
 
 | Attribute | Type | Description |
 | :--------- | :--- | :---- |
@@ -396,7 +398,7 @@ A transit agency, or operator, is an organisation which provides and governs a t
 
 Retrieves a collection of agencies.
 
-`GET api/agencies?point={point}&radius={radius}&bbox={bbox}&agencies={agencies}&limit={limit}&offset={offset}&at={at}`
+`GET api/agencies?point={point}&radius={int}&bbox={bbox}&agencies={agencies}&limit={int}&offset={int}`
 
 | Parameter | Type | Description |
 | :-------------- | :--- | :---- |
@@ -404,22 +406,19 @@ Retrieves a collection of agencies.
 | radius | integer | The distance in metres from the point to search for nearby agencies. This filter is optional. |
 | bbox | [Bounding Box](#bounding-box) | The bounding box from where to retrieve agencies. This will be ignored if a point is provided in the query.  |
 | agencies | [Agencies Filter](#agencies-filter) | The list of agencies to filter the results by. |
-| limit | int | The maximum number of entities to be returned. Default is 100. |
-| offset | int | The offset of the first entity returned. Default is 0. |
-| at | [DateTime](#datetime) | The point in time from which to query. Defaults to the current date and time. |
+| limit | int | See [Pagination](#pagination). |
+| offset | int | See [Pagination](#pagination). |
 
 ##### Sample request
 
-```
+```http
 GET api/agencies?agencies=TW5uToIpeWUEaTlYDTnK
-Accept: application/json
 ```
 
 ##### Sample response
 
-```json
+```http
 200 Ok
-Content-Type: application/json
 [
     {
         "id": "fEZ57B5v-gz5aFhj8ueG52",
@@ -446,25 +445,22 @@ Content-Type: application/json
 
 Retrieves an agency by its identifier.
 
-`GET api/agencies/{agencyId}?at={at}`
+`GET api/agencies/{agencyId}`
 
 | Parameter | Type | Description |
 | :-------------- | :--- | :---- |
 | agencyId | string | The identifier of the agency. |
-| at | [DateTime](#datetime) | The point in time from which to query. Defaults to the current date and time. |
 
 ##### Sample request
 
-```
+```http
 GET api/agencies/CUJ2ZhcOm0y7wO1KsjUgPA
-Accept: application/json
 ```
 
 ##### Sample response
 
-```json
+```http
 200 Ok
-Content-Type: application/json
 {
     "id": "CUJ2ZhcOm0y7wO1KsjUgPA",
     "href": "https://transit.whereismytransport.com/api/agencies/CUJ2ZhcOm0y7wO1KsjUgPA",
@@ -477,7 +473,7 @@ Content-Type: application/json
 
 A location where passengers can board or alight from a transit vehicle.
 
-#### Stop response model 
+#### Stop response model
 
 | Attribute | Type | Description |
 | :--------- | :--- | :---- |
@@ -488,12 +484,13 @@ A location where passengers can board or alight from a transit vehicle.
 | code | string | If available, the passenger code of the stop. |
 | geometry | [GeoJSON](#geojson) Point | The geographic point of the stop. |
 | modes | Array of [Mode](#modes) | The modes that are served by this stop. |
+| parentStop | [Stop](#stop-model) | **[**[Excludable](#excludable)**]** If applicable, the parent stop. |
 
 #### Retrieving stops
 
 Retrieves a collection of stops.
 
-`GET api/stops?point={point}&radius={radius}&bbox={bbox}&modes={modes}&agencies={agencies}&servesLines={lineIds}&limit={limit}&offset={offset}&at={at}`
+`GET api/stops?point={point}&radius={radius}&bbox={bbox}&modes={modes}&agencies={agencies}&servesLines={lineIds}&limit={int}&offset={int}`
 
 | Parameter | Type | Description |
 | :-------------- | :--- | :---- |
@@ -503,20 +500,19 @@ Retrieves a collection of stops.
 | modes | string | A string of comma-separated [transit modes](#modes). |
 | agencies | [Agencies Filter](#agencies-filter) | A string of comma-separated agency identifiers to filter the results by. |
 | servesLines | string | A string of comma-separated line identifiers to filter the results by. |
+| showChildren | bool | Specifies whether or not to display children stops that satisfy the query parameters. Default is false. |
 | limit | int | The maximum number of entities to be returned. Default is 100. |
 | offset | int | The offset of the first entity returned. Default is 0. |
-| at | [DateTime](#datetime) | The point in time from which to query. Defaults to the current date and time. |
 
 ##### Sample request
 
-```
+```http
 GET api/stops?agencies=CUJ2ZhcOm0y7wO1KsjUgPA&servesLines=4ODGMWFlNUCg3a0g0AeCIw&point=-33.923400,18.421586&radius=1750&modes=rail,bus
-Accept: application/json
 ```
 
 ##### Sample response
 
-```json
+```http
 200 Ok
 Content-Type: application/json
 [
@@ -591,7 +587,7 @@ Content-Type: application/json
 
 Retrieves a stop by its identifier.
 
-`GET api/stops/{stopId}?at={at}`
+`GET api/stops/{stopId}`
 
 | Parameter | Type | Description |
 | :-------------- | :--- | :---- |
@@ -600,16 +596,14 @@ Retrieves a stop by its identifier.
 
 ##### Sample request
 
-```
+```http
 GET api/stops/YhYX0avSXk6mVS-uY14zVQ
-Accept: application/json
 ```
 
 ##### Sample response
 
-```json
+```http
 200 Ok
-Content-Type: application/json
 {
     "id": "YhYX0avSXk6mVS-uY14zVQ",
     "href": "https://transit.whereismytransport.com/api/stops/YhYX0avSXk6mVS-uY14zVQ",
@@ -634,16 +628,167 @@ Content-Type: application/json
 }
 ```
 
+#### Retrieving child stops for some parent stop
+
+Retrieves all children of the parent stop specified by its identifier.
+
+`GET api/stops/{stopId}/stops`
+
+| Parameter | Type | Description |
+| :-------------- | :--- | :---- |
+| stopId | string | The identifier of the parent stop. |
+
+##### Sample request
+
+```http
+GET api/stops/Z_usyGh-QkGjDNGeQZFEpg/stops
+```
+
+##### Sample response
+
+```http
+200 Ok
+[
+  {
+    "id": "Z_Uz_zjFrQyXGvoWGtwqVg",
+    "href": "http://localhost:26047/api/stops/Z_Uz_zjFrQyXGvoWGtwqVg",
+    "agency": {
+      "id": "J5kYAnLU20GNigwhB_OmAA",
+      "href": "http://localhost:26047/api/agencies/J5kYAnLU20GNigwhB_OmAA",
+      "name": "StopHierarchyAgency",
+      "culture": "en-US"
+    },
+    "name": "PlatformA",
+    "geometry": {
+      "type": "Point",
+      "coordinates": [
+        18.424717,
+        -33.920663
+      ]
+    },
+    "modes": [
+      "LightRail"
+    ],
+    "parentStop": {
+      "id": "Z_usyGh-QkGjDNGeQZFEpg",
+      "href": "http://localhost:26047/api/stops/Z_usyGh-QkGjDNGeQZFEpg",
+      "agency": {
+        "id": "J5kYAnLU20GNigwhB_OmAA",
+        "href": "http://localhost:26047/api/agencies/J5kYAnLU20GNigwhB_OmAA",
+        "name": "StopHierarchyAgency",
+        "culture": "en-US"
+      },
+      "name": "CapeTownStation",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          18.424716,
+          -33.920662
+        ]
+      },
+      "modes": [
+        "LightRail",
+        "Subway"
+      ]
+    }
+  },
+  {
+    "id": "a4gxy5ZqguUzZEMXGWpFoQ",
+    "href": "http://localhost:26047/api/stops/a4gxy5ZqguUzZEMXGWpFoQ",
+    "agency": {
+      "id": "J5kYAnLU20GNigwhB_OmAA",
+      "href": "http://localhost:26047/api/agencies/J5kYAnLU20GNigwhB_OmAA",
+      "name": "StopHierarchyAgency",
+      "culture": "en-US"
+    },
+    "name": "PlatformB",
+    "geometry": {
+      "type": "Point",
+      "coordinates": [
+        18.424715,
+        -33.920661
+      ]
+    },
+    "modes": [
+      "Subway"
+    ],
+    "parentStop": {
+      "id": "Z_usyGh-QkGjDNGeQZFEpg",
+      "href": "http://localhost:26047/api/stops/Z_usyGh-QkGjDNGeQZFEpg",
+      "agency": {
+        "id": "J5kYAnLU20GNigwhB_OmAA",
+        "href": "http://localhost:26047/api/agencies/J5kYAnLU20GNigwhB_OmAA",
+        "name": "StopHierarchyAgency",
+        "culture": "en-US"
+      },
+      "name": "CapeTownStation",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          18.424716,
+          -33.920662
+        ]
+      },
+      "modes": [
+        "LightRail",
+        "Subway"
+      ]
+    }
+  },
+  {
+    "id": "Vvwj0Ifj0zERtBX9VnP2Fg",
+    "href": "http://localhost:26047/api/stops/Vvwj0Ifj0zERtBX9VnP2Fg",
+    "agency": {
+      "id": "J5kYAnLU20GNigwhB_OmAA",
+      "href": "http://localhost:26047/api/agencies/J5kYAnLU20GNigwhB_OmAA",
+      "name": "StopHierarchyAgency",
+      "culture": "en-US"
+    },
+    "name": "PlatformC",
+    "geometry": {
+      "type": "Point",
+      "coordinates": [
+        18.424717,
+        -33.920661
+      ]
+    },
+    "modes": [],
+    "parentStop": {
+      "id": "Z_usyGh-QkGjDNGeQZFEpg",
+      "href": "http://localhost:26047/api/stops/Z_usyGh-QkGjDNGeQZFEpg",
+      "agency": {
+        "id": "J5kYAnLU20GNigwhB_OmAA",
+        "href": "http://localhost:26047/api/agencies/J5kYAnLU20GNigwhB_OmAA",
+        "name": "StopHierarchyAgency",
+        "culture": "en-US"
+      },
+      "name": "CapeTownStation",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          18.424716,
+          -33.920662
+        ]
+      },
+      "modes": [
+        "LightRail",
+        "Subway"
+      ]
+    }
+  }
+]
+```
+
 ### Stop Timetables
 
 A timetable of vehicles arriving and departing from a stop along their respective routes.
 
-#### Stop Timetable response model 
+#### Stop Timetable response model {#stop-timetable-model}
 
 | Attribute | Type | Description |
 | :--------- | :--- | :---- |
-| arrivalTime | string | The arrival time of the vehicle at this stop along its route. |
-| departureTime | string | The departure time of the vehicle from this stop along its route. |
+| arrivalTime | [DateTime](#datetime) | The arrival time of the vehicle at this stop along its route. |
+| departureTime | [DateTime](#datetime) | The departure time of the vehicle from this stop along its route. |
 | vehicle | [Vehicle](#vehicle-model) | If available, identifying information for the vehicle running at this time. |
 | line | [Line](#line-model) | The line from which the vehicle is traveling. |
 
@@ -651,27 +796,24 @@ A timetable of vehicles arriving and departing from a stop along their respectiv
 
 Retrieves a timetable for a stop, consisting of a list of occurrences of a vehicle calling at this stop in order of arrival time.
 
-`GET api/stops/{stopId}/timetables?earliestArrivalTime={earliestArrivalTime}&limit={limit}&at={at}`
+`GET api/stops/{stopId}/timetables?earliestArrivalTime={DateTime}&limit={int}`
 
 | Parameter | Type | Description |
 | :-------------- | :--- | :---- |
 | stopId | string | The identifier of the stop. |
 | earliestArrivalTime | [DateTime](#datetime) | The earliest arrival date and time to include in the timetable. |
 | limit | int | The maximum number of entities to be returned. Default is 10. |
-| at | [DateTime](#datetime) | The point in time from which to query. Defaults to the current date and time. |
 
 ##### Sample request
 
-```
+```http
 GET api/stops/YhYX0avSXk6mVS-uY14zVQ/timetables?earliestArrivalTime=2015-01-15T13:00:00Z
-Accept: application/json
 ```
 
 ##### Sample response
 
-```json
+```http
 200 Ok
-Content-Type: application/json
 [
 	{
 		"arrivalTime": "2015-01-15T13:25:00Z",
@@ -686,7 +828,9 @@ Content-Type: application/json
 				"culture": "en-ZA"
 			},
 			"name": "Southern Line",
-			"mode": "Rail"
+			"mode": "Rail",
+			"colour": "#ff35b5e5",
+			"textColour": "#ffffffff"
 		},
 		"vehicle": {
 			"designation":"002",
@@ -707,7 +851,9 @@ Content-Type: application/json
 				"culture": "en-ZA"
 			},
 			"name": "Southern Line",
-			"mode": "Rail"
+			"mode": "Rail",
+			"colour": "#ff35b5e5",
+			"textColour": "#ffffffff"
 		},
 		"vehicle": {
 			"designation":"001",
@@ -722,7 +868,7 @@ Content-Type: application/json
 
 A grouping together of routes marketed to passengers as a single section of the transit network.
 
-#### Line response model 
+#### Line response model {#line-model}
 
 | Attribute | Type | Description |
 | :--------- | :--- | :---- |
@@ -740,7 +886,7 @@ A grouping together of routes marketed to passengers as a single section of the 
 
 Retrieves a collection of lines.
 
-`GET api/lines?agencies={agencies}&servesStops={servesStops}&limit={limit}&offset={offset}&at={at}`
+`GET api/lines?agencies={agencies}&servesStops={stops}&limit={int}&offset={int}`
 
 | Parameter | Type | Description |
 | :-------------- | :--- | :---- |
@@ -748,20 +894,17 @@ Retrieves a collection of lines.
 | servesStops | string | A comma-separated list of stop identifiers that represent stops which the returned lines must serve or visit. |
 | limit | int | The maximum number of entities to be returned. Default is 100. |
 | offset | int | The offset of the first entity returned. Default is 0. |
-| at | [DateTime](#datetime) | The point in time from which to query. Defaults to the current date and time. |
 
 ##### Sample request
 
-```
+```http
 GET api/lines?agencies=TW5uToIpeWUEaTlYDTnK&servesStops=4ODGMWFlNUCg3a0g0AeCIw
-Accept: application/json
 ```
 
 ##### Sample response
 
-```json
+```http
 200 Ok
-Content-Type: application/json
 [
     {
         "id": "O29agx-avU-Xb1c-j_0Nvg",
@@ -816,25 +959,22 @@ Content-Type: application/json
 
 Retrieves a line by its identifier.
 
-`GET api/lines/{lineId}?at={at}`
+`GET api/lines/{lineId}`
 
 | Parameter | Type | Description |
 | :-------------- | :--- | :---- |
 | lineId | string | The identifier of the line. |
-| at | [DateTime](#datetime) | The point in time from which to query. Defaults to the current date and time. |
 
 ##### Sample request
 
-```
+```http
 GET api/lines/O29agx-avU-Xb1c-j_0Nvg
-Accept: application/json
 ```
 
 ##### Sample response
 
-```json
+```http
 200 Ok
-Content-Type: application/json
 {
     "id": "O29agx-avU-Xb1c-j_0Nvg",
     "href": "https://transit.whereismytransport.com/api/lines/O29agx-avU-Xb1c-j_0Nvg",
@@ -856,7 +996,7 @@ Content-Type: application/json
 
 A timetable of vehicles travelling on a line.
 
-#### Line Timetable response model 
+#### Line Timetable response model
 
 | Attribute | Type | Description |
 | :--------- | :--- | :---- |
@@ -867,30 +1007,26 @@ A timetable of vehicles travelling on a line.
 
 Retrieves a timetable for a line, consisting of a list of departures on this line in order of departure time.
 
-`GET api/lines/{lineId}/timetables?earliestDepartureTime={earliestDepartureTime}&limit={limit}&at={at}`
+`GET api/lines/{lineId}/timetables?earliestDepartureTime={DateTime}&departureStopId={stop}&arrivalStopId={stop}&limit={int}`
 
 | Query Parameter | Type | Notes |
 | :-------------- | :--- | :---- |
 | lineId | string | Required line identifier to get timetables by. |
-| earliestDepartureTime | string | Optional earliest departure time on that line to be included in the timetable. |
-| limit | int | The maximum number of entities to be returned. Default is 10. |
-| at | [DateTime](#datetime) | The point in time from which to query. Defaults to the current date and time. |
+| earliestDepartureTime | [DateTime](#datetime) | Optional earliest departure time on that line to be included in the timetable. |
 | departureStopId | string | Optional stop identifier - bounds results to only occur after this stop. |
 | arrivalStopId | string | Optional stop identifier - bounds results to only occur before this stop. |
+| limit | int | The maximum number of entities to be returned. Default is 10. |
 
+#####Sample request
 
-##### Sample request
-
-```
+```http
 GET api/lines/abcdefghijklmn/timetables?earliestArrivalTime=2020-01-15T10:00:00&departureStopId=kSukOlW7cES5C55WRpp41Q&arrivalStopId=cuKWweFQ9UmxwAcHcht48A
-Accept: application/json
 ```
 
-##### Sample response
+#####Sample response
 
-```json
+```http
 200 Ok
-Content-Type: application/json
 [
     {
 		"vehicle": {
@@ -916,7 +1052,10 @@ Content-Type: application/json
                             18.471437,
                             -33.937752
                         ]
-                    }
+                    },
+					"modes": [
+						"Rail"
+					]
                 },
                 "arrivalTime":"2020-01-15T12:58:00Z",
                 "departureTime":"2020-01-15T13:00:00Z"
@@ -938,7 +1077,10 @@ Content-Type: application/json
                             18.445819,
                             -33.924728
                         ]
-                    }
+                    },
+					"modes": [
+						"Rail"
+					]
                 },
                 "arrivalTime":"2020-01-15T13:08:00Z",
                 "departureTime":"2020-01-15T13:10:00Z"
@@ -960,7 +1102,10 @@ Content-Type: application/json
                             18.465346,
                             -33.926687
                         ]
-                    }
+                    },
+					"modes": [
+						"Rail"
+					]
                 },
                 "arrivalTime":"2020-01-15T13:18:00Z",
                 "departureTime":"2020-01-15T13:20:00Z"
@@ -983,7 +1128,10 @@ Content-Type: application/json
                             18.425102,
                             -33.922153
                         ]
-                    }
+                    },
+					"modes": [
+						"Rail"
+					]
                 },
                 "arrivalTime":"2020-01-15T13:25:00Z",
                 "departureTime":"2020-01-15T13:27:00Z"
@@ -993,253 +1141,50 @@ Content-Type: application/json
 ]
 ```
 
-### Line Shapes
-
-A representation of the geometry of a line.
-
-#### Shape response model 
-
-| Attribute | Type | Description |
-| :--------- | :--- | :---- |
-| departureStop | [Stop](#stop-model) | The stop at which this shape segment begins. |
-| arrivalStop | [Stop](#stop-model) | The stop at which this shape segment ends. |
-| geometry | [GeoJSON](#geojson) LineString | The geometry of this segment, represented as a GeoJSON LineString. |
-| distance | [Distance](#distance) Distance | The distance covered by this line segment. |
-
-#### Retrieving a line shape
-
-Retrieves a shape for a line, consisting of an array of stop to stop segments that make up this line.
-
-`GET api/lines/{lineId}/shape?at={at}`
-
-| Query Parameter | Type | Notes |
-| :-------------- | :--- | :---- |
-| lineId | string | Required line identifier to get the shape for. |
-| at | [DateTime](#datetime) | The point in time from which to query. Defaults to the current date and time. |
-
-##### Sample request
-
-```
-GET api/lines/abcdefghijklmn/shape
-Accept: application/json
-```
-
-##### Sample response
-
-```json
-200 Ok
-Content-Type: application/json
-[
-    {
-        "departureStop":{
-            "id":"dcatkFBK2c_ujOwEkxZuZQ",
-            "href":"https://transit.whereismytransport.com/api/stops/dcatkFBK2c_ujOwEkxZuZQ",
-            "agency":{
-                "id":"SvSVmqO4ykyOnbfOoDNrVA",
-                "href":"https://transit.whereismytransport.com/api/agencies/SvSVmqO4ykyOnbfOoDNrVA",
-                "name":"FakeAgency1",
-                "culture":"en-US"
-            },
-            "name":"FakeStop1",
-            "geometry":{
-                "type":"Point",
-                "coordinates":[
-                    18.001,
-                    -33.001
-                ]
-            }
-        },
-        "arrivalStop":{
-            "id":"KvrtrceCJ0q7t4fJNTCF6w",
-            "href":"https://transit.whereismytransport.com/api/stops/KvrtrceCJ0q7t4fJNTCF6w",
-            "agency":{
-                "id":"SvSVmqO4ykyOnbfOoDNrVA",
-                "href":"https://transit.whereismytransport.com/api/agencies/SvSVmqO4ykyOnbfOoDNrVA",
-                "name":"FakeAgency1",
-                "culture":"en-US"
-            },
-            "name":"FakeStop2",
-            "geometry":{
-                "type":"Point",
-                "coordinates":[
-                    18.002,
-                    -33.002
-                ]
-            }
-        },
-        "geometry":{
-            "type":"LineString",
-            "coordinates":[
-                [
-                    -33.001,
-                    18.001
-                ],
-                [
-                    -33.0015,
-                    18.0015
-                ],
-                [
-                    -33.002,
-                    18.002
-                ]
-            ]
-        },
-        "distance":{
-            "value":100,
-            "unit":"m"
-        }
-    },
-    {
-        "departureStop":{
-            "id":"KvrtrceCJ0q7t4fJNTCF6w",
-            "href":"https://transit.whereismytransport.com/api/stops/KvrtrceCJ0q7t4fJNTCF6w",
-            "agency":{
-                "id":"SvSVmqO4ykyOnbfOoDNrVA",
-                "href":"https://transit.whereismytransport.com/api/agencies/SvSVmqO4ykyOnbfOoDNrVA",
-                "name":"FakeAgency1",
-                "culture":"en-US"
-            },
-            "name":"FakeStop2",
-            "geometry":{
-                "type":"Point",
-                "coordinates":[
-                    18.002,
-                    -33.002
-                ]
-            }
-        },
-        "arrivalStop":{
-            "id":"BYNKkAFHoNdFPuQ6q3LZQw",
-            "href":"https://transit.whereismytransport.com/api/stops/BYNKkAFHoNdFPuQ6q3LZQw",
-            "agency":{
-                "id":"SvSVmqO4ykyOnbfOoDNrVA",
-                "href":"https://transit.whereismytransport.com/api/agencies/SvSVmqO4ykyOnbfOoDNrVA",
-                "name":"FakeAgency1",
-                "culture":"en-US"
-            },
-            "name":"FakeStop3",
-            "geometry":{
-                "type":"Point",
-                "coordinates":[
-                    18.003,
-                    -33.003
-                ]
-            }
-        },
-        "geometry":{
-            "type":"LineString",
-            "coordinates":[
-                [
-                    -33.002,
-                    18.002
-                ],
-                [
-                    -33.003,
-                    18.003
-                ]
-            ]
-        },
-        "distance":{
-            "value":100,
-            "unit":"m"
-        }
-    },
-    {
-        "departureStop":{
-            "id":"BYNKkAFHoNdFPuQ6q3LZQw",
-            "href":"https://transit.whereismytransport.com/api/stops/BYNKkAFHoNdFPuQ6q3LZQw",
-            "agency":{
-                "id":"SvSVmqO4ykyOnbfOoDNrVA",
-                "href":"https://transit.whereismytransport.com/api/agencies/SvSVmqO4ykyOnbfOoDNrVA",
-                "name":"FakeAgency1",
-                "culture":"en-US"
-            },
-            "name":"FakeStop3",
-            "geometry":{
-                "type":"Point",
-                "coordinates":[
-                    18.003,
-                    -33.003
-                ]
-            }
-        },
-        "arrivalStop":{
-            "id":"epZ8fJA2FuL7q1iktK-dAA",
-            "href":"https://transit.whereismytransport.com/api/stops/epZ8fJA2FuL7q1iktK-dAA",
-            "agency":{
-                "id":"SvSVmqO4ykyOnbfOoDNrVA",
-                "href":"https://transit.whereismytransport.com/api/agencies/SvSVmqO4ykyOnbfOoDNrVA",
-                "name":"FakeAgency1",
-                "culture":"en-US"
-            },
-            "name":"FakeStop4",
-            "geometry":{
-                "type":"Point",
-                "coordinates":[
-                    18.004,
-                    -33.004
-                ]
-            }
-        },
-        "geometry":{
-            "type":"LineString",
-            "coordinates":[
-                [
-                    -33.003,
-                    18.003
-                ],
-                [
-                    -33.004,
-                    18.004
-                ]
-            ]
-        },
-        "distance":{
-            "value":100,
-            "unit":"m"
-        }
-    }
-]
-```
-
 ### Journeys
 
 A journey is the traveling of a passenger from a departure point to an arrival point.  A journey can consist of zero to many possible itineraries, each a travel option in getting from A to B. An itinerary consists of one to many legs, describing the path and mode of transit, to take in order to complete the journey.
 
-#### Journey response model 
+#### Journey response model {#journey-model}
 
 | Attribute | Type | Description |
 | :--------- | :--- | :---- |
 | id | string | The identifier of the journey. |
 | href | string | The hyperlink pointing to the journey. |
 | geometry | [GeoJSON](#geojson) MultiPoint | An ordered GeoJSON MultiPoint representing the departure and arrival points for the the journey. |
-| earliestDepartureTime | [DateTime](#datetime) | The earliest desired departure date and time for the journey.  |
-| latestArrivalTime | [DateTime](#datetime) | The latest desired arrival date and time for the journey. |
+| time | [DateTime](#datetime) | The requested date and time for the journey.  |
+| timeType | [TimeType](#timeType) | Specifies whether this is an ArriveBefore or DepartAfter request. |
+| profile | [Profile](#profile) | The profile used to calculate and order itineraries. |
+| fareProducts | Array of string | The list of [fare products](#fare-products) identifiers to try to use when calculating the journey fare. |
 | maxItineraries | integer | The maximum number of itineraries to return. |
-| modes | Array of [Mode](#modes) | The explicit set of modes used. |
-| agencies | Array of string | The list of agencies queried in such journey. |
+| only | [Filter](#filter) | The explicit set of modes and agencies to use. If unset, all modes and agencies are used. |
+| omit | [Filter](#filter) | The explicit set of modes and agencies to exclude. If unset, all modes and agencies are used. If only one mode or agency is excluded all other modes or agencies are used. Omit takes preference over only if both are specified for the same mode or agency.|
 | itineraries | Array of [Itinerary](#itinerary-model) | **[**[Excludable](#excludable)**]** The available itineraries for this journey. |
+
+
+
 
 #### Creating a journey
 
 Creating a new journey is done by posting the journey's criteria to the resource.
 
-`POST api/journeys?fareproducts={fareProductIds}`
+`POST api/journeys`
 
 | Attribute | Type | Required | Description |
 | :--------- | :--- | :--- | :---- |
 | geometry | [GeoJSON](#geojson) MultiPoint | Required | An ordered GeoJSON MultiPoint representing the departure and arrival points for the the journey. Exactly two points must be provided. |
-| earliestDepartureTime | [DateTime](#datetime) | Optional | The earliest desired departure date and time for the journey. Optional. Either earliestDepartureTime or latestArrivalTime must be provided, but not both. |
-| latestArrivalTime | [DateTime](#datetime) | Optional | The latest desired arrival date and time for the journey. Optional. Either earliestDepartureTime or latestArrivalTime must be provided, but not both. |
+| time | [DateTime](#datetime) | Optional | The requested date and time for the journey. Defaults to Now. |
+| timeType | [TimeType](#timeType) | Optional | Specifies whether this is an ArriveBefore or DepartAfter request. Defaults to DepartAfter. |
+| profile | Array of [Profile](#profile) | Required | The profile used to calculate and order itineraries. |
+| fareProducts | Array of string | Optional | The list of [fare products](#fare-products) identifiers to try to use when calculating the journey fare. |
 | maxItineraries | integer | Optional | The maximum number of itineraries to return. This must be a value between or including 1 and 5. Default is 3. |
-| modes | Array of [Mode](#mode) | Optional | The explicit set of modes to use. If unset, all modes are used. |
-| agencies | Array of string | Optional | The list of agencies to query. |
-| fareProductIds | string | Optional | A string of comma-separated [fare products](#fare-products) identifiers to try to use when calculating the journey fare. |
+| only | [Filter](#filter) | Optional | The explicit set of modes and agencies to use. If unset, all modes and agencies are used. |
+| omit | [Filter](#filter) | Optional | The explicit set of modes and agencies to exclude. If unset, all modes and agencies are used. If only one mode or agency is excluded all other modes or agencies are used. Omit takes preference over only if both are specified for the same mode or agency.|
 
 ##### Sample request
 
 ```json
-POST api/journeys?fareProducts=pTjYadjcAk6j7aVUAMV9rr,oiaeddjcAk6j7aVUAMV123
+POST api/journeys
 Accept: application/json
 Content-Type: application/json
 {
@@ -1257,7 +1202,18 @@ Content-Type: application/json
 		]
     },
     "earliestDepartureTime": "2015-01-15T10:00:00Z",
-    "maxItineraries": 1
+    "maxItineraries": 1,
+	"only":{    
+        "agencies": ["CUJ2ZhcOm0y7wO1KsjUgPA"],
+		"modes": ["Rail"]
+    },
+    "omit": {
+        "modes": ["Air"]
+    },
+    "time": "2015-01-15T10:00:00Z",
+	"timeType": "DepartAfter",
+	"profile" : "ClosestToTime",
+	"fareProducts": [ "vQYeSTuzMUWkPKZVATYFcg" ]
 }
 ```
 
@@ -1282,8 +1238,24 @@ Content-Type: application/json
             ]
         ]
     },
-    "earliestDepartureTime": "2015-01-15T10:00:00Z",
+    "time": "2015-01-15T10:00:00Z",
+	"timeType": "DepartAfter",
+	"profile" : "ClosestToTime",
+	"fareProducts": [ "vQYeSTuzMUWkPKZVATYFcg" ],
     "maxItineraries": 1,
+	"only":{    
+        "agencies": [
+		  "CUJ2ZhcOm0y7wO1KsjUgPA"
+		],
+		"modes": [
+		  "Rail"
+		]
+    },
+    "omit": {
+        "modes": [
+		  "Air"
+		]
+    },
     "itineraries": [
         {
             "id": "dnCQV5Kq0kaq5KVUAMV_eQ",
@@ -1336,7 +1308,10 @@ Content-Type: application/json
                                         18.425102,
                                         -33.922153
                                     ]
-                                }
+                                },
+								"modes": [
+									"Rail"
+								]
                             },
                             "arrivalTime": "2015-01-15T12:02:00Z",
                             "departureTime": "2015-01-15T12:02:00Z"
@@ -1357,7 +1332,7 @@ Content-Type: application/json
 								"unit": "m"
 							}
 						}
-					]
+					],
                     "geometry": {
                         "type": "LineString",
                         "coordinates": [
@@ -1401,7 +1376,9 @@ Content-Type: application/json
 							"culture": "en-ZA"
 						},
                         "name": "Southern Line",
-                        "mode": "Rail"
+                        "mode": "Rail",
+						"colour": "#ff35b5e5",
+						"textColour": "#ffffffff"
                     },
 					"vehicle": {
 						"designation": "0195",
@@ -1413,6 +1390,12 @@ Content-Type: application/json
 						"fareProduct": {
 							"id": "pTjYadjcAk6j7aVUAMV9rr",
                             "href": "https://transit.whereismytransport.com/api/fareproducts/EREREREREREREREREREREQ",
+							"agency": {
+								"id": "CUJ2ZhcOm0y7wO1KsjUgPA",
+								"href": "https://transit.whereismytransport.com/api/agencies/CUJ2ZhcOm0y7wO1KsjUgPA",
+								"name": "Metrorail Cape Town",
+								"culture": "en-ZA"
+							},
 							"name": "Adult Single MetroPlus",
 							"isDefault": true,
 							"description": "First class ticket price for an adult making a one-way journey."
@@ -1442,7 +1425,10 @@ Content-Type: application/json
                                         18.425102,
                                         -33.922153
                                     ]
-                                }
+                                },
+								"modes": [
+									"Rail"
+								]
                             },
                             "arrivalTime": "2015-01-15T12:02:00Z",
                             "departureTime": "2015-01-15T12:02:00Z"
@@ -1464,7 +1450,10 @@ Content-Type: application/json
                                         18.465346,
                                         -33.926687
                                     ]
-                                }
+                                },
+								"modes": [
+									"Rail"
+								]
                             },
                             "arrivalTime": "2015-01-15T12:30:00Z",
                             "departureTime": "2015-01-15T12:32:00Z"
@@ -1486,7 +1475,10 @@ Content-Type: application/json
                                         18.445819,
                                         -33.924728
                                     ]
-                                }
+                                },
+								"modes": [
+									"Rail"
+								]
                             },
                             "arrivalTime": "2015-01-15T13:00:00Z",
                             "departureTime": "2015-01-15T13:02:00Z"
@@ -1559,14 +1551,17 @@ Content-Type: application/json
                                         18.471437,
                                         -33.937752
                                     ]
-                                }
+                                },
+								"modes": [
+									"Rail"
+								]
                             },
                             "arrivalTime": "2015-01-15T13:30:00Z",
                             "departureTime": "2015-01-15T13:30:00Z"
                         },
                         {
                             "location": {
-								"address": "79 Station Road, Observatory, Cape Town, 7925"
+								"address": "79 Station Road, Observatory, Cape Town, 7925",
                                 "geometry": {
                                     "type": "Point",
                                     "coordinates": [
@@ -1622,7 +1617,7 @@ Content-Type: application/json
 								"unit": "m"
 							}
 						}
-					]
+					],
                     "geometry": {
                         "type": "LineString",
                         "coordinates": [
@@ -1675,16 +1670,33 @@ Content-Type: application/json
 }
 ```
 
+##### Time types
+
+Specifies whether this is an ArriveBefore or DepartAfter request.
+
+| Value | Description |
+| :--------- | :--- | :---- |
+| DepartAfter | This journey must depart after the given time, at the earliest. |
+| ArriveBefore | This journey must arrive before the given time, at the latest. |
+
+##### Profiles
+
+The profile used to calculate the itinerary options for a journey.
+
+| Value | Description |
+| :--------- | :--- | :---- |
+| ClosestToTime | Absolutely closest to the requested date - earliest for DepartAfter, and latest for ArriveBefore. |
+| FewestTransfers | Fewest connections between vehicles, also prioritising closest to time. |
+
 #### Retrieving a journey
 
 Retrieving a previously requested journey and its itineraries can be done using the following request.
 
-`GET api/journeys/{journeyId}?fareproducts={fareProductIds}`
+`GET api/journeys/{journeyId}`
 
 | Parameter | Type | Description |
 | :-------------- | :--- | :---- |
 | journeyId | string | The identifier of the journey. |
-| fareProductIds | string | Optional | A string of comma-separated [fare products](#fare-products) identifiers to try to use when calculating the journey fare. |
 
 ##### Sample request
 
@@ -1701,13 +1713,13 @@ Accept: application/json
 200 Ok
 Content-Type: application/json
 {
-    //omitted for brevity
+    <omitted for brevity>
 }
 ```
 
 ### Itineraries
 
-#### Itinerary response model 
+#### Itinerary response model {#itinerary-model}
 
 | Attribute | Type | Description |
 | :--------- | :--- | :---- |
@@ -1723,13 +1735,12 @@ Content-Type: application/json
 
 To retrieve a specific itinerary for a previously created journey, the following resource can be requested.
 
-`GET api/journeys/{journeyId}/itineraries/{itineraryId}?fareproducts={fareProductIds}`
+`GET api/journeys/{journeyId}/itineraries/{itineraryId}`
 
 | Parameter | Type | Required | Description |
 | :-------------- | :--- | :--- | :---- |
 | journeyId | string | Required | The identifier of the journey. |
 | itineraryId | string | Required | The identifier of the itinerary. |
-| fareProductIds | string | Optional | A string of comma-separated [fare products](#fare-products) identifiers to try to use when calculating the journey fare. |
 
 ##### Sample request
 
@@ -1794,7 +1805,10 @@ Content-Type: application/json
                                 18.425102,
                                 -33.922153
                             ]
-                        }
+                        },
+						"modes": [
+							"Rail"
+						]
                     },
                     "arrivalTime": "2015-01-15T12:02:00Z",
                     "departureTime": "2015-01-15T12:02:00Z"
@@ -1815,7 +1829,7 @@ Content-Type: application/json
 						"unit": "m"
 					}
 				}
-			]
+			],
             "geometry": {
                 "type": "LineString",
                 "coordinates": [
@@ -1859,7 +1873,9 @@ Content-Type: application/json
 					"culture": "en-ZA"
 				},
                 "name": "Southern Line",
-                "mode": "Rail"
+                "mode": "Rail",
+				"colour": "#ff35b5e5",
+				"textColour": "#ffffffff"
             },
 			"vehicle": {
 				"designation": "0195",
@@ -1871,6 +1887,12 @@ Content-Type: application/json
 				"fareProduct": {
 					"id": "EREREREREREREREREREREQ",
                     "href": "https://transit.whereismytransport.com/api/fareproducts/EREREREREREREREREREREQ",
+					"agency": {
+						"id": "CUJ2ZhcOm0y7wO1KsjUgPA",
+						"href": "https://transit.whereismytransport.com/api/agencies/CUJ2ZhcOm0y7wO1KsjUgPA",
+						"name": "Metrorail Cape Town",
+						"culture": "en-ZA"
+					},
 					"name": "Adult Single MetroPlus",
 					"isDefault": true,
 					"description": "First class ticket price for an adult making a one-way journey."
@@ -1900,7 +1922,10 @@ Content-Type: application/json
                                 18.425102,
                                 -33.922153
                             ]
-                        }
+                        },
+						"modes": [
+							"Rail"
+						]
                     },
                     "arrivalTime": "2015-01-15T12:02:00Z",
                     "departureTime": "2015-01-15T12:02:00Z"
@@ -1922,7 +1947,10 @@ Content-Type: application/json
                                 18.465346,
                                 -33.926687
                             ]
-                        }
+                        },
+						"modes": [
+							"Rail"
+						]
                     },
                     "arrivalTime": "2015-01-15T12:30:00Z",
                     "departureTime": "2015-01-15T12:32:00Z"
@@ -1944,7 +1972,10 @@ Content-Type: application/json
                                 18.445819,
                                 -33.924728
                             ]
-                        }
+                        },
+						"modes": [
+							"Rail"
+						]
                     },
                     "arrivalTime": "2015-01-15T13:00:00Z",
                     "departureTime": "2015-01-15T13:02:00Z"
@@ -2017,14 +2048,17 @@ Content-Type: application/json
                                 18.471437,
                                 -33.937752
                             ]
-                        }
+                        },
+						"modes": [
+							"Rail"
+						]
                     },
                     "arrivalTime": "2015-01-15T13:30:00Z",
                     "departureTime": "2015-01-15T13:30:00Z"
                 },
                 {
                     "location": {
-						"address": "79 Station Road, Observatory, Cape Town, 7925"
+						"address": "79 Station Road, Observatory, Cape Town, 7925",
                         "geometry": {
                             "type": "Point",
                             "coordinates": [
@@ -2080,7 +2114,7 @@ Content-Type: application/json
 						"unit": "m"
 					}
 				}
-			]
+			],
             "geometry": {
                 "type": "LineString",
                 "coordinates": [
@@ -2135,7 +2169,7 @@ Content-Type: application/json
 
 A leg is a section of an itinerary carried out by a passenger on one mode of transit (including walking) from some departure point to an arrival point.
 
-#### Types of legs 
+#### Types of legs {#types-of-legs}
 
 The Transit API currently supports two types of legs, each with a different response model.
 
@@ -2143,7 +2177,7 @@ A _Walking_ leg is one which the passenger is to travel by foot from one waypoin
 
 A _Transit_ leg is one which uses a public transportation service based on scheduled or absolute frequency-based stop times.
 
-#### Leg response model 
+#### Leg response model {#leg-model}
 
 | Attribute | Type | Description |
 | :--------- | :--- | :---- |
@@ -2213,7 +2247,10 @@ Content-Type: application/json
                         18.425102,
                         -33.922153
                     ]
-                }
+                },
+				"modes": [
+					"Rail"
+				]
             },
             "arrivalTime": "2015-01-15T12:02:00Z",
             "departureTime": "2015-01-15T12:02:00Z"
@@ -2234,7 +2271,7 @@ Content-Type: application/json
 				"unit": "m"
 			}
 		}
-	]
+	],
     "geometry": {
         "type": "LineString",
         "coordinates": [
@@ -2263,7 +2300,7 @@ Content-Type: application/json
 }
 ```
 
-#### Vehicle response model 
+#### Vehicle response model
 
 Describes a single transit vehicle along a line so that it can be identified by passengers.
 
@@ -2273,7 +2310,7 @@ Describes a single transit vehicle along a line so that it can be identified by 
 | direction | string | If available, the direction of the vehicle, for example, "Northbound" or "Clockwise" |
 | headsign | string | If available, identifying information (such as destination) displayed on the vehicle. |
 
-#### Waypoint response model 
+#### Waypoint response model
 
 A waypoint is a stopping point along an itinerary. It has either an arrival date and time or a departure date and time, or both.
 
@@ -2284,7 +2321,7 @@ A waypoint is a stopping point along an itinerary. It has either an arrival date
 | stop | [Stop](#stop-model) | **[**[Excludable](#excludable)**]** The stop of the waypoint. This can be returned in either Walking or Transit legs. |
 | location | [Location](#location-model) | The location of the waypoint if it is not a stop. This can be returned in only Walking legs. |
 
-#### Direction response model 
+#### Direction response model
 
 If available, the directions to follow in order to get from the start to the end of a leg.
 
@@ -2293,18 +2330,18 @@ If available, the directions to follow in order to get from the start to the end
 | instruction | string | The instruction to follow. |
 | distance | [Distance](#distance) | The distance to travel after the instruction has been followed. |
 
-#### Location response model 
+#### Location response model
 
 | Attribute | Type | Description |
 | :--------- | :--- | :---- |
 | address | string | The reverse geocoded address of the point. |
 | geometry | [GeoJSON](#geojson) Point | The geographic point of the location. |
 
-### Fares 
+### Fares {#fares}
 
 A fare is the cost incurred by a commuter when using a transit service.  Essentially, it is the price associated with a journey's itinerary for a particular fare product or set of fare products.
 
-#### Fare response model 
+#### Fare response model
 
 | Attribute | Type | Description |
 | :--------- | :--- | :---- |
@@ -2322,7 +2359,7 @@ When creating or retrieving a journey, or when retrieving a journey's itinerarie
 When creating a new journey:
 
 ```json
-POST api/journeys?fareproducts=EREREREREREREREREREREQ
+POST api/journeys
 Accept: application/json
 Content-Type: application/json
 {
@@ -2339,28 +2376,20 @@ Content-Type: application/json
             ]
         ]
     },
-    "earliestDepartureTime": "2015-01-15T10:00:00Z"
+    "time": "2015-01-15T10:00:00Z",
+	"timeType": "LatestArrival",
+	"fareProducts": [ "vQYeSTuzMUWkPKZVATYFcg" ]
 }
 ```
 
-When retrieving an itinerary, different fare products may be applied to it.  
-
-`GET/api/journeys/{JourneyId}/itineraries?fareproducts={fareProductIds}`
-
-| Parameter | Type | Required | Description |
-| :-------------- | :--- | :--- | :---- |
-| journeyId | string | Required | The identifier of the journey request. |
-| fareProductIds | string | Optional | A string of comma-separated [fare products](#fare-products) identifiers to use. |
-
 To retrieve a specific itinerary for a previously created journey, the following resource can be requested.
 
-`GET api/journeys/{journeyId}/itineraries/{itineraryId}?fareproducts={fareProductIds}`
+`GET api/journeys/{journeyId}/itineraries/{itineraryId}`
 
 | Parameter | Type | Required | Description |
 | :-------------- | :--- | :--- | :---- |
 | journeyId | string | Required | The identifier of the journey. |
 | itineraryId | string | Required | The identifier of the itinerary. |
-| fareProductIds | string | Optional | A string of comma-separated [fare products](#fare-products) identifiers to use. |
 
 ##### Sample request
 
@@ -2425,7 +2454,10 @@ Content-Type: application/json
                                 18.425102,
                                 -33.922153
                             ]
-                        }
+                        },
+						"modes": [
+							"Rail"
+						]
                     },
                     "arrivalTime": "2015-01-15T12:02:00Z",
                     "departureTime": "2015-01-15T12:02:00Z"
@@ -2446,7 +2478,7 @@ Content-Type: application/json
 						"unit": "m"
 					}
 				}
-			]
+			],
             "geometry": {
                 "type": "LineString",
                 "coordinates": [
@@ -2490,13 +2522,21 @@ Content-Type: application/json
 					"culture": "en-ZA"
 				},
                 "name": "Southern Line",
-                "mode": "Rail"
+                "mode": "Rail",
+				"colour": "#ff35b5e5",
+				"textColour": "#ffffffff"
             },
 			"fare": {
 				"description": "Standard fare.",
 				"fareProduct": {
 					"id": "EREREREREREREREREREREQ",
                     "href": "https://transit.whereismytransport.com/api/fareproducts/EREREREREREREREREREREQ",
+					"agency": {
+						"id": "CUJ2ZhcOm0y7wO1KsjUgPA",
+						"href": "https://transit.whereismytransport.com/api/agencies/CUJ2ZhcOm0y7wO1KsjUgPA",
+						"name": "Metrorail Cape Town",
+						"culture": "en-ZA"
+					},
 					"name": "Adult Single MetroPlus",
 					"isDefault": true,
 					"description": "First class ticket price for an adult making a one-way journey."
@@ -2526,7 +2566,10 @@ Content-Type: application/json
                                 18.425102,
                                 -33.922153
                             ]
-                        }
+                        },
+						"modes": [
+							"Rail"
+						]
                     },
                     "arrivalTime": "2015-01-15T12:02:00Z",
                     "departureTime": "2015-01-15T12:02:00Z"
@@ -2548,7 +2591,10 @@ Content-Type: application/json
                                 18.465346,
                                 -33.926687
                             ]
-                        }
+                        },
+						"modes": [
+							"Rail"
+						]
                     },
                     "arrivalTime": "2015-01-15T12:30:00Z",
                     "departureTime": "2015-01-15T12:32:00Z"
@@ -2570,7 +2616,10 @@ Content-Type: application/json
                                 18.445819,
                                 -33.924728
                             ]
-                        }
+                        },
+						"modes": [
+							"Rail"
+						]
                     },
                     "arrivalTime": "2015-01-15T13:00:00Z",
                     "departureTime": "2015-01-15T13:02:00Z"
@@ -2643,14 +2692,17 @@ Content-Type: application/json
                                 18.471437,
                                 -33.937752
                             ]
-                        }
+                        },
+						"modes": [
+							"Rail"
+						]
                     },
                     "arrivalTime": "2015-01-15T13:30:00Z",
                     "departureTime": "2015-01-15T13:30:00Z"
                 },
                 {
                     "location": {
-						"address": "79 Station Road, Observatory, Cape Town, 7925"
+						"address": "79 Station Road, Observatory, Cape Town, 7925",
                         "geometry": {
                             "type": "Point",
                             "coordinates": [
@@ -2706,7 +2758,7 @@ Content-Type: application/json
 						"unit": "m"
 					}
 				}
-			]
+			],
             "geometry": {
                 "type": "LineString",
                 "coordinates": [
@@ -2757,7 +2809,7 @@ Content-Type: application/json
 }
 ```
 
-### Fare Products 
+### Fare Products {#fare-products}
 
 A fare product is a fare scheme offered to passenger by an agency and will decide the total [fare](#fares) incurred when using a transit service. Note that they may be subject to eligibility restrictions. For example, a "Child Single" fare product might only be allowed to be used by children.
 
@@ -2767,6 +2819,7 @@ A fare product is a fare scheme offered to passenger by an agency and will decid
 | :--------- | :--- | :---- |
 | id | string | The identifier of the fare product. |
 | href | string | The hyperlink pointing to the fare product. |
+| agency | [Agency](#agency-model) | **[**[Excludable](#excludable)**]** The fare product's agency. |
 | name | string | The commuter-friendly name of the fare product. |
 | isDefault | bool | Flag specifying whether this is the default fare product for this agency. |
 | description | string | A commuter-friendly description of the fare product. |
@@ -2800,6 +2853,12 @@ Content-Type: application/json
     {
         "id": "q5d1eTAVa87aG6Ki2lRqmw",
         "href": "https://transit.whereismytransport.com/api/fareproducts/q5d1eTAVa87aG6Ki2lRqmw",
+		"agency": {
+			"id": "CUJ2ZhcOm0y7wO1KsjUgPA",
+            "href": "https://transit.whereismytransport.com/api/agencies/CUJ2ZhcOm0y7wO1KsjUgPA",
+			"name": "Metrorail Cape Town",
+			"culture": "en-ZA"
+		},
         "name": "Adult Single",
 		"isDefault": true,
         "description": "Default ticket price for an adult making a one-way journey."
@@ -2807,165 +2866,15 @@ Content-Type: application/json
     {
         "id": "UKQrSP1DLpVh5Gj8V-AhmL",
         "href": "https://transit.whereismytransport.com/api/fareproducts/UKQrSP1DLpVh5Gj8V-AhmL",
+		"agency": {
+			"id": "CUJ2ZhcOm0y7wO1KsjUgPA",
+            "href": "https://transit.whereismytransport.com/api/agencies/CUJ2ZhcOm0y7wO1KsjUgPA",
+			"name": "Metrorail Cape Town",
+			"culture": "en-ZA"
+		},
         "name": "Child Single",
 		"isDefault": false,
         "description": "Ticket price for an child making a one-way journey."
     }
 ]
 ```
-
-### Fare Tables
-
-A fare table is a matrix associated with a fare product, representing costs for travelling between two locations under certain conditions.
-
-#### Fare Table response model 
-
-| Attribute | Type | Description |
-| :--------- | :--- | :---- |
-| id | string | The identifier of the fare table. |
-| description | string | A commuter-friendly description of the fare table. |
-| messages | Array of string | A collection of messages regarding usage. |
-| fareTableEntries | Array of [FareTableEntry](#faretable-model) | A collection of entries, described below. |
-
-#### Fare Table Entry
-
-A fare table entry specifies the price associated with a specific origin and destination zone.
-
-#### Fare Table Entry response model 
-| Attribute | Type | Description |
-| :--------- | :--- | :---- |
-| departureZone | [FareZone](#FareZone-model) | The origin zone departing from. |
-| arrivalZone | [FareZone](#FareZone-model) | The destination zone arriving at. |
-| cost | [Cost](#cost) | The associated cost. |
-
-#### Fare Zone
-
-A fare zone is an attribute applied to one or more stops that is used when determining fares to or from this stop.
-
-#### Fare Zone response model 
-| Attribute | Type | Description |
-| :--------- | :--- | :---- |
-| name | string | The name of the zone. |
-
-### Retrieving fare tables
-
-Retrieves a collection of fare tables.
-
-`GET api/fareproducts/{fareProductId}/faretables?limit={limit}&offset={offset}&at={at}`
-
-| Parameter | Type | Description |
-| :-------------- | :--- | :---- |
-| fareProductId | string | The identifier of the fare product. |
-| limit | int | The maximum number of entities to be returned. Default is 100. |
-| offset | int | The offset of the first entity returned. Default is 0. |
-| at | [DateTime](#datetime) | The point in time from which to query. Defaults to the current date and time. |
-
-##### Sample request
-
-```json
-GET api/fareproducts/CUJ2ZhcOm0y7wO1KsjUgPA/faretables
-Accept: application/json
-```
-
-##### Sample response
-
-```json
-200 Ok
-Content-Type: application/json
-[
-  {
-    "id": "RCFEllq2dEyuAqYzAM2xrA",
-	"href": "https://transit.whereismytransport.com/api/fareproducts/CUJ2ZhcOm0y7wO1KsjUgPA/faretables/RCFEllq2dEyuAqYzAM2xrA",
-    "description": "Peak train fare matrix",
-    "messages": [
-		"Transit card required",
-		"Weekdays"
-	],
-    "fareTableEntries": [
-    {
-      "departureZone": {
-        "name": "North Station"
-      },
-      "arrivalZone": {
-        "name": "Narrow way"
-      },
-      "cost": {
-        "amount": 20,
-        "currencyCode": "ZAR"
-      }
-    },
-    {
-      "departureZone": {
-        "name": "North Station"
-      },
-      "arrivalZone": {
-        "name": "Broadway"
-      },
-      "cost": {
-        "amount": 70,
-        "currencyCode": "ZAR"
-      }
-    }
-  }
-]
-```
-
-### Retrieving a single fare table
-
-Retrieves a fare table.
-
-`GET api/fareproducts/{fareProductId}/faretables/{fareTableId}?limit={limit}&offset={offset}&at={at}`
-
-| Parameter | Type | Description |
-| :-------------- | :--- | :---- |
-| fareProductId | string | Identifier of the fare product. |
-| fareTableId | string |  Identifier of the fare table requested. |
-| limit | integer | The maximum number of entities to be returned. Default is 100. |
-| offset | integer | The offset of the first entity returned. Default is 0. |
-| at | [DateTime](#datetime) | The point in time from which to query. Defaults to the current date and time. |
-
-##### Sample request
-
-```json
-GET api/fareproducts/CUJ2ZhcOm0y7wO1KsjUgPA/faretables/RCFEllq2dEyuAqYzAM2xrA
-Accept: application/json
-```
-
-##### Sample response
-
-```json
-200 Ok
-Content-Type: application/json
-{
-  "id": "RCFEllq2dEyuAqYzAM2xrA",
-  "href": "https://transit.whereismytransport.com/api/fareproducts/CUJ2ZhcOm0y7wO1KsjUgPA/faretables/RCFEllq2dEyuAqYzAM2xrA",
-  "description": "Peak train fare matrix",
-  "messages": [],
-  "fareTableEntries": [
-  {
-    "departureZone": {
-      "name": "North Station"
-    },
-    "arrivalZone": {
-      "name": "Narrow way"
-    },
-    "cost": {
-      "amount": 20,
-      "currencyCode": "ZAR"
-    }
-  },
-  {
-    "departureZone": {
-      "name": "North Station"
-    },
-    "arrivalZone": {
-      "name": "Broadway"
-    },
-    "cost": {
-      "amount": 70,
-      "currencyCode": "ZAR"
-    }
-  }
-}
-```
-
