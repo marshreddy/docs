@@ -80,7 +80,7 @@ Using client credentials one can make requests against the _security token servi
 
 #### Security token endpoint
 
-The following is the full URI endpoint used to retrieve a token.
+The following is the full URL endpoint used to retrieve a token.
 
 `https://identity.whereismytransport.com/connect/token`
 
@@ -213,7 +213,7 @@ GET api/stops/eBTeYLPXOkWm5zyfjZVaZg
 
 ### Excluding data 
 
-In order to reduce payload, it is possible to exclude certain objects or collections from the model returned in the body of the HTTP response. This is done through the use of the **exclude** query. Fields which are _excludable_ are described in the specification with the [Excludable](#excludable) tag.
+In order to reduce payload, it is possible to exclude certain objects or collections from the model returned in the body of the HTTP response. This is done through the use of the **exclude** query. Fields which are _excludable_ are described in the specification with the [Excludable](#excluding-data) tag.
 
 | Parameter | Type | Required | Description |
 | :-------------- | :--- | :---- | :---- |
@@ -223,7 +223,7 @@ When excluding resource objects, the containing object with their **id** and **h
 
 ##### Sample request
 
-The request below will exclude **geometry** and **directions** from the resource model.
+The request below will exclude **geometry** and **directions** from the response model.
 
 ```
 POST api/journeys/8GYKddjcAk6j7aVUAMV3pw?exclude=geometry,directions
@@ -233,7 +233,7 @@ POST api/journeys/8GYKddjcAk6j7aVUAMV3pw?exclude=geometry,directions
 
 All retrievable entities from the API constitute scheduled data. This means that entities may change over time. They may not even exist forever. An agency, for example, may schedule a line's name to change, not now, but only after a certain date.  A new stop could be scheduled to only be returned from the API at some given date. 
 
-The important thing to note that is an entity could be deprecated in a future schedule. This means that any entity resource URI could return a **404 Not Found** [status code](#http-status-codes). Furthermore, new entities could be added at any point. Applications built on this API are highly encouraged to cater for this.
+The important thing to note that is an entity could be deprecated in a future schedule. This means that any entity resource URL could return a **404 Not Found** [status code](#http-status-codes). Furthermore, new entities could be added at any point. Applications built on this API are highly encouraged to cater for this.
 
 ### Pagination 
 
@@ -327,7 +327,7 @@ GET api/stops?point=-33.925430,18.436443&radius=1750
 
 #### BoundingBox 
 
-In order to provide a geographic bounding box through the query string, a comma-separated SW (south west) latitude, SW longitude, NE (north east) latitude and NE longitude must be provided in that order.  These coordiantes represent the south west and north east corners of the bounding box.
+In order to provide a geographic bounding box through the query string, a comma-separated SW (south west) latitude, SW longitude, NE (north east) latitude and NE longitude must be provided in that order.  These coordinates represent the south west and north east corners of the bounding box.
 
 ##### Sample request
 
@@ -470,12 +470,12 @@ A location where passengers can board or alight from a transport vehicle.
 | :--------- | :--- | :---- |
 | id | [Identifier](#identifiers) | The identifier of the stop. |
 | href | [hyperlink](#resource-linking) | The hyperlink to this resource. |
-| agency | [Agency](#agency-response-model) | **[**[Excludable](#excludable)**]** The agency. |
+| agency | [Agency](#agency-response-model) | **[**[Excludable](#excluding-data)**]** The agency. |
 | name | string | The full name of the stop. |
 | code | string | If available, the passenger code of the stop. |
 | geometry | [GeoJSON](#geojson) Point | The geographic point of the stop. |
 | modes | Array of [Mode](#modes) | The modes that are served by this stop. |
-| parentStop | [Stop](#stop-response-model) | **[**[Excludable](#excludable)**]** If applicable, the parent stop. |
+| parentStop | [Stop](#stop-response-model) | **[**[Excludable](#excluding-data)**]** If applicable, the parent stop. |
 
 #### Retrieving stops
 
@@ -815,7 +815,7 @@ A grouping together of routes marketed to passengers as a single section of the 
 | :--------- | :--- | :---- |
 | id | [Identifier](#identifiers) | The identifier of the line. |
 | href | [hyperlink](#resource-linking) | The hyperlink to this resource. |
-| agency | [Agency](#agency-response-model) | **[**[Excludable](#excludable)**]** The line's agency. |
+| agency | [Agency](#agency-response-model) | **[**[Excludable](#excluding-data)**]** The line's agency. |
 | name | string | If available, the full name of the line, . Either **name** or **shortName** will exist. |
 | shortName | string | If available, the short name of the line. Either **name** or **shortName** will exist. |
 | description | string | If available, a description of the line. |
@@ -1027,7 +1027,7 @@ A journey is the traveling of a passenger from a departure point to an arrival p
 | :--------- | :--- | :---- |
 | id | [Identifier](#identifiers) | The identifier of the journey. |
 | href | [hyperlink](#resource-linking) | The hyperlink to this resource. |
-| geometry | [GeoJSON](#geojson) MultiPoint | An ordered GeoJSON MultiPoint representing the departure and arrival points for the the journey. |
+| geometry | [GeoJSON](#geojson) MultiPoint | An ordered GeoJSON MultiPoint representing the departure and arrival points for the journey. |
 | time | [DateTime](#datetime) | The requested date and time for the journey.  |
 | timeType | [TimeType](#timetype) | Specifies whether this is an **ArriveBefore** or **DepartAfter** request. |
 | profile | [Profile](#profile) | The profile used to calculate and order itineraries. |
@@ -1035,7 +1035,7 @@ A journey is the traveling of a passenger from a departure point to an arrival p
 | omit | [Filter](#filter) | The explicit set of modes and agencies omitted. |
 | fareProducts | Array of [Identifier](#identifiers) | An array of [fare product](#fare-products) identifiers applied when calculating the itinerarys' fare amounts. |
 | maxItineraries | integer | The maximum number of itineraries to return. |
-| itineraries | Array of [Itinerary](#itinerary-response-model) | **[**[Excludable](#excludable)**]** The available [itineraries](#itineraries) for this journey. |
+| itineraries | Array of [Itinerary](#itinerary-response-model) | **[**[Excludable](#excluding-data)**]** The available [itineraries](#itineraries) for this journey. |
 
 #### Creating a journey
 
@@ -1045,7 +1045,7 @@ Creating a new journey is done by posting the journey's criteria to the resource
 
 | Field | Type | Required | Description |
 | :--------- | :--- | :--- | :---- |
-| geometry | [GeoJSON](#geojson) MultiPoint | Required | An ordered GeoJSON MultiPoint representing the departure and arrival points for the the journey. Exactly two points must be provided. |
+| geometry | [GeoJSON](#geojson) MultiPoint | Required | An ordered GeoJSON MultiPoint representing the departure and arrival points for the journey. Exactly two points must be provided. |
 | time | [DateTime](#datetime) | Optional | The requested date and time for the journey. Defaults to Now. |
 | timeType | [TimeType](#timetype) | Optional | Specifies whether this is an ArriveBefore or DepartAfter request. Defaults to DepartAfter. |
 | profile | [Profile](#profile) | Required | The profile used to calculate and order itineraries. |
@@ -1068,7 +1068,7 @@ The profile specifies how the itineraries should be prioritised.
 
 **ClosestToTime** (the default) returns itineraries absolutely closest to the requested date; earliest for **DepartAfter**, and latest for **ArriveBefore**.
 
-**FewestTransfers** returns itineraries with fewest connections between vehicles, and then also prioritising by closest to time.
+**FewestTransfers** returns itineraries with fewest connections between transport vehicles, and then also prioritising by closest to time.
 
 #### Filter
 
@@ -1465,7 +1465,7 @@ This request will exclude unneeded information on all contained stop, line and f
 | arrivalTime | [DateTime](#datetime) | The arrival date and time for the itinerary. |
 | distance | [Distance](#distance) | If available, the total distance of the itinerary. |
 | duration | integer | If available, the total duration of the itinerary in seconds. |
-| legs | Array of [Leg](#leg-response-model) | **[**[Excludable](#excludable)**]** The sequence of legs that make up this itinerary. |
+| legs | Array of [Leg](#leg-response-model) | **[**[Excludable](#excluding-data)**]** The sequence of legs that make up this itinerary. |
 
 #### Retrieving a specific itinerary
 
@@ -1503,12 +1503,12 @@ A _Transit_ leg is one which uses a public transportation service based on sched
 | type | string | The [type of leg](#types-of-legs), either _Walking_ or _Transit_. |
 | distance | [Distance](#distance) | If available, the total distance of the leg. |
 | duration | integer | If available, the total duration of the leg in seconds. |
-| line | [Line](#line-response-model) | **[**[Excludable](#excludable)**]** The line that is used on this leg of the itinerary. This is only returned for _Transit_ legs. |
-| vehicle | [Vehicle](#vehicle-response-model) | **[**[Excludable](#excludable)**]** Identifying information for the vehicle that is used on this leg of the itinerary. This is only returned for _Transit_ legs. |
+| line | [Line](#line-response-model) | **[**[Excludable](#excluding-data)**]** The line that is used on this leg of the itinerary. This is only returned for _Transit_ legs. |
+| vehicle | [Vehicle](#vehicle-response-model) | **[**[Excludable](#excluding-data)**]** Identifying information for the vehicle that is used on this leg of the itinerary. This is only returned for _Transit_ legs. |
 | fare | [Fare](#fare-response-model) | If available, the fare for this leg. |
-| waypoints | Array of [Waypoint](#waypoint-response-model) | **[**[Excludable](#excludable)**]** The sequence of ordered waypoints that make up this leg. |
-| directions | Array of [Direction](#direction-response-model) | **[**[Excludable](#excludable)**]** If available, the directions to take in order to complete the leg. |
-| geometry | [GeoJSON](#geojson) LineString | **[**[Excludable](#excludable)**]** If available, the geographic shape of the leg. |
+| waypoints | Array of [Waypoint](#waypoint-response-model) | **[**[Excludable](#excluding-data)**]** The sequence of ordered waypoints that make up this leg. |
+| directions | Array of [Direction](#direction-response-model) | **[**[Excludable](#excluding-data)**]** If available, the directions to take in order to complete the leg. |
+| geometry | [GeoJSON](#geojson) LineString | **[**[Excludable](#excluding-data)**]** If available, the geographic shape of the leg. |
 
 #### Retrieving a specific leg
 
@@ -1566,7 +1566,7 @@ A waypoint is a stopping point along an itinerary. It has either an arrival date
 | :--------- | :--- | :---- |
 | arrivalTime | [DateTime](#datetime) | The arrival date and time at this point of a leg. |
 | departureTime | [DateTime](#datetime) | The departure date and time from this point of a leg. |
-| stop | [Stop](#stop-response-model) | **[**[Excludable](#excludable)**]** The stop of the waypoint. This can be returned in either _Walking_ or _Transit_ legs. |
+| stop | [Stop](#stop-response-model) | **[**[Excludable](#excluding-data)**]** The stop of the waypoint. This can be returned in either _Walking_ or _Transit_ legs. |
 | location | [Location](#location-response-model) | The location of the waypoint if it is not a stop. This can be returned only in  Walking legs. |
 
 #### Vehicle response model
@@ -1604,7 +1604,7 @@ A fare is the cost incurred by a commuter when using a transport service.  Essen
 | Field | Type | Description |
 | :--------- | :--- | :---- |
 | description | string | The description of the fare for this leg. |
-| fareProduct | [FareProduct](#fare-product-response-model) | **[**[Excludable](#excludable)**]** The fare product selected for this leg. |
+| fareProduct | [FareProduct](#fare-product-response-model) | **[**[Excludable](#excluding-data)**]** The fare product selected for this leg. |
 | cost | [Cost](#cost) | The cost of this leg. |
 | messages | Array of string | Any fare messages, such as required fare cards or special instructions. |
 
@@ -1648,7 +1648,7 @@ A fare product is a fare scheme offered to passengers by an agency and will deci
 | :--------- | :--- | :---- |
 | id | [Identifier](#identifiers) | The identifier of the fare product. |
 | href | [hyperlink](#resource-linking) | The hyperlink to this resource. |
-| agency | [Agency](#agency-response-model) | **[**[Excludable](#excludable)**]** The fare product's agency. |
+| agency | [Agency](#agency-response-model) | **[**[Excludable](#excluding-data)**]** The fare product's agency. |
 | name | string | The commuter-friendly name of the fare product. |
 | isDefault | bool | Flag specifying whether this is the default fare product for this agency. |
 | description | string | A commuter-friendly description of the fare product. |
