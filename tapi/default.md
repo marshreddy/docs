@@ -2,19 +2,17 @@
 
 ## Overview
 
-Central to the WhereIsMyTransport platform is our transport API. It is based on [REST](http://en.wikipedia.org/wiki/Representational_State_Transfer), [JSON](http://www.json.org/), [OAuth 2.0](http://oauth.net/2/) and [OpenID Connect](http://openid.net/connect/). These are standards which are broadly supported in the industry.  Note that [JSON](http://www.json.org/) is the only supported data format.
+Central to the WhereIsMyTransport platform is our transport API. It is based on [REST](http://en.wikipedia.org/wiki/Representational_State_Transfer), [JSON](http://www.json.org/), [OAuth 2.0](http://oauth.net/2/) and [OpenID Connect](http://openid.net/connect/). These are standards which are broadly supported in the industry. 
 
 ### Introduction
-
-Read the following sections to get you started using the API.
 
 #### API Endpoint
 
 The following address is the standard URL endpoint to be used to access the various resources of the API.
 
-`https://platform.whereismytransport.com/api`
+`https://platform.whereismytransport.com`
 
-For example, the agencies endpoint would be queried at **GET https://platform.whereismytransport.com/api/agencies**.
+For example, the [agencies endpoint](#agencies) would be queried at https://platform.whereismytransport.com/api/agencies.
 
 #### HTTP verbs
 
@@ -44,7 +42,7 @@ The status code in an HTTP request's response describes the outcome of the perfo
 
 #### Accept type
 
-The **Accept** header describes the format of the content that the client can accept. All requests must specify this header as **application/json**. If the **Accept** header is not specified or the type is set to a value other than **application/json** then a **406** [HTTP status code](#http-status-codes) will be returned.
+The **Accept** header describes the format of the content that the client can accept. All requests must specify this header as **application/json**. If the **Accept** header is not specified or the type is set to a value other than **application/json** then a **406 Not Acceptable** [status code](#http-status-codes) will be returned.
 
 ### Sample request
 
@@ -55,33 +53,35 @@ Accept: application/json
 
 #### Content type
 
-The **Content-Type** header describes the format of the data being posted to the server. All POST requests must specify this header as **application/json**. If the **Content-Type** header is not specified or the type is set to a value other than **application/json** then a **415** [HTTP status code](#status-codes) will be returned.
+The **Content-Type** header describes the format of the data being posted to the server. All POST requests must specify this header as **application/json**. If the **Content-Type** header is not specified or the type is set to a value other than **application/json** then a **415 Unsupported Media Type** [status code](#status-codes) will be returned.
 
 ### Sample request
 
 ```
 POST api/journeys
+Accept: application/json
+Content-Type: application/json
 ```
 
 #### Compression
 
-The API compresses response data using GZIP compression as defined by the HTTP 1.1 specification. Disabling compression can be done by setting the **Allow-Compression** request header to **false**. The response will always have the **Content-Encoding** header set to **gzip** when the response body is compressed accordingly.
+The API compresses response data using GZIP compression as defined by the HTTP 1.1 specification. Disabling compression can be done by setting the **Allow-Compression** request header to **false**. The response will always have the **Content-Encoding** response header set to **gzip** when the response body is compressed accordingly.
 
 **Note:** No other methods of compression are supported. Request compression is not supported.
 
 #### HTTPS
 
-All API access is performed over HTTPS only. If a resource is requested using **http://** then a **403 Forbidden** status code will be returned.
+All API access is performed over HTTPS only. If a resource is requested using **http://** then a **403 Forbidden** [status code](#status-codes) will be returned.
 
 ### Authorisation
 
-The API uses OpenID Connect and OAuth 2.0 protocols for federated access and security. WhereIsMyTransport provides its own security token service which issues tokens to applications so that they can authenticate themselves against our transport API. To authorise an application, one must first acquire a **client_id** and **client_secret** from the WhereIsMyTransport [Developer Portal](https://developer.whereismytransport.com).
+The API uses the standards as set in the [OAuth 2.0](http://oauth.net/2/) and [OpenID Connect](http://openid.net/connect/) specifications. WhereIsMyTransport provides its own _security token service_ which issues tokens to applications so that they can authenticate themselves against the API. To authorise an application, one must first acquire a **client_id** and **client_secret** from the [Developer Portal](https://developer.whereismytransport.com).
 
-Using client credentials one can make requests against the security token service to retrieve a token.  When requesting a token, the scopes that are required must also be specified. Currently, the only scope available is `transportapi:all` which provides full access to the API.
+Using client credentials one can make requests against the _security token service_ to retrieve a token.  When requesting a token, the scopes that are required must also be specified. Currently, the only scope available is `transportapi:all` which provides full access to the API.
 
 **Note:** The content type of **application/x-www-form-urlencoded** must be used for this request.
 
-#### Token endpoint
+#### Security token endpoint
 
 The following is the full URI endpoint used to retrieve a token.
 
@@ -109,7 +109,7 @@ scope=transportapi:all
 }
 ```
 
-Once this token is received, it must be added to the **Authorization** HTTP header in order to perform successful requests against the API.
+Once this token is received, it must be added to the **Authorization** HTTP request header with the prefix of "Bearer" in order to perform successful requests against the API.
 
 ##### Sample request
 
@@ -118,9 +118,15 @@ GET api/agencies
 Authorization: Bearer eyJ0eXAiOiJ32aQiLCJhbGciOiJSUzI1NiIsIfg1iCI6ImEzck1VZ01Gd8d0UGNsTGE2eUYz...
 ```
 
+A 401 Unauthorised status code will be returned if the request is either missing the Authorization header or if the token has expired.
+
+#### Token expiry
+
+XYZ
+
 ### Errors
 
-The API uses conventional [HTTP status codes](#status-codes) to indicate the result of a request. Codes within the 200s indicate that the request was successful.  Codes within the 400s indicate that the request was somehow badly formed (such as a missing or incorrectly formatted field). 500s are typically returned when something unexpected goes wrong on the server.
+The API uses conventional HTTP [status code](#http-status-codes) to indicate the result of a request. Codes within the 200s indicate that the request was successful. Codes within the 400s indicate that the request was somehow badly formed (such as a missing or incorrectly formatted field). 500s are typically returned when something unexpected goes wrong on the server. The **error response model** below will be returned for any error.
 
 #### Error response model 
 
@@ -150,7 +156,7 @@ The API uses conventional [HTTP status codes](#status-codes) to indicate the res
 
 Almost all entities in the API are identified through the use of a globally unique identifier. This identifier is specified as a 22 character long, case-sensitive string of URL-friendly characters; __a__ to __z__, __A__ to __Z__, __0__ to __9__, - (hyphen) and _ (underscore). See the **id** field in the sample response below.
 
-#### Sample request
+##### Sample request
 
 ```
 GET api/agencies/5kcfZkKW0ku4Uk-A6j8MFA
@@ -171,9 +177,9 @@ GET api/agencies/5kcfZkKW0ku4Uk-A6j8MFA
 
 ### Resource Linking
 
-The API presents a simple and elegant approach to referencing of and linking to resources. Every available resource has a hypertext reference field, **href**. This value represents a fully qualified URL to where the resource resides. Presenting such a field for every resource aids discoverability by allowing for new resources to be consumed by just embedding a new reference link.
+The API presents a simple and elegant approach to referencing related resources. Every available resource has a hypertext reference field, **href**. This value represents a fully qualified URL to where the resource resides. Presenting such a field for every resource aids discoverability by allowing for new resources to be consumed by just embedding a new reference link.
 
-For example, the sample below demonstrates a stop with its agency sub-resource, both having **id** and **href** fields.
+For example, the sample below demonstrates a stop with its agency represented as a sub-resource, both having **id** and **href** fields.
 
 ##### Sample request
 
@@ -210,11 +216,11 @@ GET api/stops/eBTeYLPXOkWm5zyfjZVaZg
 
 ### Excluding data 
 
-In order to reduce payload, it is possible to exclude certain objects or collections from the model returned in the body of the HTTP response. This is done through the use of the **exclude** query. Although not everything can be exluded. Fields which are _excludable_ are described in this specification with the [Excludable](#excludable) tag.
+In order to reduce payload, it is possible to exclude certain objects or collections from the model returned in the body of the HTTP response. This is done through the use of the **exclude** query. Fields which are _excludable_ are described in the specification with the [Excludable](#excludable) tag.
 
 | Parameter | Type | Required | Description |
 | :-------------- | :--- | :---- | :---- |
-| exclude | string | Optional | Comma-separated object or collection names to be excluded from the response. |
+| exclude | string | Optional | A string of comma-separated object or collection names to excluded from the response. |
 
 When excluding resource objects, the containing object with their **id** and **href** fields will remain. This is to preserve discoverability while still reducing payload. Collections, on the other hand, will be excluded entirely.
 
@@ -223,21 +229,23 @@ When excluding resource objects, the containing object with their **id** and **h
 The request below will exclude **geometry** and **directions** from the resource model.
 
 ```
-GET api/journeys/8GYKddjcAk6j7aVUAMV3pw?exclude=geometry,directions
+POST api/journeys/8GYKddjcAk6j7aVUAMV3pw?exclude=geometry,directions
 ```
 
 ### Understanding Scheduled Data
 
-Everything retrievable from the API is considered scheduled data. This means that all queries are "at" a certain scheduled date and time. An agency, for example, may schedule a line's name to change, not now, but only after a certain date.  A new stop could be scheduled to only be returned from the API at a given date. The important thing to note that is an entity could be deprecated in future schedules. This means that any entity resource URI could return a 404. Applications built on this API are highly encouraged to cater for this.
+All retrievable entities from the API constitute scheduled data. This means that entities may change over time. They may not even exist forever. An agency, for example, may schedule a line's name to change, not now, but only after a certain date.  A new stop could be scheduled to only be returned from the API at some given date. 
+
+The important thing to note that is an entity could be deprecated in a future schedule. This means that any entity resource URI could return a **404 Not Found** [status code](#http-status-codes). Furthermore, new entities could be added at any point. Applications built on this API are highly encouraged to cater for this.
 
 ### Pagination 
 
-Depending on the structure of a query, a lot of results could be returned from the API. For that reason, the results are paginated so to ensure that responses are easier to handle and that payload it kept to a manageable size.
+Collection endpoints are paginated so to ensure that responses are easier to handle and that payload it kept to a manageable size.
 
 | Parameter | Type | Required | Description |
 | :-------------- | :--- | :---- | :---- |
-| limit | int | Optional | The number of entities to be returned. The default and maximum is typically 100. |
-| offset | int | Optional | The zero-based offset of the first entity returned. The default is 0.  |
+| limit | int | Optional | The number of entities to be returned. The default and maximum is typically 100 unless otherwise specified. |
+| offset | int | Optional | The zero-based offset of the first entity returned. The default is always 0.  |
 
 ##### Sample request
 
@@ -257,7 +265,7 @@ ISO 8601 date and time strings can be represented as "2016-11-19T07:22Z" (7:22 A
 
 More information can be found [here](https://en.wikipedia.org/wiki/ISO_8601).
 
-**Note:** ISO 8601 dates are timzone-agnostic and so are communicated in UTC (Coordinated Universal Time).
+**Note:** ISO 8601 dates are timezone-agnostic and so are communicated in UTC (Coordinated Universal Time).
 
 #### Culture 
 
@@ -318,14 +326,16 @@ In order to provide a geographic position through the query string, a comma-sepa
 GET api/stops?point=-33.925430,18.436443&radius=1750
 ```
 
-**Note: ** The order is latitude then longitude.
+**Note: ** The ordering of these two coordinates is latitude first and then longitude.
 
 #### Bounding Box 
 
-In order to provide a geographic bounding box through the query string, a comma-separated SW (south west) latitude, SW longitude, NE (north east) latitude and NE longitude must be provided in that order.  These coordiantes represent the south west and north east corners of the box.
+In order to provide a geographic bounding box through the query string, a comma-separated SW (south west) latitude, SW longitude, NE (north east) latitude and NE longitude must be provided in that order.  These coordiantes represent the south west and north east corners of the bounding box.
+
+##### Sample request
 
 ```
-GET api/stops?bbox=-33.944,18.36,-33.895,18.43
+GET api/stops?bbox=-33.94,18.36,-33.89,18.43
 ```
 
 #### Distance 
@@ -337,13 +347,13 @@ Distance is returned as an object consisting of the distance value (an integer) 
 ```
 {  
     "distance": {  
-        "value":133,
-        "unit":"m"
+        "value": 133,
+        "unit": "m"
     }
 }
 ```
 
-**Note:** The API currently only supports the metric system. Distance is returned in metres.
+**Note:** The API currently only supports the metric system and distance is always returned in metres.
 
 ## Specification
 
