@@ -1076,7 +1076,7 @@ A filter can be specified to explicitly use or omit certain agencies or modes fr
 
 | Field | Type | Description |
 | :--------- | :--- | :--- |
-| agencies | Array of [Identifier](#identifiers) | A list of agencies to use or omit in the journey. |
+| agencies | Array of [Identifier](#identifiers) | A list of agencies to use in or omit from the journey. |
 | modes | Array of [Mode](#mode) | A list of modes to use or omit in the journey. |
 
 ##### Sample request
@@ -1110,7 +1110,7 @@ POST api/journeys?exclude=line,stop,fareProduct
 
 ##### Sample response
 
-This request will return exclude unneeded information on all contained stop, line and fare product resources in order to reduce payload.
+This request will exclude unneeded information on all contained stop, line and fare product resources in order to reduce the payload.
 
 ```
 201 Created
@@ -1463,7 +1463,7 @@ This request will return exclude unneeded information on all contained stop, lin
 | href | [hyperlink](#resource-linking) | The hyperlink to this resource. |
 | departureTime | [DateTime](#datetime) | The departure date and time for the itinerary. |
 | arrivalTime | [DateTime](#datetime) | The arrival date and time for the itinerary. |
-| distance | [Distance](#distance) | If available, the total distance of itinerary. |
+| distance | [Distance](#distance) | If available, the total distance of the itinerary. |
 | duration | integer | If available, the total duration of the itinerary in seconds. |
 | legs | Array of [Leg](#leg-response-model) | **[**[Excludable](#excludable)**]** The sequence of legs that make up this itinerary. |
 
