@@ -44,7 +44,7 @@ The status code in an HTTP request's response describes the outcome of the perfo
 
 The **Accept** header describes the format of the content that the client can accept. All requests must specify this header as **application/json**. If the **Accept** header is not specified or the type is set to a value other than **application/json** then a **406 Not Acceptable** [status code](#http-status-codes) will be returned.
 
-### Sample request
+##### Sample request
 
 ```
 GET api/agencies
@@ -55,7 +55,7 @@ Accept: application/json
 
 The **Content-Type** header describes the format of the data being posted to the server. All POST requests must specify this header as **application/json**. If the **Content-Type** header is not specified or the type is set to a value other than **application/json** then a **415 Unsupported Media Type** [status code](#http-status-codes) will be returned.
 
-### Sample request
+##### Sample request
 
 ```
 POST api/journeys
