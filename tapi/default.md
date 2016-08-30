@@ -1057,7 +1057,7 @@ Creating a new journey is done by posting the journey's criteria to the resource
 | fareProducts | Array of [Identifier](#identifiers) | Optional | The list of [fare product](#fare-products) identifiers to use when calculating the journey fare. |
 | maxItineraries | integer | Optional | The maximum number of itineraries to return. This must be a value between or including 1 and 5. Default is 5. |
 
-### TimeType
+#### TimeType
 
 Time type can either be **DepartAfter** or **ArriveBefore**.
 
@@ -1065,7 +1065,7 @@ Time type can either be **DepartAfter** or **ArriveBefore**.
 
 **ArriveBefore** indicates that the journey must be calculated to arrive before the specified time, at the latest.
 
-### Profile
+#### Profile
 
 The profile specified how the itineraries should be prioritised.
 
@@ -1073,7 +1073,7 @@ The profile specified how the itineraries should be prioritised.
 
 **FewestTransfers** returns itineraries with fewest connections between vehicles, and then also prioritising by closest to time.
 
-### Filter
+#### Filter
 
 A filter can be specified to explicitly use or omit certain agencies or modes from the requested journey.
 
