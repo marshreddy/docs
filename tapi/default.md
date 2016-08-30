@@ -857,7 +857,7 @@ GET api/lines?agencies=5kcfZkKW0ku4Uk-A6j8MFA&limit=2
             "name": "MyCiTi",
             "culture": "en"
         },
-        "name": "A01 - Airport to Airport",
+        "name": "A01 - Civic Centre to Airport",
         "mode": "Bus",
         "colour": "#ffa7a9ac",
         "textColour": "#ffffffff"
