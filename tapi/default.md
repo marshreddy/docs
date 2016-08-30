@@ -119,7 +119,7 @@ A **401 Unauthorized** [status code](#http-status-codes) will be returned if the
 
 #### Token expiry
 
-XYZ
+The token response model will also contain a field called `expires_in`. This field denotes how long the token will be fresh since the token was issued (in seconds). After this period elapses that very token will become stale, and a new token will need to be retreived from the security token endpoint.
 
 ### Errors
 
