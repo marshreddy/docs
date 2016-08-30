@@ -473,12 +473,12 @@ A location where passengers can board or alight from a transport vehicle.
 | :--------- | :--- | :---- |
 | id | [Identifier](#identifiers) | The identifier of the stop. |
 | href | [hyperlink](#resource-linking) | The hyperlink to this resource. |
-| agency | [Agency](#agency-model) | **[**[Excludable](#excludable)**]** The agency. |
+| agency | [Agency](#agency-response-model) | **[**[Excludable](#excludable)**]** The agency. |
 | name | string | The full name of the stop. |
 | code | string | If available, the passenger code of the stop. |
 | geometry | [GeoJSON](#geojson) Point | The geographic point of the stop. |
 | modes | Array of [Mode](#modes) | The modes that are served by this stop. |
-| parentStop | [Stop](#stop-model) | **[**[Excludable](#excludable)**]** If applicable, the parent stop. |
+| parentStop | [Stop](#stop-response-model) | **[**[Excludable](#excludable)**]** If applicable, the parent stop. |
 
 #### Retrieving stops
 
@@ -490,7 +490,7 @@ Retrieves a collection of stops.
 | :-------------- | :--- | :---- |
 | point | [Point](#point) | The point from where to search for nearby stops. Stops will be returned in order of their distance from this point (from closest to furthest). |
 | radius | integer | The distance in metres from the point to search for nearby stops. This filter is optional. |
-| bbox | [Bounding Box](#bounding-box) | The bounding box from where to retrieve stops. This will be ignored if a point is provided in the query.  |
+| bbox | [BoundingBox](#boundingbox) | The bounding box from where to retrieve stops. This will be ignored if a point is provided in the query.  |
 | modes | string | A string of comma-separated [transport modes](#modes) to filter the results by. |
 | agencies | Array of [Identifier](#identifiers) | A string of comma-separated agency identifiers to filter the results by. |
 | servesLines | Array of [Identifier](#identifiers) | A string of comma-separated line identifiers to filter the results by. |
@@ -818,7 +818,7 @@ A grouping together of routes marketed to passengers as a single section of the 
 | :--------- | :--- | :---- |
 | id | [Identifier](#identifiers) | The identifier of the line. |
 | href | [hyperlink](#resource-linking) | The hyperlink to this resource. |
-| agency | [Agency](#agency-model) | **[**[Excludable](#excludable)**]** The line's agency. |
+| agency | [Agency](#agency-response-model) | **[**[Excludable](#excludable)**]** The line's agency. |
 | name | string | If available, the full name of the line, . Either **name** or **shortName** will exist. |
 | shortName | string | If available, the short name of the line. Either **name** or **shortName** will exist. |
 | description | string | If available, a description of the line. |
@@ -926,8 +926,8 @@ A timetable of vehicles travelling on a line.
 
 | Field | Type | Description |
 | :--------- | :--- | :---- |
-| vehicle | [Vehicle](#vehicle-model) | If available, identifying information for the vehicle running at this time. |
-| waypoints | Array of [Waypoint](#waypoint-model) | The sequence of ordered way points that make up this line timetable. |
+| vehicle | [Vehicle](#vehicle-response-model) | If available, identifying information for the vehicle running at this time. |
+| waypoints | Array of [Waypoint](#waypoint-response-model) | The sequence of ordered way points that make up this line timetable. |
 
 #### Retrieving a line timetable
 
@@ -1038,7 +1038,7 @@ A journey is the traveling of a passenger from a departure point to an arrival p
 | omit | [Filter](#filter) | The explicit set of modes and agencies omitted. |
 | fareProducts | Array of [Identifier](#identifiers) | An array of [fare product](#fare-products) identifiers applied when calculating the itinerarys' fare amounts. |
 | maxItineraries | integer | The maximum number of itineraries to return. |
-| itineraries | Array of [Itinerary](#itinerary-model) | **[**[Excludable](#excludable)**]** The available [itineraries](#itineraries) for this journey. |
+| itineraries | Array of [Itinerary](#itinerary-response-model) | **[**[Excludable](#excludable)**]** The available [itineraries](#itineraries) for this journey. |
 
 #### Creating a journey
 
@@ -1561,16 +1561,6 @@ GET api/journeys/PEP5VsjJ6kuo6KZxAQjq2Q/itineraries/5CxmV36Blk6n6qZxAQjrdQ/legs/
 }
 ```
 
-#### Vehicle response model
-
-Describes a single vehicle along a line so that it can be identified by passengers.
-
-| Field | Type | Description |
-| :--------- | :--- | :---- |
-| designation | string | If available, an identifier for this vehicle as defined by the agency, or some other designation. |
-| direction | string | If available, the direction of the vehicle, for example, _Northbound_ or _Clockwise_. |
-| headsign | string | If available, identifying information (such as destination) displayed on the vehicle. |
-
 #### Waypoint response model
 
 A waypoint is a stopping point along an itinerary. It has either an arrival date and time or a departure date and time, or both.
@@ -1581,6 +1571,16 @@ A waypoint is a stopping point along an itinerary. It has either an arrival date
 | departureTime | [DateTime](#datetime) | The departure date and time from this point of a leg. |
 | stop | [Stop](#stop-response-model) | **[**[Excludable](#excludable)**]** The stop of the waypoint. This can be returned in either _Walking_ or _Transit_ legs. |
 | location | [Location](#location-response-model) | The location of the waypoint if it is not a stop. This can be returned in only Walking legs. |
+
+#### Vehicle response model
+
+Describes a single vehicle along a line so that it can be identified by passengers.
+
+| Field | Type | Description |
+| :--------- | :--- | :---- |
+| designation | string | If available, an identifier for this vehicle as defined by the agency, or some other designation. |
+| direction | string | If available, the direction of the vehicle, for example, _Northbound_ or _Clockwise_. |
+| headsign | string | If available, identifying information (such as destination) displayed on the vehicle. |
 
 #### Direction response model
 
