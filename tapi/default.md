@@ -1607,7 +1607,7 @@ A fare is the cost incurred by a commuter when using a transport service.  Essen
 | Field | Type | Description |
 | :--------- | :--- | :---- |
 | description | string | The description of the fare for this leg. |
-| fareProduct | [FareProduct](#fare-product-response-model) | The fare product selected for this leg. |
+| fareProduct | [FareProduct](#fare-product-response-model) | **[**[Excludable](#excludable)**]** The fare product selected for this leg. |
 | cost | [Cost](#cost) | The cost of this leg. |
 | messages | Array of string | Any fare messages, such as required fare cards or special instructions. |
 
