@@ -237,12 +237,12 @@ The important thing to note that is an entity could be deprecated in a future sc
 
 ### Pagination 
 
-Collection endpoints are paginated so to ensure that responses are easier to handle and that payload it kept to a manageable size.
+Collection endpoints are paginated so to ensure that responses are easier to handle and that payload is kept to a manageable size.
 
-| Parameter | Type | Required | Description |
-| :-------------- | :--- | :---- | :---- |
-| limit | int | Optional | The number of entities to be returned. The default and maximum is typically 100 unless otherwise specified. |
-| offset | int | Optional | The zero-based offset of the first entity returned. The default is always 0.  |
+| Parameter | Type | Description |
+| :-------------- | :--- | :---- |
+| limit | int | The number of entities to be returned. The default and maximum is typically 100 unless otherwise specified. |
+| offset | int | The zero-based offset of the first entity returned. The default is always 0.  |
 
 ##### Sample request
 
