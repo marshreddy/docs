@@ -1064,7 +1064,7 @@ Time type can either be **DepartAfter** or **ArriveBefore**.
 
 #### Profile
 
-The profile specified how the itineraries should be prioritised.
+The profile specifies how the itineraries should be prioritised.
 
 **ClosestToTime** (the default) returns itineraries absolutely closest to the requested date; earliest for **DepartAfter**, and latest for **ArriveBefore**.
 
