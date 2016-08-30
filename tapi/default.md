@@ -236,16 +236,16 @@ POST api/journeys/8GYKddjcAk6j7aVUAMV3pw?exclude=geometry,directions
 
 All retrievable entities from the API constitute scheduled data. This means that entities may change over time. They may not even exist forever. An agency, for example, may schedule a line's name to change, not now, but only after a certain date.  A new stop could be scheduled to only be returned from the API at some given date. 
 
-The important thing to note that is an entity could be deprecated in a future schedule. This means that any entity resource URI could return a **404 Not Found** [status code](#http-status-codes). Applications built on this API are highly encouraged to cater for this.
+The important thing to note that is an entity could be deprecated in a future schedule. This means that any entity resource URI could return a **404 Not Found** [status code](#http-status-codes). Furthermore, new entities could be added at any point. Applications built on this API are highly encouraged to cater for this.
 
 ### Pagination 
 
-Depending on the structure of a query, a lot of results could be returned from the API. For that reason, the results are paginated so to ensure that responses are easier to handle and that payload it kept to a manageable size.
+Collection endpoints are paginated so to ensure that responses are easier to handle and that payload it kept to a manageable size.
 
 | Parameter | Type | Required | Description |
 | :-------------- | :--- | :---- | :---- |
-| limit | int | Optional | The number of entities to be returned. The default and maximum is typically 100. |
-| offset | int | Optional | The zero-based offset of the first entity returned. The default is 0.  |
+| limit | int | Optional | The number of entities to be returned. The default and maximum is typically 100 unless otherwise specified. |
+| offset | int | Optional | The zero-based offset of the first entity returned. The default is always 0.  |
 
 ##### Sample request
 
@@ -265,7 +265,7 @@ ISO 8601 date and time strings can be represented as "2016-11-19T07:22Z" (7:22 A
 
 More information can be found [here](https://en.wikipedia.org/wiki/ISO_8601).
 
-**Note:** ISO 8601 dates are timzone-agnostic and so are communicated in UTC (Coordinated Universal Time).
+**Note:** ISO 8601 dates are timezone-agnostic and so are communicated in UTC (Coordinated Universal Time).
 
 #### Culture 
 
@@ -326,14 +326,16 @@ In order to provide a geographic position through the query string, a comma-sepa
 GET api/stops?point=-33.925430,18.436443&radius=1750
 ```
 
-**Note: ** The order is latitude then longitude.
+**Note: ** The ordering of these two coordinates is latitude first and then longitude.
 
 #### Bounding Box 
 
-In order to provide a geographic bounding box through the query string, a comma-separated SW (south west) latitude, SW longitude, NE (north east) latitude and NE longitude must be provided in that order.  These coordiantes represent the south west and north east corners of the box.
+In order to provide a geographic bounding box through the query string, a comma-separated SW (south west) latitude, SW longitude, NE (north east) latitude and NE longitude must be provided in that order.  These coordiantes represent the south west and north east corners of the bounding box.
+
+##### Sample request
 
 ```
-GET api/stops?bbox=-33.944,18.36,-33.895,18.43
+GET api/stops?bbox=-33.94,18.36,-33.89,18.43
 ```
 
 #### Distance 
@@ -345,13 +347,13 @@ Distance is returned as an object consisting of the distance value (an integer) 
 ```
 {  
     "distance": {  
-        "value":133,
-        "unit":"m"
+        "value": 133,
+        "unit": "m"
     }
 }
 ```
 
-**Note:** The API currently only supports the metric system. Distance is returned in metres.
+**Note:** The API currently only supports the metric system and distance is always returned in metres.
 
 ## Specification
 
