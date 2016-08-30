@@ -1504,7 +1504,7 @@ A _Transit_ leg is one which uses a public transportation service based on sched
 | Field | Type | Description |
 | :--------- | :--- | :---- |
 | type | string | The [type of leg](#types-of-legs), either _Walking_ or _Transit_. |
-| distance | [Distance](#distance) | If available, the total distance of leg. |
+| distance | [Distance](#distance) | If available, the total distance of the leg. |
 | duration | integer | If available, the total duration of the leg in seconds. |
 | line | [Line](#line-response-model) | **[**[Excludable](#excludable)**]** The line that is used on this leg of the itinerary. This is only returned for _Transit_ legs. |
 | vehicle | [Vehicle](#vehicle-response-model) | **[**[Excludable](#excludable)**]** Identifying information for the vehicle that is used on this leg of the itinerary. This is only returned for _Transit_ legs. |
@@ -1570,7 +1570,7 @@ A waypoint is a stopping point along an itinerary. It has either an arrival date
 | arrivalTime | [DateTime](#datetime) | The arrival date and time at this point of a leg. |
 | departureTime | [DateTime](#datetime) | The departure date and time from this point of a leg. |
 | stop | [Stop](#stop-response-model) | **[**[Excludable](#excludable)**]** The stop of the waypoint. This can be returned in either _Walking_ or _Transit_ legs. |
-| location | [Location](#location-response-model) | The location of the waypoint if it is not a stop. This can be returned in only Walking legs. |
+| location | [Location](#location-response-model) | The location of the waypoint if it is not a stop. This can be returned only in  Walking legs. |
 
 #### Vehicle response model
 
@@ -1580,7 +1580,7 @@ Describes a single vehicle along a line so that it can be identified by passenge
 | :--------- | :--- | :---- |
 | designation | string | If available, an identifier for this vehicle as defined by the agency, or some other designation. |
 | direction | string | If available, the direction of the vehicle, for example, _Northbound_ or _Clockwise_. |
-| headsign | string | If available, identifying information (such as destination) displayed on the vehicle. |
+| headsign | string | If available, identifying information (such as the destination) displayed on the vehicle. |
 
 #### Direction response model
 
@@ -1643,7 +1643,7 @@ POST api/journeys
 
 ### Fare Products
 
-A fare product is a fare scheme offered to passenger by an agency and will decide the total [fare](#fares) incurred when using a transport service. Note that they may be subject to eligibility restrictions. For example, a "Child Single" fare product might only be allowed to be used by children.
+A fare product is a fare scheme offered to passengers by an agency and will decide the total [fare](#fares) incurred when using a transport service. Note that they may be subject to eligibility restrictions. For example, a "Child Single" fare product might only be allowed to be used by children.
 
 #### Fare Product response model
 
