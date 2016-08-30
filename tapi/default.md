@@ -556,10 +556,10 @@ This request will retrieve stops from either agency **5kcfZkKW0ku4Uk-A6j8MFA** o
     },
     {
         "id": "QTtT2sMlGkKpGEBV7TlBpA",
-        "href": "https://transit.whereismytransport.com/api/stops/QTtT2sMlGkKpGEBV7TlBpA",
+        "href": "https://platform.whereismytransport.com/api/stops/QTtT2sMlGkKpGEBV7TlBpA",
         "agency": {
             "id": "xp_eNbqkYEaZP2YZkHwQqg",
-            "href": "https://transit.whereismytransport.com/api/agencies/xp_eNbqkYEaZP2YZkHwQqg",
+            "href": "https://platform.whereismytransport.com/api/agencies/xp_eNbqkYEaZP2YZkHwQqg",
             "name": "Metrorail Western Cape",
             "culture": "en"
         },
@@ -1119,7 +1119,7 @@ This request will return exclude unneeded information on all contained stop, lin
 201 Created
 {
     "id": "uvRvS486sUODiqZyAK-j2g",
-    "href": "https://transit.whereismytransport.com/api/journeys/uvRvS486sUODiqZyAK-j2g",
+    "href": "https://platform.whereismytransport.com/api/journeys/uvRvS486sUODiqZyAK-j2g",
     "geometry": {
         "type": "MultiPoint",
         "coordinates": [
@@ -1152,7 +1152,7 @@ This request will return exclude unneeded information on all contained stop, lin
     "itineraries": [
         {
             "id": "fLdmWzq_h0-uoqZyAK-keQ",
-            "href": "https://transit.whereismytransport.com/api/journeys/uvRvS486sUODiqZyAK-j2g/itineraries/fLdmWzq_h0-uoqZyAK-keQ",
+            "href": "https://platform.whereismytransport.com/api/journeys/uvRvS486sUODiqZyAK-j2g/itineraries/fLdmWzq_h0-uoqZyAK-keQ",
             "departureTime": "2016-08-30T10:31:15Z",
             "arrivalTime": "2016-08-30T10:38:22Z",
             "distance": {
@@ -1162,7 +1162,7 @@ This request will return exclude unneeded information on all contained stop, lin
             "duration": 427,
             "legs": [
                 {
-                    "href": "https://transit.whereismytransport.com/api/journeys/uvRvS486sUODiqZyAK-j2g/itineraries/fLdmWzq_h0-uoqZyAK-keQ/legs/0",
+                    "href": "https://platform.whereismytransport.com/api/journeys/uvRvS486sUODiqZyAK-j2g/itineraries/fLdmWzq_h0-uoqZyAK-keQ/legs/0",
                     "type": "Walking",
                     "distance": {
                         "value": 228,
@@ -1187,7 +1187,7 @@ This request will return exclude unneeded information on all contained stop, lin
                         {
                             "stop": {
                                 "id": "lbR0mPfo-0e2eyhr-wlpJw",
-                                "href": "https://transit.whereismytransport.com/api/stops/lbR0mPfo-0e2eyhr-wlpJw"
+                                "href": "https://platform.whereismytransport.com/api/stops/lbR0mPfo-0e2eyhr-wlpJw"
                             },
                             "arrivalTime": "2016-08-30T10:34:00Z",
                             "departureTime": "2016-08-30T10:34:00Z"
@@ -1243,7 +1243,7 @@ This request will return exclude unneeded information on all contained stop, lin
                     ]
                 },
                 {
-                    "href": "https://transit.whereismytransport.com/api/journeys/uvRvS486sUODiqZyAK-j2g/itineraries/fLdmWzq_h0-uoqZyAK-keQ/legs/1",
+                    "href": "https://platform.whereismytransport.com/api/journeys/uvRvS486sUODiqZyAK-j2g/itineraries/fLdmWzq_h0-uoqZyAK-keQ/legs/1",
                     "type": "Transit",
                     "distance": {
                         "value": 872,
@@ -1254,7 +1254,7 @@ This request will return exclude unneeded information on all contained stop, lin
                         "description": "Default fare",
                         "fareProduct": {
                             "id": "LjPJY99Qn0iEy6ZtAKAHdA",
-                            "href": "https://transit.whereismytransport.com/api/fareproducts/LjPJY99Qn0iEy6ZtAKAHdA"
+                            "href": "https://platform.whereismytransport.com/api/fareproducts/LjPJY99Qn0iEy6ZtAKAHdA"
                         },
                         "cost": {
                             "amount": 8.4,
@@ -1264,7 +1264,7 @@ This request will return exclude unneeded information on all contained stop, lin
                     },
                     "line": {
                         "id": "9fzL31HtwUCM3FzCVzMNAw",
-                        "href": "https://transit.whereismytransport.com/api/lines/9fzL31HtwUCM3FzCVzMNAw"
+                        "href": "https://platform.whereismytransport.com/api/lines/9fzL31HtwUCM3FzCVzMNAw"
                     },
                     "vehicle": {
                         "direction": "OneDirection"
@@ -1273,7 +1273,7 @@ This request will return exclude unneeded information on all contained stop, lin
                         {
                             "stop": {
                                 "id": "lbR0mPfo-0e2eyhr-wlpJw",
-                                "href": "https://transit.whereismytransport.com/api/stops/lbR0mPfo-0e2eyhr-wlpJw"
+                                "href": "https://platform.whereismytransport.com/api/stops/lbR0mPfo-0e2eyhr-wlpJw"
                             },
                             "arrivalTime": "2016-08-30T10:34:00Z",
                             "departureTime": "2016-08-30T10:34:00Z"
@@ -1281,7 +1281,7 @@ This request will return exclude unneeded information on all contained stop, lin
                         {
                             "stop": {
                                 "id": "ai3VutsKkkitBUyMII4mBQ",
-                                "href": "https://transit.whereismytransport.com/api/stops/ai3VutsKkkitBUyMII4mBQ"
+                                "href": "https://platform.whereismytransport.com/api/stops/ai3VutsKkkitBUyMII4mBQ"
                             },
                             "arrivalTime": "2016-08-30T10:35:00Z",
                             "departureTime": "2016-08-30T10:35:00Z"
@@ -1289,7 +1289,7 @@ This request will return exclude unneeded information on all contained stop, lin
                         {
                             "stop": {
                                 "id": "HCvUv9zHh0adgamzIDmtoQ",
-                                "href": "https://transit.whereismytransport.com/api/stops/HCvUv9zHh0adgamzIDmtoQ"
+                                "href": "https://platform.whereismytransport.com/api/stops/HCvUv9zHh0adgamzIDmtoQ"
                             },
                             "arrivalTime": "2016-08-30T10:36:00Z",
                             "departureTime": "2016-08-30T10:36:00Z"
@@ -1358,7 +1358,7 @@ This request will return exclude unneeded information on all contained stop, lin
                     }
                 },
                 {
-                    "href": "https://transit.whereismytransport.com/api/journeys/uvRvS486sUODiqZyAK-j2g/itineraries/fLdmWzq_h0-uoqZyAK-keQ/legs/2",
+                    "href": "https://platform.whereismytransport.com/api/journeys/uvRvS486sUODiqZyAK-j2g/itineraries/fLdmWzq_h0-uoqZyAK-keQ/legs/2",
                     "type": "Walking",
                     "distance": {
                         "value": 198,
@@ -1369,7 +1369,7 @@ This request will return exclude unneeded information on all contained stop, lin
                         {
                             "stop": {
                                 "id": "HCvUv9zHh0adgamzIDmtoQ",
-                                "href": "https://transit.whereismytransport.com/api/stops/HCvUv9zHh0adgamzIDmtoQ"
+                                "href": "https://platform.whereismytransport.com/api/stops/HCvUv9zHh0adgamzIDmtoQ"
                             },
                             "arrivalTime": "2016-08-30T10:36:00Z",
                             "departureTime": "2016-08-30T10:36:00Z"
@@ -1458,6 +1458,20 @@ This request will return exclude unneeded information on all contained stop, lin
 
 ### Itineraries
 
+#### Itinerary response model
+
+| Attribute | Type | Description |
+| :--------- | :--- | :---- |
+| id | [identifier](#identifiers) | The identifier of the itinerary. |
+| href | [hyperlink](#resource-linking) | The hyperlink to this resource. |
+| departureTime | [DateTime](#datetime) | The departure date and time for the itinerary. |
+| arrivalTime | [DateTime](#datetime) | The arrival date and time for the itinerary. |
+| distance | [Distance](#distance) | If available, the total distance of itinerary. |
+| duration | integer | If available, the total duration of the itinerary in seconds. |
+| legs | Array of [Leg](#leg-response-model) | **[**[Excludable](#excludable)**]** The sequence of legs that make up this itinerary. |
+
+#### Retrieving a specific itinerary
+
 To retrieve a specific itinerary for a previously created journey, the following resource can be requested.
 
 `GET api/journeys/{journeyId}/itineraries/{itineraryId}`
@@ -1471,7 +1485,6 @@ To retrieve a specific itinerary for a previously created journey, the following
 
 ```
 GET api/journeys/8GYKddjcAk6j7aVUAMV3pw/itineraries/dnCQV5Kq0kaq5KVUAMV_eQ
-Accept: application/json
 ```
 
 ### Legs
@@ -1486,7 +1499,7 @@ A _Walking_ leg is one which the passenger is to travel by foot from one waypoin
 
 A _Transit_ leg is one which uses a public transportation service based on scheduled or absolute frequency-based stop times.
 
-#### Leg response model {#leg-model}
+#### Leg response model
 
 | Field | Type | Description |
 | :--------- | :--- | :---- |
@@ -1494,8 +1507,8 @@ A _Transit_ leg is one which uses a public transportation service based on sched
 | distance | [Distance](#distance) | If available, the total distance of leg. |
 | duration | integer | If available, the total duration of the leg in seconds. |
 | line | [Line](#line-response-model) | **[**[Excludable](#excludable)**]** The line that is used on this leg of the itinerary. This is only returned for _Transit_ legs. |
-| vehicle | [Vehicle](#vehicle-model) | **[**[Excludable](#excludable)**]** Identifying information for the vehicle that is used on this leg of the itinerary. This is only returned for _Transit_ legs. |
-| fare | [Fare](#fare-model) | If available, the fare for this leg. |
+| vehicle | [Vehicle](#vehicle-response-model) | **[**[Excludable](#excludable)**]** Identifying information for the vehicle that is used on this leg of the itinerary. This is only returned for _Transit_ legs. |
+| fare | [Fare](#fare-response-model) | If available, the fare for this leg. |
 | waypoints | Array of [Waypoint](#waypoint-response-model) | **[**[Excludable](#excludable)**]** The sequence of ordered waypoints that make up this leg. |
 | directions | Array of [Direction](#direction-response-model) | **[**[Excludable](#excludable)**]** If available, the directions to take in order to complete the leg. |
 | geometry | [GeoJSON](#geojson) LineString | **[**[Excludable](#excludable)**]** If available, the geographic shape of the leg. |
@@ -1611,12 +1624,12 @@ POST api/journeys
         "type": "MultiPoint",
         "coordinates": [
             [
-                18.422326,
-                -33.922843
+                18.422,
+                -33.922
             ],
             [
-                18.473162,
-                -33.966573
+                18.473,
+                -33.966
             ]
         ]
     },
@@ -1638,7 +1651,7 @@ A fare product is a fare scheme offered to passenger by an agency and will decid
 | :--------- | :--- | :---- |
 | id | [Identifier](#identifiers) | The identifier of the fare product. |
 | href | [hyperlink](#resource-linking) | The hyperlink to this resource. |
-| agency | [Agency](#agency-model) | **[**[Excludable](#excludable)**]** The fare product's agency. |
+| agency | [Agency](#agency-response-model) | **[**[Excludable](#excludable)**]** The fare product's agency. |
 | name | string | The commuter-friendly name of the fare product. |
 | isDefault | bool | Flag specifying whether this is the default fare product for this agency. |
 | description | string | A commuter-friendly description of the fare product. |
@@ -1647,13 +1660,14 @@ A fare product is a fare scheme offered to passenger by an agency and will decid
 
 Retrieves a collection of fare products.
 
-`GET api/fareproducts?agencies={agencies}&limit={int}&offset={int}`
+`GET api/fareproducts?agencies={Identifiers}&limit={int}&offset={int}`
 
 | Parameter | Type | Description |
 | :-------------- | :--- | :---- |
 | agencies | Array of [Identifier](#identifiers) | The list of agencies to filter the results by. |
-| limit | int | The maximum number of entities to be returned. Default is 100. |
-| offset | int | The offset of the first entity returned. Default is 0. |
+| exclude | string | A string of comma-separated object or collection names to [exclude](#excluding-data) from the response. |
+| limit | int | See [Pagination](#pagination). The default is 100. |
+| offset | int | See [Pagination](#pagination). The default is 0. |
 
 ##### Sample request
 
