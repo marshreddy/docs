@@ -241,8 +241,8 @@ Collection endpoints are paginated so to ensure that responses are easier to han
 
 | Parameter | Type | Description |
 | :-------------- | :--- | :---- |
-| limit | int | The number of entities to be returned. The default and maximum is typically 100 unless otherwise specified. |
-| offset | int | The zero-based offset of the first entity returned. The default is always 0.  |
+| limit | integer | The number of entities to be returned. The default and maximum is typically 100 unless otherwise specified. |
+| offset | integer | The zero-based offset of the first entity returned. The default is always 0.  |
 
 ##### Sample request
 
@@ -397,8 +397,8 @@ Retrieves a collection of agencies.
 | bbox | [BoundingBox](#boundingbox) | The bounding box from where to retrieve agencies. This will be ignored if a point is provided in the query.  |
 | agencies | Array of [Identifier](#identifiers) | A string of comma-separated agency identifiers which to filter the results by. |
 | exclude | string | A string of comma-separated object or collection names to [exclude](#excluding-data) from the response. |
-| limit | int | See [Pagination](#pagination). The default is 100. |
-| offset | int | See [Pagination](#pagination). The default is 0. |
+| limit | integer | See [Pagination](#pagination). The default is 100. |
+| offset | integer | See [Pagination](#pagination). The default is 0. |
 
 ##### Sample request
 
@@ -493,8 +493,8 @@ Retrieves a collection of stops.
 | servesLines | Array of [Identifier](#identifiers) | A string of comma-separated line identifiers to filter the results by. |
 | showChildren | bool | Specifies whether or not to also return children stops. Default is false. |
 | exclude | string | A string of comma-separated object or collection names to [exclude](#excluding-data) from the response. |
-| limit | int | See [Pagination](#pagination). The default is 100. |
-| offset | int | See [Pagination](#pagination). The default is 0. |
+| limit | integer | See [Pagination](#pagination). The default is 100. |
+| offset | integer | See [Pagination](#pagination). The default is 0. |
 
 ##### Sample request
 
@@ -749,7 +749,7 @@ Retrieves a timetable for a stop, consisting of a list of occurrences of a vehic
 | id | [Identifier](#identifiers) | The identifier of the stop. |
 | earliestArrivalTime | [DateTime](#datetime) | The earliest arrival date and time to include in the timetable. |
 | exclude | string | A string of comma-separated object or collection names to [exclude](#excluding-data) from the response. |
-| limit | int | The maximum number of entities to be returned. Default is 10. |
+| limit | integer | The maximum number of entities to be returned. Default is 10. |
 
 ##### Sample request
 
@@ -834,8 +834,8 @@ Retrieves a collection of lines.
 | agencies | Array of [Identifier](#identifiers) | A comma-separated list of agency identifiers to filter the results by. |
 | servesStops | Array of [Identifier](#identifiers) | A comma-separated list of stop identifiers that represent stops which the returned lines must serve. |
 | exclude | string | A string of comma-separated object or collection names to [exclude](#excluding-data) from the response. |
-| limit | int | See [Pagination](#pagination). The default is 100. |
-| offset | int | See [Pagination](#pagination). The default is 0. |
+| limit | integer | See [Pagination](#pagination). The default is 100. |
+| offset | integer | See [Pagination](#pagination). The default is 0. |
 
 ##### Sample request
 
@@ -939,7 +939,7 @@ Retrieves a timetable for a line, consisting of a list of departures on this lin
 | departureStopId | [Identifier](#identifiers) | Optional stop identifier - bounds results to only occur after this stop. |
 | arrivalStopId | [Identifier](#identifiers) | Optional stop identifier - bounds results to only occur before this stop. |
 | exclude | string | A string of comma-separated object or collection names to [exclude](#excluding-data) from the response. |
-| limit | int | The maximum number of entities to be returned. Default is 10. |
+| limit | integer | The maximum number of entities to be returned. Default is 10. |
 
 ##### Sample request
 
@@ -1663,8 +1663,8 @@ Retrieves a collection of fare products.
 | :-------------- | :--- | :---- |
 | agencies | Array of [Identifier](#identifiers) | The list of agencies to filter the results by. |
 | exclude | string | A string of comma-separated object or collection names to [exclude](#excluding-data) from the response. |
-| limit | int | See [Pagination](#pagination). The default is 100. |
-| offset | int | See [Pagination](#pagination). The default is 0. |
+| limit | integer | See [Pagination](#pagination). The default is 100. |
+| offset | integer | See [Pagination](#pagination). The default is 0. |
 
 ##### Sample request
 
