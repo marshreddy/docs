@@ -930,11 +930,11 @@ A timetable of vehicles travelling on a line.
 
 Retrieves a timetable for a line, consisting of a list of departures on this line in order of departure time.
 
-`GET api/lines/{lineId}/timetables?earliestDepartureTime={DateTime}&departureStopId={stop}&arrivalStopId={stop}&limit={int}`
+`GET api/lines/{id}/timetables?earliestDepartureTime={DateTime}&departureStopId={stop}&arrivalStopId={stop}&limit={int}`
 
-| Query Parameter | Type | Notes |
+| Parameter | Type | Notes |
 | :-------------- | :--- | :---- |
-| lineId | [Identifier](#identifiers) | Required line identifier to get timetables by. |
+| id | [Identifier](#identifiers) | The identifier of the line. |
 | earliestDepartureTime | [DateTime](#datetime) | Optional earliest departure time on that line to be included in the timetable. |
 | departureStopId | [Identifier](#identifiers) | Optional stop identifier - bounds results to only occur after this stop. |
 | arrivalStopId | [Identifier](#identifiers) | Optional stop identifier - bounds results to only occur before this stop. |
