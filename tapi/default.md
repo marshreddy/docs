@@ -62,7 +62,7 @@ POST api/journeys
 
 #### Compression
 
-The API compresses response data using GZIP compression as defined by the HTTP 1.1 specification. Disabling compression can be done by setting the **Allow-Compression** request header to **false**. The response will always have the **Content-Encoding** response header set to **gzip** when the response body is compressed accordingly.
+The API compresses response data using GZIP compression as defined by the HTTP 1.1 specification. The **Content-Encoding** response header will be set to **gzip** when the response body is compressed.
 
 **Note:** No other methods of compression are supported. Request compression is not supported.
 
