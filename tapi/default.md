@@ -2,7 +2,7 @@
 
 ## Overview
 
-Central to the WhereIsMyTransport platform is our transport API. It is based on [REST](http://en.wikipedia.org/wiki/Representational_State_Transfer), [JSON](http://www.json.org/), [OAuth 2.0](http://oauth.net/2/) and [OpenID Connect](http://openid.net/connect/). These are standards which are broadly supported in the industry. 
+Central to the WhereIsMyTransport platform is our transport API. It is based on [REST](http://en.wikipedia.org/wiki/Representational_State_Transfer), [JSON](http://www.json.org/), [OAuth 2.0](http://oauth.net/2/) and [OpenID Connect](http://openid.net/connect/). These are standards which are broadly supported in the industry.
 
 ### Introduction
 
@@ -23,7 +23,7 @@ The API uses standard HTTP verbs as part of the uniform interface and must be us
 | `GET` | To retrieve a resource or collection of resources. |
 | `POST` | To create a resource. |
 
-#### HTTP status codes 
+#### HTTP status codes
 
 The status code in an HTTP request's response describes the outcome of the performed action. Listed below are the supported status codes used in the API.
 
@@ -149,7 +149,7 @@ The token response model will also contain a field called **expires_in**. This f
 
 The API uses conventional HTTP [status code](#http-status-codes) to indicate the result of a request. Codes within the 200s indicate that the request was successful. Codes within the 400s indicate that the request was somehow badly formed (such as a missing or incorrectly formatted field). 500s are typically returned when something unexpected goes wrong on the server. The **error response model** below will be returned for any error.
 
-#### Error response model 
+#### Error response model
 
 | Field | Type | Description |
 | :--------- | :--- | :---- |
@@ -235,7 +235,7 @@ GET api/stops/eBTeYLPXOkWm5zyfjZVaZg
 }
 ```
 
-### Excluding data 
+### Excluding data
 
 In order to reduce payload, it is possible to exclude certain objects or collections from the model returned in the body of the HTTP response. This is done through the use of the **exclude** query. Fields which are _excludable_ are described in the specification with the [Excludable](#excluding-data) tag.
 
@@ -255,11 +255,11 @@ POST api/journeys/8GYKddjcAk6j7aVUAMV3pw?exclude=geometry,directions
 
 ### Understanding Scheduled Data
 
-All retrievable entities from the API constitute scheduled data. This means that entities may change over time. They may not even exist forever. An agency, for example, may schedule a line's name to change, not now, but only after a certain date.  A new stop could be scheduled to only be returned from the API at some given date. 
+All retrievable entities from the API constitute scheduled data. This means that entities may change over time. They may not even exist forever. An agency, for example, may schedule a line's name to change, not now, but only after a certain date.  A new stop could be scheduled to only be returned from the API at some given date.
 
 The important thing to note that is an entity could be deprecated in a future schedule. This means that any entity resource URL could return a **404 Not Found** [status code](#http-status-codes). Furthermore, new entities could be added at any point. Applications built on this API are highly encouraged to cater for this.
 
-### Pagination 
+### Pagination
 
 Collection endpoints are paginated so to ensure that responses are easier to handle and that payload is kept to a manageable size.
 
@@ -276,9 +276,9 @@ The request below will retrieve 10 stops from the 50th stop onwards.
 GET api/stops?limit=10&offset=50
 ```
 
-### Formatting Standards 
+### Formatting Standards
 
-#### DateTime 
+#### DateTime
 
 A typical format for encoding of date and time in JSON is to use the ISO 8601 standard. This is a well-established specification which is both human readable and widely supported by many web-based frameworks.
 
@@ -288,7 +288,7 @@ More information can be found [here](https://en.wikipedia.org/wiki/ISO_8601).
 
 **Note:** ISO 8601 dates are timezone-agnostic and so are communicated in UTC (Coordinated Universal Time).
 
-#### Culture 
+#### Culture
 
 The appropriate culture format used in the API is based on RFC 4646. This unique name is a combination of an ISO 639 two-letter lowercase culture code associated with a language and an ISO 3166 two-letter uppercase subculture code associated with a country or region.
 
@@ -296,7 +296,7 @@ For example, _en-US_ refers to English (United States) and _en-ZA_ to English (S
 
 The detailed specification can be found [here](https://www.ietf.org/rfc/rfc4646.txt).
 
-#### Cost 
+#### Cost
 
 Monetary amounts are represented by the cost object, which is made up of an amount, as a decimal value, and the applicable currency code. The currency code is such as defined in ISO 4217. For example, **ZAR** represents the South African Rand. More information and a full list of currency codes can be found [here](https://en.wikipedia.org/wiki/ISO_4217).
 
@@ -313,11 +313,11 @@ The following cost object represents the value of R10,50.
 }
 ```
 
-#### GeoJSON 
+#### GeoJSON
 
 [GeoJSON](http://geojson.org) is a JSON format for encoding geographic data structures. The API uses the _Point_, _MultiPoint_ and _LineString_ geometry types.
 
-A typical GeoJSON structure consists of a **type** field and an array of **coordinates**. 
+A typical GeoJSON structure consists of a **type** field and an array of **coordinates**.
 
 **Note:**  GeoJSON represents geographic coordinates with longitude first and then latitude, `[longitude, latitude]`. i.e. `[x, y]` in the Cartesian coordinate system.
 
@@ -337,7 +337,7 @@ The following GeoJSON Point represents the coordinates for Cape Town's city cent
 }
 ```
 
-#### Point 
+#### Point
 
 In order to provide a geographic position through the query string, a comma-separated latitude and longitude must be provided.
 
@@ -349,7 +349,7 @@ GET api/stops?point=-33.925430,18.436443&radius=1750
 
 **Note: ** The ordering of these two coordinates is latitude first and then longitude.
 
-#### BoundingBox 
+#### BoundingBox
 
 In order to provide a geographic bounding box through the query string, a comma-separated SW (south west) latitude, SW longitude, NE (north east) latitude and NE longitude must be provided in that order.  These coordinates represent the south west and north east corners of the bounding box.
 
@@ -359,7 +359,7 @@ In order to provide a geographic bounding box through the query string, a comma-
 GET api/stops?bbox=-33.94,18.36,-33.89,18.43
 ```
 
-#### Distance 
+#### Distance
 
 Distance is returned as an object consisting of the distance **value** (an integer) and the associated **unit** symbol.
 
@@ -441,14 +441,14 @@ GET api/agencies?bbox=-33.94,18.36,-33.89,18.43
         "href": "https://platform.whereismytransport.com/api/agencies/xp_eNbqkYEaZP2YZkHwQqg",
         "name": "Metrorail Western Cape",
         "culture": "en",
-		"description": "Urban railway system"
+        "description": "Urban railway system"
     },
     {
         "id": "5kcfZkKW0ku4Uk-A6j8MFA",
         "href": "https://platform.whereismytransport.com/api/agencies/5kcfZkKW0ku4Uk-A6j8MFA",
         "name": "MyCiTi",
         "culture": "en",
-		"description" : "IRT Bus"
+        "description" : "IRT Bus"
     },
     {
         "id": "PO83DTm4oEuJ19prwicxHw",
@@ -484,13 +484,13 @@ GET api/agencies/5kcfZkKW0ku4Uk-A6j8MFA
     "href": "https://platform.whereismytransport.com/api/agencies/5kcfZkKW0ku4Uk-A6j8MFA",
     "name": "MyCiTi",
     "culture": "en",
-	"description" : "IRT Bus"
+    "description" : "IRT Bus"
 }
 ```
 
 ### Stops
 
-A location where passengers can board or alight from a transport vehicle. 
+A location where passengers can board or alight from a transport vehicle.
 
 #### Stop response model
 
@@ -1128,7 +1128,7 @@ POST api/journeys?exclude=line,stop,fareProduct
     "time": "2016-08-30T10:30:00Z",
     "omit": {
         "modes": [
-            "Rail", 
+            "Rail",
             "LightRail"
         ]
     },
@@ -1170,7 +1170,7 @@ This request will exclude unneeded information on all contained stop, line and f
     "omit": {
         "agencies": [],
         "modes": [
-            "Rail", 
+            "Rail",
             "LightRail"
         ]
     },
