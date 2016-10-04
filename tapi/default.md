@@ -407,6 +407,7 @@ An agency, or operator, is an organisation which provides and governs a transpor
 | href | [hyperlink](#resource-linking) | The hyperlink to this resource. |
 | name | string | The full name of the agency. |
 | culture | string | The name of the [culture](#culture), based on RFC 4646. |
+| description | string | A brief description of the agency or how it operates.  |
 
 #### Retrieving agencies
 
@@ -439,13 +440,15 @@ GET api/agencies?bbox=-33.94,18.36,-33.89,18.43
         "id": "xp_eNbqkYEaZP2YZkHwQqg",
         "href": "https://platform.whereismytransport.com/api/agencies/xp_eNbqkYEaZP2YZkHwQqg",
         "name": "Metrorail Western Cape",
-        "culture": "en"
+        "culture": "en",
+		"description": "Urban railway system"
     },
     {
         "id": "5kcfZkKW0ku4Uk-A6j8MFA",
         "href": "https://platform.whereismytransport.com/api/agencies/5kcfZkKW0ku4Uk-A6j8MFA",
         "name": "MyCiTi",
-        "culture": "en"
+        "culture": "en",
+		"description" : "IRT Bus"
     },
     {
         "id": "PO83DTm4oEuJ19prwicxHw",
@@ -480,7 +483,8 @@ GET api/agencies/5kcfZkKW0ku4Uk-A6j8MFA
     "id": "5kcfZkKW0ku4Uk-A6j8MFA",
     "href": "https://platform.whereismytransport.com/api/agencies/5kcfZkKW0ku4Uk-A6j8MFA",
     "name": "MyCiTi",
-    "culture": "en"
+    "culture": "en",
+	"description" : "IRT Bus"
 }
 ```
 
