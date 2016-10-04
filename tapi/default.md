@@ -407,7 +407,7 @@ An agency, or operator, is an organisation which provides and governs a transpor
 | href | [hyperlink](#resource-linking) | The hyperlink to this resource. |
 | name | string | The full name of the agency. |
 | culture | string | The name of the [culture](#culture), based on RFC 4646. |
-| description | string | A brief description of the agency or how it operates.  |
+| description | string | A brief description of the agency or how it operates, if availible.  |
 
 #### Retrieving agencies
 
