@@ -2,7 +2,7 @@
 
 ## Overview
 
-Central to the WhereIsMyTransport platform is our transport API. It is based on <a href="http://en.wikipedia.org/wiki/Representational_State_Transfer" target="_blank">REST</a>, <a href="http://www.json.org/" target="_blank">JSON</a>, <a href="http://oauth.net/2/" target="_blank">OAuth 2.0</a> and <a href="http://openid.net/connect/" target="_blank">OpenID Connect</a>. These are standards which are broadly supported in the industry.
+Central to the WhereIsMyTransport platform is our transport API. It is based on [REST](http://en.wikipedia.org/wiki/Representational_State_Transfer), [JSON](http://www.json.org/), [OAuth 2.0](http://oauth.net/2/) and [OpenID Connect](http://openid.net/connect/). These are standards which are broadly supported in the industry.
 
 ### Introduction
 
