@@ -1,6 +1,6 @@
 {
   "id": "2c30178c-b6a5-0997-cbba-33c61ff647a5",
-  "name": "WIMT Postman for Developers",
+  "name": "WhereIsMyTransport Postman for Developers",
   "values": [
     {
       "key": "IdentityServerUrl",
