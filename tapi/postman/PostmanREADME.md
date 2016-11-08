@@ -1,4 +1,4 @@
-![](logo.svg)
+![](./logo.png)
 
 # Postman Collection
 
@@ -61,15 +61,12 @@ One needs to be authenticated in order to make API requests to the WhereIsMyTran
 For this you need to do the following:
 
 1. Create a client on **WhereIsMyTransport** [Developer Portal](https://developer.whereismytransport.com/).
-
-![](devportal_client_create.png)
+    ![](devportal_client_create.png)
 
 2. Copy the *ClientId* and *ClientSecret* into the respective fields of the postman environment.
-
-![](devportal_client.png)
+    ![](devportal_client.png)
 
 3. From Postman, get a token, with the updated credentials, using the first API call in the collection, i.e. "**POST** Token". You should see a success response, along with a BearerToken response. This is automatically saved in the postman environment variables, and at this point you are authenticated to connect to the platform, until the token expires.
-
-![](postman_5_token.png)
+    ![](postman_5_token.png)
 
 4. To use the token for the other API calls, specify it as a header with `Authorization: Bearer {token}`. Now you can explore all the other API calls in the collection, and refer to our [Documentation](https://developer.whereismytransport.com/documentation) to see all possible parameters, etc.
