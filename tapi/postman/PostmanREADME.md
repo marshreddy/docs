@@ -72,4 +72,4 @@ For this you need to do the following:
 
 ![](postman_5_token.png)
 
-4. Now you can explore all the other API calls in the collection, and refer to our [Documentation](https://developer.whereismytransport.com/documentation) to see all possible parameters, etc.
+4. To use the token for the other API calls, specify it as a header with `Authorization: Bearer {token}`. Now you can explore all the other API calls in the collection, and refer to our [Documentation](https://developer.whereismytransport.com/documentation) to see all possible parameters, etc.
