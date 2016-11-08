@@ -13,12 +13,11 @@ At the end of this guide you will have completed the following:
 - Request a Token using the created Client
 - Make API calls to the WhereIsMyTransport platform, using the acquired Token
 
-
 ## Setup Postman
 
 1. Download [**Postman**](https://www.getpostman.com/)
-2. Download the **WhereIsMyTransport** [Postman **Collection**](WimtPlatformCollection.json)
-3. Download the **WhereIsMyTransport** [Postman **Environment**](WimtPlatformEnvironment.json)
+2. Download the **WhereIsMyTransport** [Postman **Collection**](PlatformCollection.json)
+3. Download the **WhereIsMyTransport** [Postman **Environment**](PlatformEnvironment.json)
 4. Open Postman and Add the above **Collection** and **Environment** as follows:
 
     4.1 **Adding the Collection**
