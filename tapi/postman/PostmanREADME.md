@@ -4,7 +4,7 @@
 
 ## Overview
 
-This guide helps getting developers started with using the WhereIsMyTransport platform, using Postman. 
+This guide helps developers get started with the WhereIsMyTransport platform, using Postman. 
 
 At the end of this guide you will have completed the following:
 
@@ -26,7 +26,7 @@ At the end of this guide you will have completed the following:
 
     ![](postman_1_import_collection.png)
 
-    Once your collection has been loaded, you should see it in the left pane. This is a collection of REST API calls for the **WhereIsMyTransport** platform.
+    Once your collection has been imported, you should see it in the left pane. This is a collection of REST API calls for the **WhereIsMyTransport** platform.
 
     ![](postman_2_import_done.png)
 
@@ -37,7 +37,7 @@ At the end of this guide you will have completed the following:
 
     ![](postman_3_import_environment.png) 
     
-    Click on the environment to have a look at and edit the fields in the key-value pairs in the environment:
+    Click on the environment to have a look at and edit the fields in the key-value pairs:
     
     ![](postman_4_environment.png)
 
@@ -47,20 +47,20 @@ At the end of this guide you will have completed the following:
 
     To test it, select the first API call in the collection: **POST** token, and send the request. 
     
-    You should see a response stating something along the lines of `error: invalid_client`. Don't worry, this means that Postman has been setup correctly. 
+    You should see the response: `error: invalid_client`. Don't worry, this means that Postman has been setup correctly. 
     
     The reason for this is that the **ClientId** and **ClientSecret** fields in the Postman Environment are blank.
     
-    In the next step we will create client credentials, with which you can connect to the **WhereIsMyTransport** platform.
+    In the next step we will create Client credentials, with which you can connect to the **WhereIsMyTransport** platform.
      
      
 ## Connect to our API
 
-One needs to be authenticated in order to make API requests to the WhereIsMyTransport platform. 
+You needs to be authenticated in order to make an API request to the WhereIsMyTransport platform. 
 
-For this you need to do the following:
+To do this you need to do the following:
 
-1. Create a client on **WhereIsMyTransport** [Developer Portal](https://developer.whereismytransport.com/).
+1. Create a Client on the **WhereIsMyTransport** [Developer Portal](https://developer.whereismytransport.com/).
     ![](devportal_client_create.png)
 
 2. Copy the *ClientId* and *ClientSecret* into the respective fields of the postman environment.
@@ -69,4 +69,4 @@ For this you need to do the following:
 3. From Postman, get a token, with the updated credentials, using the first API call in the collection, i.e. "**POST** Token". You should see a success response, along with a BearerToken response. This is automatically saved in the postman environment variables, and at this point you are authenticated to connect to the platform, until the token expires.
     ![](postman_5_token.png)
 
-4. To use the token for the other API calls, specify it as a header with `Authorization: Bearer {token}`. Now you can explore all the other API calls in the collection, and refer to our [Documentation](https://developer.whereismytransport.com/documentation) to see all possible parameters, etc.
+4. To use the token for the other API calls, specify the token as a header with `Authorization: Bearer {token}`. For a complete set of the API's endpoints, please see the full [documentation](https://developer.whereismytransport.com/documentation).
