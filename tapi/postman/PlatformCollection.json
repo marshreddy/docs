@@ -1,8 +1,8 @@
 {
 	"variables": [],
 	"info": {
-		"name": "WIMT Postman for Developers",
-		"_postman_id": "89bb82be-6063-5c0a-551c-02795b2373e5",
+		"name": "WhereIsMyTransport Platform Collection",
+		"_postman_id": "a5554783-d1d6-53e6-234b-ccdee32e4b05",
 		"description": "",
 		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
 	},
@@ -14,12 +14,24 @@
 					"listen": "test",
 					"script": {
 						"type": "text/javascript",
-						"exec": "tests[\"Has Access Token\"] = responseBody.has(\"access_token\");\n\nif(tests[\"Has Access Token\"])\n{\n    var data = JSON.parse(responseBody);\n    var token = \"Bearer \" + data.access_token\n    postman.setEnvironmentVariable(\"BearerToken\", token)\n}\n\n\n"
+						"exec": [
+							"tests[\"Has Access Token\"] = responseBody.has(\"access_token\");",
+							"",
+							"if(tests[\"Has Access Token\"])",
+							"{",
+							"    var data = JSON.parse(responseBody);",
+							"    var token = \"Bearer \" + data.access_token",
+							"    postman.setEnvironmentVariable(\"BearerToken\", token)",
+							"}",
+							"",
+							"",
+							""
+						]
 					}
 				}
 			],
 			"request": {
-				"url": "{{IdentityServerUrl}}/connect/token",
+				"url": "https://identity.whereismytransport.com/connect/token",
 				"method": "POST",
 				"header": [
 					{
@@ -38,13 +50,13 @@
 					"urlencoded": [
 						{
 							"key": "client_id",
-							"value": "{{ClientId}}",
+							"value": "3efeebb7-08c3-4e92-b67e-7452d64ed4a0",
 							"type": "text",
 							"enabled": true
 						},
 						{
 							"key": "client_secret",
-							"value": "{{ClientSecret}}",
+							"value": "yjhOBFoGAiE86CWDKrkTpO31DKWES0UdwKeU3apLUck=",
 							"type": "text",
 							"enabled": true
 						},
@@ -73,12 +85,22 @@
 					"listen": "test",
 					"script": {
 						"type": "text/javascript",
-						"exec": "var schema = {\r\n    $schema: \"http://json-schema.org/draft-04/schema#\",\r\n    \"type\": \"array\",\r\n    \"items\": {\r\n        \"type\": \"object\",\r\n        \"properties\": {\r\n            \"id\": { type: \"string\" },\r\n            \"href\": { type: \"string\" },\r\n            \"name\": { type: \"string\" },\r\n            \"culture\": { type: \"string\"}\r\n        },\r\n        \"required\": [\"id\", \"name\",\"href\", \"culture\"]\r\n    }\r\n};\r\n\r\ntests[\"Is 200\"] = responseCode.code === 200;\r\n\r\n\r\nif (tests[\"Is 200\"])\r\n{\r\n    var data = JSON.parse(responseBody);\r\n \r\n    var result = tv4.validateResult(data, schema);\r\n\r\n    tests[\"Has items\"] = data.length > 0\r\n    tests[\"Valid schema\"] = result.valid;\r\n\tpostman.setEnvironmentVariable(\"AgencyId\", data[0].id);\r\n}"
+						"exec": [
+							"tests[\"Is 200\"] = responseCode.code === 200;\r",
+							"\r",
+							"if (tests[\"Is 200\"])\r",
+							"{\r",
+							"    var data = JSON.parse(responseBody);\r",
+							"\r",
+							"    tests[\"Has items\"] = data.length > 0\r",
+							"\tpostman.setEnvironmentVariable(\"AgencyId\", data[0].id);\r",
+							"}"
+						]
 					}
 				}
 			],
 			"request": {
-				"url": "{{TransportApiUrl}}/agencies?",
+				"url": "https://platform.whereismytransport.com/api/agencies?",
 				"method": "GET",
 				"header": [
 					{
@@ -114,12 +136,23 @@
 					"listen": "test",
 					"script": {
 						"type": "text/javascript",
-						"exec": "var schema = {\n    $schema: \"http://json-schema.org/draft-04/schema#\",\n    \"type\": \"array\",\n    \"items\": {\n        \"type\": \"object\",\n        \"properties\": {\n            \"id\": { \"type\": \"string\" },\n            \"href\": { type: \"string\" },\n            \"agency\": \n            { \n                \"type\": \"object\", \n                \"properties\": {\n                    \"id\": \"string\",\n                    \"href\": \"string\",\n                    \"name\": \"string\",\n                    \"culture\": \"string\"\n                }\n            },\n            \"name\": { \"type\": \"string\" },\n            \"mode\" : {\"type\": \"string\"},\n            \"shortName\" : { \"type\" : \"string\" },\n            \"description\" : { \"type\" : \"string\" },\n            \"colour\"  : { \"type\" : \"string\" },\n            \"textColour\" : { \"type\" : \"string\" }\n        },\n        \"additionalProperties\": false,\n        \"required\": [\"id\", \"agency\", \"mode\"]\n    }\n}\n\ntests[\"Is 200\"] = responseCode.code === 200;\n\nif (tests[\"Is 200\"])\n{\n    var data = JSON.parse(responseBody);\n    \n    tests[\"Has items\"] = data.length > 0\n    \n    var result = tv4.validateResult(data, schema);\n \n    tests[\"Valid schema\"] = result.valid;\n    \n    postman.setEnvironmentVariable(\"LineId\", data[0].id);\n}"
+						"exec": [
+							"tests[\"Is 200\"] = responseCode.code === 200;",
+							"",
+							"if (tests[\"Is 200\"])",
+							"{",
+							"    var data = JSON.parse(responseBody);",
+							"",
+							"    if(data.length > 0) {",
+							"    \tpostman.setEnvironmentVariable(\"AgencyId\", data[0].id);",
+							"    }",
+							"}"
+						]
 					}
 				}
 			],
 			"request": {
-				"url": "{{TransportApiUrl}}/lines?agencies=xp_eNbqkYEaZP2YZkHwQqg",
+				"url": "https://platform.whereismytransport.com/api/lines?agencies=xp_eNbqkYEaZP2YZkHwQqg",
 				"method": "GET",
 				"header": [
 					{
@@ -160,12 +193,15 @@
 					"listen": "test",
 					"script": {
 						"type": "text/javascript",
-						"exec": "var schema = {\n    $schema: \"http://json-schema.org/draft-04/schema#\",\n    \"type\": \"array\",\n    \"items\": {\n        \"type\": \"object\",\n        \"properties\": {\n            \"id\": { \"type\": \"string\" },\n            \"href\": { type: \"string\" },\n            \"agency\": \n            { \n                \"type\": \"object\", \n                \"properties\": {\n                    \"id\": \"string\",\n                    \"href\": \"string\",\n                    \"name\": \"string\",\n                    \"culture\": \"string\"\n                }\n            },\n            \"name\": { \"type\": \"string\" },\n            \"mode\" : {\"type\": \"string\"},\n            \"shortName\" : { \"type\" : \"string\" },\n            \"description\" : { \"type\" : \"string\" },\n            \"colour\"  : { \"type\" : \"string\" },\n            \"textColour\" : { \"type\" : \"string\" }\n        },\n        \"additionalProperties\": false,\n        \"required\": [\"id\", \"agency\", \"mode\"]\n    }\n}\n\ntests[\"Is 200\"] = responseCode.code === 200;\n\nif (tests[\"Is 200\"])\n{\n    var data = JSON.parse(responseBody);\n    \n    tests[\"Has items\"] = data.length > 0\n}"
+						"exec": [
+							"",
+							"tests[\"Is 200\"] = responseCode.code === 200;"
+						]
 					}
 				}
 			],
 			"request": {
-				"url": "{{TransportApiUrl}}/lines/{{LineId}}/shape?",
+				"url": "https://platform.whereismytransport.com/api/lines/{{LineId}}/shape?",
 				"method": "GET",
 				"header": [
 					{
@@ -206,12 +242,14 @@
 					"listen": "test",
 					"script": {
 						"type": "text/javascript",
-						"exec": "var schema = {\r\n    $schema: \"http://json-schema.org/draft-04/schema#\",\r\n    \"type\": \"array\",\r\n    \"items\": {\r\n        \"type\": \"object\",\r\n        \"properties\": {\r\n            \"tripName\": { \"type\": \"string\"},\r\n            \"direction\": { \"type\": \"string\"},\r\n            \"headsign\": { \"type\": \"string\"},\r\n            \"waypoints\": {\r\n                \"type\": \"array\",\r\n                \"items\": {\r\n                    \"type\":\"object\",\r\n                    \"properties\": {\r\n                        \"stop\": { \r\n                            \"type\": \"object\",\r\n                            \"properties\": {\r\n                                \"id\": { \"type\": \"string\" },\r\n                                \"agencyId\": { \"type\": \"string\" },\r\n                                \"name\": { \"type\": \"string\" },\r\n                                \"point\" : {\r\n                                    \"type\": \"object\",\r\n                                    \"properties\": {\r\n                                        \"type\": { \"type\": \"string\" },\r\n                                        \"coordinates\": { \r\n                                            \"type\": \"array\", \r\n                                            \"items\": { \"type\": \"number\" }\r\n                                        }\r\n                                    }\r\n                                }\r\n                            }\r\n                        },\r\n                        \"arrivalTime\": { type: \"string\" },\r\n                        \"departureTime\": { type: \"string\" }\r\n                    }\r\n                }\r\n            }\r\n        }\r\n    },\r\n    \"additionalProperties\": false,\r\n    \"required\": [\"tripName\", \"direction\", \"headsign\", \"waypoints\"]\r\n};\r\n\r\ntests[\"Is 200\"] = responseCode.code === 200;\r\n\r\nif (tests[\"Is 200\"])\r\n{\r\n    var data = JSON.parse(responseBody);\r\n \r\n    var result = tv4.validateResult(data, schema);\r\n\r\n    tests[\"Has items\"] = data.length > 0;\r\n    tests[\"Valid schema\"] = result.valid;\r\n}"
+						"exec": [
+							"tests[\"Is 200\"] = responseCode.code === 200;"
+						]
 					}
 				}
 			],
 			"request": {
-				"url": "{{TransportApiUrl}}/lines/{{LineId}}/timetables?",
+				"url": "https://platform.whereismytransport.com/api/lines/{{LineId}}/timetables?",
 				"method": "GET",
 				"header": [
 					{
@@ -247,12 +285,25 @@
 					"listen": "test",
 					"script": {
 						"type": "text/javascript",
-						"exec": "var schema = {\n    \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n    \"type\": \"array\",\n     \"items\": {\n        \"type\": \"object\",\n        \"properties\": {\n            \"id\": { \"type\": \"string\" },\n            \"agencyId\": { \"type\": \"string\" },\n            \"name\": { \"type\": \"string\" },\n            \"code\": { \"type\": \"string\" },\n            \"point\" : { \n                \"type\" : \"object\",\n                \"properties\": {\n                    \"type\": { \"type\": \"string\" },\n                    \"coordinates\": { \n                        \"type\": \"array\",\n                        \"minItems\": 2,\n                        \"maxItems\": 2,\n                        \"items\": { \"type\": \"number\" }\n                    }\n                },\n                \"additionalProperties\": false,\n                \"required\": [\"type\", \"coordinates\"]\n            },\n            \"additionalProperties\": false,\n            \"required\": [\"id\", \"agencyId\", \"name\", \"point\"]\n        }\n    }\n}\n\ntests[\"Is 200\"] = responseCode.code === 200;\n\nif (tests[\"Is 200\"])\n{\n    var data = JSON.parse(responseBody);\n    \n    tests[\"Has items\"] = data.length > 0\n    \n    var result = tv4.validateResult(data, schema);\n \n    tests[\"Valid schema\"] = result.valid;\n    \n    postman.setEnvironmentVariable(\"StopId\", data[0].id);\n}"
+						"exec": [
+							"",
+							"tests[\"Is 200\"] = responseCode.code === 200;",
+							"",
+							"if (tests[\"Is 200\"])",
+							"{",
+							"    var data = JSON.parse(responseBody);",
+							"    ",
+							"    if(data.length > 0) ",
+							"    {",
+							"        postman.setEnvironmentVariable(\"StopId\", data[0].id);",
+							"    }",
+							"}"
+						]
 					}
 				}
 			],
 			"request": {
-				"url": "{{TransportApiUrl}}/stops?",
+				"url": "https://platform.whereismytransport.com/api/stops?",
 				"method": "GET",
 				"header": [
 					{
@@ -293,12 +344,14 @@
 					"listen": "test",
 					"script": {
 						"type": "text/javascript",
-						"exec": "var schema = {\r\n    $schema: \"http://json-schema.org/draft-04/schema#\",\r\n    \"type\": \"array\",\r\n    \"items\": {\r\n        \"properties\": {\r\n            \"arrivalTime\": { type: \"string\" },\r\n            \"departureTime\": { type: \"string\" },\r\n            \"line\": {\r\n                \"type\": \"object\",\r\n                \"properties\": {\r\n                    \"id\": { \"type\": \"string\" },\r\n                    \"agencyId\": { \"type\": \"string\" },\r\n                    \"name\": { \"type\": \"string\" },\r\n                    \"mode\" : {\"type\": \"string\"}\r\n                },\r\n            },\r\n            \"headsign\": { type: \"string\" }\r\n        }\r\n    },\r\n    \"additionalProperties\": false,\r\n    \"required\": [\"arrivalTime\", \"departureTime\", \"line\", \"headsign\"]\r\n};\r\n\r\ntests[\"Is 200\"] = responseCode.code === 200;\r\n\r\nif (tests[\"Is 200\"])\r\n{\r\n    var data = JSON.parse(responseBody);\r\n \r\n    var result = tv4.validateResult(data, schema);\r\n\r\n    tests[\"Has items\"] = data.length > 0;\r\n    tests[\"Valid schema\"] = result.valid;\r\n}"
+						"exec": [
+							"tests[\"Is 200\"] = responseCode.code === 200;"
+						]
 					}
 				}
 			],
 			"request": {
-				"url": "{{TransportApiUrl}}/stops/{{StopId}}/timetables",
+				"url": "https://platform.whereismytransport.com/api/stops/{{StopId}}/timetables",
 				"method": "GET",
 				"header": [
 					{
@@ -334,19 +387,34 @@
 					"listen": "test",
 					"script": {
 						"type": "text/javascript",
-						"exec": "var schema = {\r\n\t\t\"$schema\": \"http://json-schema.org/draft-04/schema#\",\r\n\t\t\"type\": \"object\",\r\n\t\t\"properties\": {\r\n\t\t\t\"itineraries\": {\r\n\t\t\t\t\"type\": \"array\"\r\n            }\r\n        }\r\n    };\r\n\r\ntests[\"Is 201\"] = responseCode.code === 201;\r\n\r\nif(responseCode.code == 201)\r\n{\r\n    var data = JSON.parse(responseBody);\r\n    tests[\"Valid schema\"] = tv4.validateResult(data, schema).valid;\r\n    postman.setEnvironmentVariable(\"JourneyId\", data.id);\r\n}"
+						"exec": [
+							"tests[\"Is 201\"] = responseCode.code === 201;\r",
+							"\r",
+							"if(responseCode.code == 201)\r",
+							"{\r",
+							"    var data = JSON.parse(responseBody);\r",
+							"    \r",
+							"    if(data.length > 0) \r",
+							"    {\r",
+							"        postman.setEnvironmentVariable(\"JourneyId\", data.id);\r",
+							"    }\r",
+							"}"
+						]
 					}
 				},
 				{
 					"listen": "prerequest",
 					"script": {
 						"type": "text/javascript",
-						"exec": "var currentDateTimeUTC = (new Date()).toUTCString();\npostman.setEnvironmentVariable(\"CurrentDateTime\", currentDateTimeUTC);"
+						"exec": [
+							"var currentDateTimeUTC = (new Date()).toUTCString();",
+							"postman.setEnvironmentVariable(\"CurrentDateTime\", currentDateTimeUTC);"
+						]
 					}
 				}
 			],
 			"request": {
-				"url": "{{TransportApiUrl}}/journeys",
+				"url": "https://platform.whereismytransport.com/api/journeys",
 				"method": "POST",
 				"header": [
 					{
@@ -380,12 +448,24 @@
 					"listen": "test",
 					"script": {
 						"type": "text/javascript",
-						"exec": "var schema = {\r\n\t$schema: \"http://json-schema.org/draft-04/schema#\",\r\n\ttype:\"object\",\r\n\tproperties:{\r\n\t\t\"journeyId\":{type: \"string\"},\r\n\t\t\"departureTime\":{type: \"string\"},\r\n\t\t\"numberOfItineries\":{type: \"number\"},\r\n\t\t\"waypoints\":{\r\n\t\t\ttype: \"array\",\r\n\t\t\titems:{\r\n\t\t\t\ttype: \"object\",\r\n\t\t\t\tproperties:{\r\n\t\t\t\t\t\"departureTime\":{\r\n\t\t\t\t\t\ttype: \"object\",\r\n\t\t\t\t\t\tproperties:{\r\n\t\t\t\t\t\t\t\"ticks\":{type: \"number\"}\r\n\t\t\t\t\t\t}\r\n\t\t\t\t\t},\r\n\t\t\t\t\t\"arrivalTime\":{\r\n\t\t\t\t\t\ttype: \"object\",\r\n\t\t\t\t\t\tproperties:{\r\n\t\t\t\t\t\t\t\"ticks\":{type: \"number\"}\r\n\t\t\t\t\t\t}\r\n\t\t\t\t\t},\r\n\t\t\t\t\t\"geometry\":{\r\n\t\t\t\t\t\ttype: \"object\",\r\n\t\t\t\t\t\tproperties:{\r\n\t\t\t\t\t\t\t\"type\":{type: \"string\"},\r\n\t\t\t\t\t\t\t\"coordinates\":{\r\n\t\t\t\t\t\t\t\ttype: \"array\",\r\n\t\t\t\t\t\t\t\titems:{\r\n\t\t\t\t\t\t\t\t\ttype: \"number\",\r\n\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t}\r\n\t\t\t\t\t}\r\n\t\t\t\t}\r\n\t\t\t}\r\n\t\t},\r\n\t\tlegs:{\r\n\t\t\ttype: \"array\",\r\n\t\t\titems:{\r\n\t\t\t\ttype: \"object\",\r\n\t\t\t\tproperties:{\r\n\t\t\t\t\t\"type\":{type: \"string\"},\r\n\t\t\t\t\t\"distanceInMeters\":{type: \"number\"},\r\n\t\t\t\t\t\"durationInMinutes\":{type: \"number\"},\r\n\t\t\t\t\t\"departureTime\":{type: \"string\"},\r\n\t\t\t\t\t\"departurePoint\":{\r\n\t\t\t\t\t\ttype: \"object\",\r\n\t\t\t\t\t\tproperties:{\r\n\t\t\t\t\t\t\t\"type\":{type: \"string\"},\r\n\t\t\t\t\t\t\t\"coordinates\":{\r\n\t\t\t\t\t\t\t\ttype: \"array\",\r\n\t\t\t\t\t\t\t\titems:{\r\n\t\t\t\t\t\t\t\t\ttype: \"number\"\r\n\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t},\r\n\t\t\t\t\t\tadditionalProperties: false,\r\n\t\t\t\t\t\trequired: [\"type\", \"coordinates\"]\r\n\t\t\t\t\t},\r\n\t\t\t\t\t\"arrivalTime\":{type: \"string\"},\r\n\t\t\t\t\t\"arrivalPoint\":{\r\n\t\t\t\t\t\ttype: \"object\",\r\n\t\t\t\t\t\tproperties:{\r\n\t\t\t\t\t\t\t\"type\":{type: \"string\"},\r\n\t\t\t\t\t\t\t\"coordinates\":{\r\n\t\t\t\t\t\t\t\ttype: \"array\",\r\n\t\t\t\t\t\t\t\titems:{\r\n\t\t\t\t\t\t\t\t\ttype: \"number\"\r\n\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t},\r\n\t\t\t\t\t\tadditionalProperties: false,\r\n\t\t\t\t\t\trequired: [\"type\", \"coordinates\"]\r\n\t\t\t\t\t},\r\n\t\t\t\t\t\"waypoints\":{\r\n\t\t\t\t\t\ttype: \"array\",\r\n\t\t\t\t\t\titems:{\r\n\t\t\t\t\t\t\t\"departureTime\":{\r\n\t\t\t\t\t\t\t\ttype: \"object\",\r\n\t\t\t\t\t\t\t\tproperties:{\r\n\t\t\t\t\t\t\t\t\t\"ticks\":{type: \"number\"}\r\n\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t},\r\n\t\t\t\t\t\t\t\"arrivalTime\":{\r\n\t\t\t\t\t\t\t\ttype: \"object\",\r\n\t\t\t\t\t\t\t\tproperties:{\r\n\t\t\t\t\t\t\t\t\t\"ticks\":{type: \"number\"}\r\n\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t},\r\n\t\t\t\t\t\t\t\"geometry\":{\r\n\t\t\t\t\t\t\t\ttype: \"object\",\r\n\t\t\t\t\t\t\t\tproperties:{\r\n\t\t\t\t\t\t\t\t\t\"type\":{type: \"string\"},\r\n\t\t\t\t\t\t\t\t\t\"coordinates\":{\r\n\t\t\t\t\t\t\t\t\t\ttype: \"array\",\r\n\t\t\t\t\t\t\t\t\t\titems:{\r\n\t\t\t\t\t\t\t\t\t\t\ttype: \"number\"\r\n\t\t\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t\t},\r\n\t\t\t\t\t\t\t\tadditionalProperties: false,\r\n\t\t\t\t\t\t\t\trequired:[\"type\", \"coordinates\"]\r\n\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t}\r\n\t\t\t\t\t},\r\n\t\t\t\t\tadditionalProperties: false,\r\n\t\t\t\t\trequired:[\"type\", \"distanceInMeters\", \"durationInMinutes\",\"departureTime\", \"departurePoint\", \"arrivalTime\", \"arrivalPoint\", \"waypoints\"]\r\n\t\t\t\t}\r\n\t\t\t}\r\n\t\t},\r\n\t\tadditionalProperties: false,\r\n\t\trequired:[\"journeyId\", \"departureTime\", \"numberOfItineries\", \"waypoints\"]\r\n\t}\r\n}\r\n\r\ntests[\"Is 200\"] = responseCode.code === 200;\r\n\r\nif(responseCode.code == 200)\r\n{\r\n    var data = JSON.parse(responseBody);\r\n    tests[\"Valid journeyId\"] = postman.getEnvironmentVariable(\"JourneyId\") === data[\"id\"];\r\n    tests[\"Valid schema\"] = tv4.validateResult(data, schema).valid;\r\n}\r\n"
+						"exec": [
+							"tests[\"Is 200\"] = responseCode.code === 200;\r",
+							"\r",
+							"if(responseCode.code == 200)\r",
+							"{\r",
+							"    var data = JSON.parse(responseBody);\r",
+							"    if(data.length > 0)\r",
+							"    {\r",
+							"        tests[\"Valid schema\"] = tv4.validateResult(data, schema).valid;\r",
+							"    }\r",
+							"}\r",
+							""
+						]
 					}
 				}
 			],
 			"request": {
-				"url": "{{TransportApiUrl}}/journeys/{{JourneyId}}",
+				"url": "https://platform.whereismytransport.com/api/journeys/{{JourneyId}}",
 				"method": "GET",
 				"header": [
 					{
@@ -426,12 +506,25 @@
 					"listen": "test",
 					"script": {
 						"type": "text/javascript",
-						"exec": "var schema = {\n    $schema: \"http://json-schema.org/draft-04/schema#\",\n    type: \"array\",\n    items: {\n        type: \"object\",\n        properties: {\n            \"id\": { type: \"string\" }\n        },\n        additionalProperties: true,\n        required: [\"id\"]\n    },\n    additionalProperties: true\n}\n\ntests[\"Is 200\"] = responseCode.code === 200;\n\n\nif(responseCode.code == 200)\n{\n    var data = JSON.parse(responseBody);\n    tests[\"Valid schema\"] = tv4.validateResult(data, schema).valid;\n    \n    tests[\"Has Itineraries\"] = data.length > 0;\n    \n    if(tests[\"Has Itineraries\"])\n    {\n        postman.setEnvironmentVariable(\"ItineraryId\", data[0][\"id\"]);\n    }\n}"
+						"exec": [
+							"tests[\"Is 200\"] = responseCode.code === 200;",
+							"",
+							"",
+							"if(responseCode.code == 200)",
+							"{",
+							"    var data = JSON.parse(responseBody);",
+							"    ",
+							"    if(data.length > 0)",
+							"    {",
+							"        postman.setEnvironmentVariable(\"ItineraryId\", data[0][\"id\"]);",
+							"    }",
+							"}"
+						]
 					}
 				}
 			],
 			"request": {
-				"url": "{{TransportApiUrl}}/journeys/{{JourneyId}}/itineraries",
+				"url": "https://platform.whereismytransport.com/api/journeys/{{JourneyId}}/itineraries",
 				"method": "GET",
 				"header": [
 					{
