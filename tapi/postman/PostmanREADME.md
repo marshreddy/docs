@@ -9,9 +9,9 @@ This guide helps getting developers started with using the WhereIsMyTransport pl
 At the end of this guide you will have completed the following:
 
 - Setup Postman (REST client)
-- Create a Client for the WhereIsMyTransport platform
-- Request a Token using the created Client
-- Make API calls to the WhereIsMyTransport platform, using the acquired Token
+- Create a client for the WhereIsMyTransport platform
+- Request a token using the created client
+- Perform API requests to the WhereIsMyTransport platform, using the acquired token
 
 ## Setup Postman
 
@@ -66,7 +66,7 @@ For this you need to do the following:
 2. Copy the *ClientId* and *ClientSecret* into the respective fields of the postman environment.
     ![](devportal_client.png)
 
-3. From Postman, get a token, with the updated credentials, using the first API call in the collection, i.e. "**POST** Token". You should see a success response, along with a BearerToken response. This is automatically saved in the postman environment variables, and at this point you are authenticated to connect to the platform, until the token expires.
+3. From Postman, get a token, with the updated credentials, using the first API call in the collection, i.e. "**POST** token". You should see a success response, along with a BearerToken response. This is automatically saved in the postman environment variables, and at this point you are authenticated to connect to the platform, until the token expires.
     ![](postman_5_token.png)
 
 4. To use the token for the other API calls, specify it as a header with `Authorization: Bearer {token}`. Now you can explore all the other API calls in the collection, and refer to our [Documentation](https://developer.whereismytransport.com/documentation) to see all possible parameters, etc.
