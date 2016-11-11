@@ -17,10 +17,9 @@ At the end of this guide you will have completed the following:
 
 1. Download [**Postman**](https://www.getpostman.com/)
 2. Download the **WhereIsMyTransport** [Postman **Collection**](PlatformCollection.json)
-3. Download the **WhereIsMyTransport** [Postman **Environment**](PlatformEnvironment.json)
-4. Open Postman and Add the above **Collection** and **Environment** as follows:
+3. Open Postman and Add the above **Collection** and **Environment** as follows:
 
-    4.1 **Adding the Collection**
+    3.1 **Adding the Collection**
     
     Click the import button, and select the collection from where you downloaded it in the previous step.
 
@@ -29,21 +28,6 @@ At the end of this guide you will have completed the following:
     Once your collection has been imported, you should see it in the left pane. This is a collection of REST API calls for the **WhereIsMyTransport** platform.
 
     ![](postman_2_import_done.png)
-
-    4.2 **Adding the Environment**
-
-    Click the settings button (top right), and click on **Manage Environments**. 
-    On the dialog select the environment you downloaded in Step 3.
-
-    ![](postman_3_import_environment.png) 
-    
-    Click on the environment to have a look at and edit the fields in the key-value pairs:
-    
-    ![](postman_4_environment.png)
-
-    Close the dialog and in the top right corner, select the corresponding environment from the dropdown list.
-
-    Your environment is now setup correctly.
 
     To test it, select the first API call in the collection: **POST** token, and send the request. 
     
