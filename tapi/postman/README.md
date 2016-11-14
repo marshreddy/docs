@@ -53,4 +53,6 @@ To do this you need to do the following:
 3. From Postman, get a token, with the updated credentials, using the first API call in the collection, i.e. "**POST** token". You should see a success response, along with a BearerToken response. This is automatically saved in the postman environment variables, and at this point you are authenticated to connect to the platform, until the token expires.
     ![](postman_5_token.png)
 
-4. To use the token for the other API calls, specify the token as a header with `Authorization: Bearer {token}`. For a complete set of the API's endpoints, please see the full [documentation](https://developer.whereismytransport.com/documentation).
+4. To use the token for the other API calls, specify the token as a header with `Authorization: Bearer {token}`. For a complete set of the API's endpoints, please see the full [documentation](https://developer.whereismytransport.com/documentation). Below is an example of how to retrieve a list of agencies using the bearer token.
+    ![](postman_6_agencies.png)
+
