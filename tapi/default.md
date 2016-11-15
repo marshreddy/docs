@@ -394,6 +394,7 @@ The mode of transport describes the type of vehicle that is used along a line. T
 | Funicular | A rail system service designed for steep inclines. |
 | Coach | A long distance bus service. |
 | Air | A service for any air travel. |
+| ShareTaxi | A small vehicle operating without strict schedule. |
 
 ### Agencies
 
@@ -1398,6 +1399,7 @@ This request will exclude unneeded information on all contained stop, line and f
                             },
                             "arrivalTime": "2016-08-30T10:36:00Z",
                             "departureTime": "2016-08-30T10:36:00Z"
+                            "pickupType": "OnRequest"
                         },
                         {
                             "location": {
@@ -1572,7 +1574,9 @@ GET api/journeys/PEP5VsjJ6kuo6KZxAQjq2Q/itineraries/5CxmV36Blk6n6qZxAQjrdQ/legs/
                 "href": "https://platform.whereismytransport.com/api/stops/McWcQewKAUCZbluWHQk5kQ"
             },
             "arrivalTime": "2016-08-29T17:00:00Z",
-            "departureTime": "2016-08-29T17:00:00Z"
+            "departureTime": "2016-08-29T17:00:00Z",
+            "pickupType": "Never",
+            "dropOffType": "OnRequest"
         },
         {
             "stop": {
@@ -1596,6 +1600,8 @@ A waypoint is a stopping point along an itinerary. It has either an arrival date
 | departureTime | [DateTime](#datetime) | The departure date and time from this point of a leg. |
 | stop | [Stop](#stop-response-model) | **[**[Excludable](#excluding-data)**]** The stop of the waypoint. This can be returned in either _Walking_ or _Transit_ legs. |
 | location | [Location](#location-response-model) | The location of the waypoint if it is not a stop. This can be returned only in  Walking legs. |
+| pickupType | string | Describes if and how commuters can get onboard the vehicle here. Values may be 'Always', 'OnRequest', or 'Never'. If not specified, defaults to 'Always'. |
+| dropOffType | string | Describes if and how commuters can leave the vehicle here. Values may be 'Always', 'OnRequest', or 'Never'. If not specified, defaults to 'Always'. |
 
 #### Vehicle response model
 
