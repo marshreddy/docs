@@ -1531,6 +1531,7 @@ A _Transit_ leg is one which uses a public transportation service based on sched
 | Field | Type | Description |
 | :--------- | :--- | :---- |
 | type | string | The [type of leg](#types-of-legs), either _Walking_ or _Transit_. |
+| behaviour | string | Describes how closely this leg adheres to displayed times. Either _Static_ or _Estimated_ |
 | distance | [Distance](#distance) | If available, the total distance of the leg. |
 | duration | integer | If available, the total duration of the leg in seconds. |
 | line | [Line](#line-response-model) | **[**[Excludable](#excluding-data)**]** The line that is used on this leg of the itinerary. This is only returned for _Transit_ legs. |
