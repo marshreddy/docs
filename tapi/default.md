@@ -48,6 +48,7 @@ The **Accept** header describes the format of the content that the client can ac
 
 ```
 GET api/agencies
+Accept: application/json
 ```
 
 #### Content type
@@ -58,6 +59,8 @@ The **Content-Type** header describes the format of the data being posted to the
 
 ```
 POST api/journeys
+Accept: application/json
+Content-Type: application/json
 ```
 
 #### Compression
@@ -78,7 +81,7 @@ HTTP responses will return a `429 Forbidden` status code for any request until t
 Content-Type: application/json
 Retry-After: 53
 {
-    "message": "TransitApi quota has been reached."
+    "message": "Quota has been reached."
 }
 ```
 
