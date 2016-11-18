@@ -2,7 +2,7 @@
 
 ## Overview
 
-Central to the WhereIsMyTransport platform is our transport API. It is based on [REST](http://en.wikipedia.org/wiki/Representational_State_Transfer), [JSON](http://www.json.org/), [OAuth 2.0](http://oauth.net/2/) and [OpenID Connect](http://openid.net/connect/). These are standards which are broadly supported in the industry. 
+Central to the WhereIsMyTransport platform is our transport API. It is based on [REST](http://en.wikipedia.org/wiki/Representational_State_Transfer), [JSON](http://www.json.org/), [OAuth 2.0](http://oauth.net/2/) and [OpenID Connect](http://openid.net/connect/). These are standards which are broadly supported in the industry.
 
 ### Introduction
 
@@ -23,7 +23,7 @@ The API uses standard HTTP verbs as part of the uniform interface and must be us
 | `GET` | To retrieve a resource or collection of resources. |
 | `POST` | To create a resource. |
 
-#### HTTP status codes 
+#### HTTP status codes
 
 The status code in an HTTP request's response describes the outcome of the performed action. Listed below are the supported status codes used in the API.
 
@@ -44,30 +44,51 @@ The status code in an HTTP request's response describes the outcome of the perfo
 
 The **Accept** header describes the format of the content that the client can accept. All requests must specify this header as **application/json**. If the **Accept** header is not specified or the type is set to a value other than **application/json** then a **406 Not Acceptable** [status code](#http-status-codes) will be returned.
 
-### Sample request
+##### Sample request
 
 ```
 GET api/agencies
-Accept: application/json
 ```
 
 #### Content type
 
 The **Content-Type** header describes the format of the data being posted to the server. All POST requests must specify this header as **application/json**. If the **Content-Type** header is not specified or the type is set to a value other than **application/json** then a **415 Unsupported Media Type** [status code](#http-status-codes) will be returned.
 
-### Sample request
+##### Sample request
 
 ```
 POST api/journeys
-Accept: application/json
-Content-Type: application/json
 ```
 
 #### Compression
 
-The API compresses response data using GZIP compression as defined by the HTTP 1.1 specification. Disabling compression can be done by setting the **Allow-Compression** request header to **false**. The response will always have the **Content-Encoding** response header set to **gzip** when the response body is compressed accordingly.
+The API compresses response data using GZIP compression as defined by the HTTP 1.1 specification. The **Content-Encoding** response header will be set to **gzip** when the response body is compressed.
 
 **Note:** No other methods of compression are supported. Request compression is not supported.
+
+#### Rate Limiting
+
+The API enforces rate limits to help fairly distribute resources and protect against bursts of traffic.
+HTTP responses will return a `429 Forbidden` status code for any request until the rate limit has dropped below the required threshold. The remaining seconds until the rate limit is reset is shown in the `Retry-After` response header.
+
+##### Sample response
+
+```json
+429 Unknown
+Content-Type: application/json
+Retry-After: 53
+{
+    "message": "TransitApi quota has been reached."
+}
+```
+
+The API also supplies the `X-Rate-Limit-*` headers for all requests and contain the current rate limit state.
+
+| Header | Description |
+| :--------- | :--- | :---- |
+| X-Rate-Limit-Limit | Total number of requests possible. |
+| X-Rate-Limit-Remaining | Number of requests left in the rate limit window. |
+| X-Rate-Limit-Reset | Timestamp when the rate limit will reset. |
 
 #### HTTPS
 
@@ -83,7 +104,7 @@ Using client credentials one can make requests against the _security token servi
 
 #### Security token endpoint
 
-The following is the full URI endpoint used to retrieve a token.
+The following is the full URL endpoint used to retrieve a token.
 
 `https://identity.whereismytransport.com/connect/token`
 
@@ -122,13 +143,13 @@ A **401 Unauthorized** [status code](#http-status-codes) will be returned if the
 
 #### Token expiry
 
-XYZ
+The token response model will also contain a field called **expires_in**. This field denotes how long the token will be fresh since the token was issued (in seconds). After this period elapses that very token will become stale, and a new token will need to be retreived from the security token endpoint.
 
 ### Errors
 
 The API uses conventional HTTP [status code](#http-status-codes) to indicate the result of a request. Codes within the 200s indicate that the request was successful. Codes within the 400s indicate that the request was somehow badly formed (such as a missing or incorrectly formatted field). 500s are typically returned when something unexpected goes wrong on the server. The **error response model** below will be returned for any error.
 
-#### Error response model 
+#### Error response model
 
 | Field | Type | Description |
 | :--------- | :--- | :---- |
@@ -214,9 +235,9 @@ GET api/stops/eBTeYLPXOkWm5zyfjZVaZg
 }
 ```
 
-### Excluding data 
+### Excluding data
 
-In order to reduce payload, it is possible to exclude certain objects or collections from the model returned in the body of the HTTP response. This is done through the use of the **exclude** query. Fields which are _excludable_ are described in the specification with the [Excludable](#excludable) tag.
+In order to reduce payload, it is possible to exclude certain objects or collections from the model returned in the body of the HTTP response. This is done through the use of the **exclude** query. Fields which are _excludable_ are described in the specification with the [Excludable](#excluding-data) tag.
 
 | Parameter | Type | Required | Description |
 | :-------------- | :--- | :---- | :---- |
@@ -226,7 +247,7 @@ When excluding resource objects, the containing object with their **id** and **h
 
 ##### Sample request
 
-The request below will exclude **geometry** and **directions** from the resource model.
+The request below will exclude **geometry** and **directions** from the response model.
 
 ```
 POST api/journeys/8GYKddjcAk6j7aVUAMV3pw?exclude=geometry,directions
@@ -234,18 +255,18 @@ POST api/journeys/8GYKddjcAk6j7aVUAMV3pw?exclude=geometry,directions
 
 ### Understanding Scheduled Data
 
-All retrievable entities from the API constitute scheduled data. This means that entities may change over time. They may not even exist forever. An agency, for example, may schedule a line's name to change, not now, but only after a certain date.  A new stop could be scheduled to only be returned from the API at some given date. 
+All retrievable entities from the API constitute scheduled data. This means that entities may change over time. They may not even exist forever. An agency, for example, may schedule a line's name to change, not now, but only after a certain date.  A new stop could be scheduled to only be returned from the API at some given date.
 
-The important thing to note that is an entity could be deprecated in a future schedule. This means that any entity resource URI could return a **404 Not Found** [status code](#http-status-codes). Furthermore, new entities could be added at any point. Applications built on this API are highly encouraged to cater for this.
+The important thing to note that is an entity could be deprecated in a future schedule. This means that any entity resource URL could return a **404 Not Found** [status code](#http-status-codes). Furthermore, new entities could be added at any point. Applications built on this API are highly encouraged to cater for this.
 
-### Pagination 
+### Pagination
 
-Collection endpoints are paginated so to ensure that responses are easier to handle and that payload it kept to a manageable size.
+Collection endpoints are paginated so to ensure that responses are easier to handle and that payload is kept to a manageable size.
 
-| Parameter | Type | Required | Description |
-| :-------------- | :--- | :---- | :---- |
-| limit | int | Optional | The number of entities to be returned. The default and maximum is typically 100 unless otherwise specified. |
-| offset | int | Optional | The zero-based offset of the first entity returned. The default is always 0.  |
+| Parameter | Type | Description |
+| :-------------- | :--- | :---- |
+| limit | integer | The number of entities to be returned. The default and maximum is typically 100 unless otherwise specified. |
+| offset | integer | The zero-based offset of the first entity returned. The default is always 0.  |
 
 ##### Sample request
 
@@ -255,9 +276,9 @@ The request below will retrieve 10 stops from the 50th stop onwards.
 GET api/stops?limit=10&offset=50
 ```
 
-### Formatting Standards 
+### Formatting Standards
 
-#### DateTime 
+#### DateTime
 
 A typical format for encoding of date and time in JSON is to use the ISO 8601 standard. This is a well-established specification which is both human readable and widely supported by many web-based frameworks.
 
@@ -267,7 +288,7 @@ More information can be found [here](https://en.wikipedia.org/wiki/ISO_8601).
 
 **Note:** ISO 8601 dates are timezone-agnostic and so are communicated in UTC (Coordinated Universal Time).
 
-#### Culture 
+#### Culture
 
 The appropriate culture format used in the API is based on RFC 4646. This unique name is a combination of an ISO 639 two-letter lowercase culture code associated with a language and an ISO 3166 two-letter uppercase subculture code associated with a country or region.
 
@@ -275,7 +296,7 @@ For example, _en-US_ refers to English (United States) and _en-ZA_ to English (S
 
 The detailed specification can be found [here](https://www.ietf.org/rfc/rfc4646.txt).
 
-#### Cost 
+#### Cost
 
 Monetary amounts are represented by the cost object, which is made up of an amount, as a decimal value, and the applicable currency code. The currency code is such as defined in ISO 4217. For example, **ZAR** represents the South African Rand. More information and a full list of currency codes can be found [here](https://en.wikipedia.org/wiki/ISO_4217).
 
@@ -292,11 +313,11 @@ The following cost object represents the value of R10,50.
 }
 ```
 
-#### GeoJSON 
+#### GeoJSON
 
 [GeoJSON](http://geojson.org) is a JSON format for encoding geographic data structures. The API uses the _Point_, _MultiPoint_ and _LineString_ geometry types.
 
-A typical GeoJSON structure consists of a **type** field and an array of **coordinates**. 
+A typical GeoJSON structure consists of a **type** field and an array of **coordinates**.
 
 **Note:**  GeoJSON represents geographic coordinates with longitude first and then latitude, `[longitude, latitude]`. i.e. `[x, y]` in the Cartesian coordinate system.
 
@@ -316,7 +337,7 @@ The following GeoJSON Point represents the coordinates for Cape Town's city cent
 }
 ```
 
-#### Point 
+#### Point
 
 In order to provide a geographic position through the query string, a comma-separated latitude and longitude must be provided.
 
@@ -328,9 +349,9 @@ GET api/stops?point=-33.925430,18.436443&radius=1750
 
 **Note: ** The ordering of these two coordinates is latitude first and then longitude.
 
-#### BoundingBox 
+#### BoundingBox
 
-In order to provide a geographic bounding box through the query string, a comma-separated SW (south west) latitude, SW longitude, NE (north east) latitude and NE longitude must be provided in that order.  These coordiantes represent the south west and north east corners of the bounding box.
+In order to provide a geographic bounding box through the query string, a comma-separated SW (south west) latitude, SW longitude, NE (north east) latitude and NE longitude must be provided in that order.  These coordinates represent the south west and north east corners of the bounding box.
 
 ##### Sample request
 
@@ -338,7 +359,7 @@ In order to provide a geographic bounding box through the query string, a comma-
 GET api/stops?bbox=-33.94,18.36,-33.89,18.43
 ```
 
-#### Distance 
+#### Distance
 
 Distance is returned as an object consisting of the distance **value** (an integer) and the associated **unit** symbol.
 
@@ -386,6 +407,7 @@ An agency, or operator, is an organisation which provides and governs a transpor
 | href | [hyperlink](#resource-linking) | The hyperlink to this resource. |
 | name | string | The full name of the agency. |
 | culture | string | The name of the [culture](#culture), based on RFC 4646. |
+| description | string | A brief description of the agency or how it operates, if available.  |
 
 #### Retrieving agencies
 
@@ -400,8 +422,8 @@ Retrieves a collection of agencies.
 | bbox | [BoundingBox](#boundingbox) | The bounding box from where to retrieve agencies. This will be ignored if a point is provided in the query.  |
 | agencies | Array of [Identifier](#identifiers) | A string of comma-separated agency identifiers which to filter the results by. |
 | exclude | string | A string of comma-separated object or collection names to [exclude](#excluding-data) from the response. |
-| limit | int | See [Pagination](#pagination). The default is 100. |
-| offset | int | See [Pagination](#pagination). The default is 0. |
+| limit | integer | See [Pagination](#pagination). The default is 100. |
+| offset | integer | See [Pagination](#pagination). The default is 0. |
 
 ##### Sample request
 
@@ -418,13 +440,15 @@ GET api/agencies?bbox=-33.94,18.36,-33.89,18.43
         "id": "xp_eNbqkYEaZP2YZkHwQqg",
         "href": "https://platform.whereismytransport.com/api/agencies/xp_eNbqkYEaZP2YZkHwQqg",
         "name": "Metrorail Western Cape",
-        "culture": "en"
+        "culture": "en",
+        "description": "Urban railway system"
     },
     {
         "id": "5kcfZkKW0ku4Uk-A6j8MFA",
         "href": "https://platform.whereismytransport.com/api/agencies/5kcfZkKW0ku4Uk-A6j8MFA",
         "name": "MyCiTi",
-        "culture": "en"
+        "culture": "en",
+        "description" : "IRT Bus"
     },
     {
         "id": "PO83DTm4oEuJ19prwicxHw",
@@ -459,13 +483,14 @@ GET api/agencies/5kcfZkKW0ku4Uk-A6j8MFA
     "id": "5kcfZkKW0ku4Uk-A6j8MFA",
     "href": "https://platform.whereismytransport.com/api/agencies/5kcfZkKW0ku4Uk-A6j8MFA",
     "name": "MyCiTi",
-    "culture": "en"
+    "culture": "en",
+    "description" : "IRT Bus"
 }
 ```
 
 ### Stops
 
-A location where passengers can board or alight from a transport vehicle. 
+A location where passengers can board or alight from a transport vehicle.
 
 #### Stop response model
 
@@ -473,12 +498,12 @@ A location where passengers can board or alight from a transport vehicle.
 | :--------- | :--- | :---- |
 | id | [Identifier](#identifiers) | The identifier of the stop. |
 | href | [hyperlink](#resource-linking) | The hyperlink to this resource. |
-| agency | [Agency](#agency-response-model) | **[**[Excludable](#excludable)**]** The agency. |
+| agency | [Agency](#agency-response-model) | **[**[Excludable](#excluding-data)**]** The agency. |
 | name | string | The full name of the stop. |
 | code | string | If available, the passenger code of the stop. |
 | geometry | [GeoJSON](#geojson) Point | The geographic point of the stop. |
 | modes | Array of [Mode](#modes) | The modes that are served by this stop. |
-| parentStop | [Stop](#stop-response-model) | **[**[Excludable](#excludable)**]** If applicable, the parent stop. |
+| parentStop | [Stop](#stop-response-model) | **[**[Excludable](#excluding-data)**]** If applicable, the parent stop. |
 
 #### Retrieving stops
 
@@ -496,8 +521,8 @@ Retrieves a collection of stops.
 | servesLines | Array of [Identifier](#identifiers) | A string of comma-separated line identifiers to filter the results by. |
 | showChildren | bool | Specifies whether or not to also return children stops. Default is false. |
 | exclude | string | A string of comma-separated object or collection names to [exclude](#excluding-data) from the response. |
-| limit | int | See [Pagination](#pagination). The default is 100. |
-| offset | int | See [Pagination](#pagination). The default is 0. |
+| limit | integer | See [Pagination](#pagination). The default is 100. |
+| offset | integer | See [Pagination](#pagination). The default is 0. |
 
 ##### Sample request
 
@@ -752,7 +777,7 @@ Retrieves a timetable for a stop, consisting of a list of occurrences of a vehic
 | id | [Identifier](#identifiers) | The identifier of the stop. |
 | earliestArrivalTime | [DateTime](#datetime) | The earliest arrival date and time to include in the timetable. |
 | exclude | string | A string of comma-separated object or collection names to [exclude](#excluding-data) from the response. |
-| limit | int | The maximum number of entities to be returned. Default is 10. |
+| limit | integer | The maximum number of entities to be returned. Default is 10. |
 
 ##### Sample request
 
@@ -818,7 +843,7 @@ A grouping together of routes marketed to passengers as a single section of the 
 | :--------- | :--- | :---- |
 | id | [Identifier](#identifiers) | The identifier of the line. |
 | href | [hyperlink](#resource-linking) | The hyperlink to this resource. |
-| agency | [Agency](#agency-response-model) | **[**[Excludable](#excludable)**]** The line's agency. |
+| agency | [Agency](#agency-response-model) | **[**[Excludable](#excluding-data)**]** The line's agency. |
 | name | string | If available, the full name of the line, . Either **name** or **shortName** will exist. |
 | shortName | string | If available, the short name of the line. Either **name** or **shortName** will exist. |
 | description | string | If available, a description of the line. |
@@ -837,8 +862,8 @@ Retrieves a collection of lines.
 | agencies | Array of [Identifier](#identifiers) | A comma-separated list of agency identifiers to filter the results by. |
 | servesStops | Array of [Identifier](#identifiers) | A comma-separated list of stop identifiers that represent stops which the returned lines must serve. |
 | exclude | string | A string of comma-separated object or collection names to [exclude](#excluding-data) from the response. |
-| limit | int | See [Pagination](#pagination). The default is 100. |
-| offset | int | See [Pagination](#pagination). The default is 0. |
+| limit | integer | See [Pagination](#pagination). The default is 100. |
+| offset | integer | See [Pagination](#pagination). The default is 0. |
 
 ##### Sample request
 
@@ -860,7 +885,7 @@ GET api/lines?agencies=5kcfZkKW0ku4Uk-A6j8MFA&limit=2
             "name": "MyCiTi",
             "culture": "en"
         },
-        "name": "A01 - Airport to Airport",
+        "name": "A01 - Civic Centre to Airport",
         "mode": "Bus",
         "colour": "#ffa7a9ac",
         "textColour": "#ffffffff"
@@ -933,16 +958,16 @@ A timetable of vehicles travelling on a line.
 
 Retrieves a timetable for a line, consisting of a list of departures on this line in order of departure time.
 
-`GET api/lines/{lineId}/timetables?earliestDepartureTime={DateTime}&departureStopId={stop}&arrivalStopId={stop}&limit={int}`
+`GET api/lines/{id}/timetables?earliestDepartureTime={DateTime}&departureStopId={stop}&arrivalStopId={stop}&limit={int}`
 
-| Query Parameter | Type | Notes |
+| Parameter | Type | Notes |
 | :-------------- | :--- | :---- |
-| lineId | [Identifier](#identifiers) | Required line identifier to get timetables by. |
+| id | [Identifier](#identifiers) | The identifier of the line. |
 | earliestDepartureTime | [DateTime](#datetime) | Optional earliest departure time on that line to be included in the timetable. |
 | departureStopId | [Identifier](#identifiers) | Optional stop identifier - bounds results to only occur after this stop. |
 | arrivalStopId | [Identifier](#identifiers) | Optional stop identifier - bounds results to only occur before this stop. |
 | exclude | string | A string of comma-separated object or collection names to [exclude](#excluding-data) from the response. |
-| limit | int | The maximum number of entities to be returned. Default is 10. |
+| limit | integer | The maximum number of entities to be returned. Default is 10. |
 
 ##### Sample request
 
@@ -1030,7 +1055,7 @@ A journey is the traveling of a passenger from a departure point to an arrival p
 | :--------- | :--- | :---- |
 | id | [Identifier](#identifiers) | The identifier of the journey. |
 | href | [hyperlink](#resource-linking) | The hyperlink to this resource. |
-| geometry | [GeoJSON](#geojson) MultiPoint | An ordered GeoJSON MultiPoint representing the departure and arrival points for the the journey. |
+| geometry | [GeoJSON](#geojson) MultiPoint | An ordered GeoJSON MultiPoint representing the departure and arrival points for the journey. |
 | time | [DateTime](#datetime) | The requested date and time for the journey.  |
 | timeType | [TimeType](#timetype) | Specifies whether this is an **ArriveBefore** or **DepartAfter** request. |
 | profile | [Profile](#profile) | The profile used to calculate and order itineraries. |
@@ -1038,7 +1063,7 @@ A journey is the traveling of a passenger from a departure point to an arrival p
 | omit | [Filter](#filter) | The explicit set of modes and agencies omitted. |
 | fareProducts | Array of [Identifier](#identifiers) | An array of [fare product](#fare-products) identifiers applied when calculating the itinerarys' fare amounts. |
 | maxItineraries | integer | The maximum number of itineraries to return. |
-| itineraries | Array of [Itinerary](#itinerary-response-model) | **[**[Excludable](#excludable)**]** The available [itineraries](#itineraries) for this journey. |
+| itineraries | Array of [Itinerary](#itinerary-response-model) | **[**[Excludable](#excluding-data)**]** The available [itineraries](#itineraries) for this journey. |
 
 #### Creating a journey
 
@@ -1048,7 +1073,7 @@ Creating a new journey is done by posting the journey's criteria to the resource
 
 | Field | Type | Required | Description |
 | :--------- | :--- | :--- | :---- |
-| geometry | [GeoJSON](#geojson) MultiPoint | Required | An ordered GeoJSON MultiPoint representing the departure and arrival points for the the journey. Exactly two points must be provided. |
+| geometry | [GeoJSON](#geojson) MultiPoint | Required | An ordered GeoJSON MultiPoint representing the departure and arrival points for the journey. Exactly two points must be provided. |
 | time | [DateTime](#datetime) | Optional | The requested date and time for the journey. Defaults to Now. |
 | timeType | [TimeType](#timetype) | Optional | Specifies whether this is an ArriveBefore or DepartAfter request. Defaults to DepartAfter. |
 | profile | [Profile](#profile) | Required | The profile used to calculate and order itineraries. |
@@ -1057,7 +1082,7 @@ Creating a new journey is done by posting the journey's criteria to the resource
 | fareProducts | Array of [Identifier](#identifiers) | Optional | The list of [fare product](#fare-products) identifiers to use when calculating the journey fare. |
 | maxItineraries | integer | Optional | The maximum number of itineraries to return. This must be a value between or including 1 and 5. Default is 5. |
 
-### TimeType
+#### TimeType
 
 Time type can either be **DepartAfter** or **ArriveBefore**.
 
@@ -1065,21 +1090,21 @@ Time type can either be **DepartAfter** or **ArriveBefore**.
 
 **ArriveBefore** indicates that the journey must be calculated to arrive before the specified time, at the latest.
 
-### Profile
+#### Profile
 
-The profile specified how the itineraries should be prioritised.
+The profile specifies how the itineraries should be prioritised.
 
 **ClosestToTime** (the default) returns itineraries absolutely closest to the requested date; earliest for **DepartAfter**, and latest for **ArriveBefore**.
 
-**FewestTransfers** returns itineraries with fewest connections between vehicles, and then also prioritising by closest to time.
+**FewestTransfers** returns itineraries with fewest connections between transport vehicles, and then also prioritising by closest to time.
 
-### Filter
+#### Filter
 
 A filter can be specified to explicitly use or omit certain agencies or modes from the requested journey.
 
 | Field | Type | Description |
 | :--------- | :--- | :--- |
-| agencies | Array of [Identifier](#identifiers) | A list of agencies to use or omit in the journey. |
+| agencies | Array of [Identifier](#identifiers) | A list of agencies to use in or omit from the journey. |
 | modes | Array of [Mode](#mode) | A list of modes to use or omit in the journey. |
 
 ##### Sample request
@@ -1103,7 +1128,7 @@ POST api/journeys?exclude=line,stop,fareProduct
     "time": "2016-08-30T10:30:00Z",
     "omit": {
         "modes": [
-            "Rail", 
+            "Rail",
             "LightRail"
         ]
     },
@@ -1113,7 +1138,7 @@ POST api/journeys?exclude=line,stop,fareProduct
 
 ##### Sample response
 
-This request will return exclude unneeded information on all contained stop, line and fare product resources in order to reduce payload.
+This request will exclude unneeded information on all contained stop, line and fare product resources in order to reduce the payload.
 
 ```
 201 Created
@@ -1145,7 +1170,7 @@ This request will return exclude unneeded information on all contained stop, lin
     "omit": {
         "agencies": [],
         "modes": [
-            "Rail", 
+            "Rail",
             "LightRail"
         ]
     },
@@ -1466,9 +1491,9 @@ This request will return exclude unneeded information on all contained stop, lin
 | href | [hyperlink](#resource-linking) | The hyperlink to this resource. |
 | departureTime | [DateTime](#datetime) | The departure date and time for the itinerary. |
 | arrivalTime | [DateTime](#datetime) | The arrival date and time for the itinerary. |
-| distance | [Distance](#distance) | If available, the total distance of itinerary. |
+| distance | [Distance](#distance) | If available, the total distance of the itinerary. |
 | duration | integer | If available, the total duration of the itinerary in seconds. |
-| legs | Array of [Leg](#leg-response-model) | **[**[Excludable](#excludable)**]** The sequence of legs that make up this itinerary. |
+| legs | Array of [Leg](#leg-response-model) | **[**[Excludable](#excluding-data)**]** The sequence of legs that make up this itinerary. |
 
 #### Retrieving a specific itinerary
 
@@ -1504,14 +1529,14 @@ A _Transit_ leg is one which uses a public transportation service based on sched
 | Field | Type | Description |
 | :--------- | :--- | :---- |
 | type | string | The [type of leg](#types-of-legs), either _Walking_ or _Transit_. |
-| distance | [Distance](#distance) | If available, the total distance of leg. |
+| distance | [Distance](#distance) | If available, the total distance of the leg. |
 | duration | integer | If available, the total duration of the leg in seconds. |
-| line | [Line](#line-response-model) | **[**[Excludable](#excludable)**]** The line that is used on this leg of the itinerary. This is only returned for _Transit_ legs. |
-| vehicle | [Vehicle](#vehicle-response-model) | **[**[Excludable](#excludable)**]** Identifying information for the vehicle that is used on this leg of the itinerary. This is only returned for _Transit_ legs. |
+| line | [Line](#line-response-model) | **[**[Excludable](#excluding-data)**]** The line that is used on this leg of the itinerary. This is only returned for _Transit_ legs. |
+| vehicle | [Vehicle](#vehicle-response-model) | **[**[Excludable](#excluding-data)**]** Identifying information for the vehicle that is used on this leg of the itinerary. This is only returned for _Transit_ legs. |
 | fare | [Fare](#fare-response-model) | If available, the fare for this leg. |
-| waypoints | Array of [Waypoint](#waypoint-response-model) | **[**[Excludable](#excludable)**]** The sequence of ordered waypoints that make up this leg. |
-| directions | Array of [Direction](#direction-response-model) | **[**[Excludable](#excludable)**]** If available, the directions to take in order to complete the leg. |
-| geometry | [GeoJSON](#geojson) LineString | **[**[Excludable](#excludable)**]** If available, the geographic shape of the leg. |
+| waypoints | Array of [Waypoint](#waypoint-response-model) | **[**[Excludable](#excluding-data)**]** The sequence of ordered waypoints that make up this leg. |
+| directions | Array of [Direction](#direction-response-model) | **[**[Excludable](#excluding-data)**]** If available, the directions to take in order to complete the leg. |
+| geometry | [GeoJSON](#geojson) LineString | **[**[Excludable](#excluding-data)**]** If available, the geographic shape of the leg. |
 
 #### Retrieving a specific leg
 
@@ -1569,8 +1594,8 @@ A waypoint is a stopping point along an itinerary. It has either an arrival date
 | :--------- | :--- | :---- |
 | arrivalTime | [DateTime](#datetime) | The arrival date and time at this point of a leg. |
 | departureTime | [DateTime](#datetime) | The departure date and time from this point of a leg. |
-| stop | [Stop](#stop-response-model) | **[**[Excludable](#excludable)**]** The stop of the waypoint. This can be returned in either _Walking_ or _Transit_ legs. |
-| location | [Location](#location-response-model) | The location of the waypoint if it is not a stop. This can be returned in only Walking legs. |
+| stop | [Stop](#stop-response-model) | **[**[Excludable](#excluding-data)**]** The stop of the waypoint. This can be returned in either _Walking_ or _Transit_ legs. |
+| location | [Location](#location-response-model) | The location of the waypoint if it is not a stop. This can be returned only in  Walking legs. |
 
 #### Vehicle response model
 
@@ -1580,7 +1605,7 @@ Describes a single vehicle along a line so that it can be identified by passenge
 | :--------- | :--- | :---- |
 | designation | string | If available, an identifier for this vehicle as defined by the agency, or some other designation. |
 | direction | string | If available, the direction of the vehicle, for example, _Northbound_ or _Clockwise_. |
-| headsign | string | If available, identifying information (such as destination) displayed on the vehicle. |
+| headsign | string | If available, identifying information (such as the destination) displayed on the vehicle. |
 
 #### Direction response model
 
@@ -1607,7 +1632,7 @@ A fare is the cost incurred by a commuter when using a transport service.  Essen
 | Field | Type | Description |
 | :--------- | :--- | :---- |
 | description | string | The description of the fare for this leg. |
-| fareProduct | [FareProduct](#fare-product-response-model) | The fare product selected for this leg. |
+| fareProduct | [FareProduct](#fare-product-response-model) | **[**[Excludable](#excluding-data)**]** The fare product selected for this leg. |
 | cost | [Cost](#cost) | The cost of this leg. |
 | messages | Array of string | Any fare messages, such as required fare cards or special instructions. |
 
@@ -1643,7 +1668,7 @@ POST api/journeys
 
 ### Fare Products
 
-A fare product is a fare scheme offered to passenger by an agency and will decide the total [fare](#fares) incurred when using a transport service. Note that they may be subject to eligibility restrictions. For example, a "Child Single" fare product might only be allowed to be used by children.
+A fare product is a fare scheme offered to passengers by an agency and will decide the total [fare](#fares) incurred when using a transport service. Note that they may be subject to eligibility restrictions. For example, a "Child Single" fare product might only be allowed to be used by children.
 
 #### Fare Product response model
 
@@ -1651,7 +1676,7 @@ A fare product is a fare scheme offered to passenger by an agency and will decid
 | :--------- | :--- | :---- |
 | id | [Identifier](#identifiers) | The identifier of the fare product. |
 | href | [hyperlink](#resource-linking) | The hyperlink to this resource. |
-| agency | [Agency](#agency-response-model) | **[**[Excludable](#excludable)**]** The fare product's agency. |
+| agency | [Agency](#agency-response-model) | **[**[Excludable](#excluding-data)**]** The fare product's agency. |
 | name | string | The commuter-friendly name of the fare product. |
 | isDefault | bool | Flag specifying whether this is the default fare product for this agency. |
 | description | string | A commuter-friendly description of the fare product. |
@@ -1666,8 +1691,8 @@ Retrieves a collection of fare products.
 | :-------------- | :--- | :---- |
 | agencies | Array of [Identifier](#identifiers) | The list of agencies to filter the results by. |
 | exclude | string | A string of comma-separated object or collection names to [exclude](#excluding-data) from the response. |
-| limit | int | See [Pagination](#pagination). The default is 100. |
-| offset | int | See [Pagination](#pagination). The default is 0. |
+| limit | integer | See [Pagination](#pagination). The default is 100. |
+| offset | integer | See [Pagination](#pagination). The default is 0. |
 
 ##### Sample request
 

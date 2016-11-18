@@ -1,0 +1,469 @@
+{
+	"variables": [],
+	"info": {
+		"name": "WhereIsMyTransport Postman for Developers",
+		"_postman_id": "89bb82be-6063-5c0a-551c-02795b2373e5",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Token",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": "tests[\"Has Access Token\"] = responseBody.has(\"access_token\");\n\nif(tests[\"Has Access Token\"])\n{\n    var data = JSON.parse(responseBody);\n    var token = \"Bearer \" + data.access_token\n    postman.setEnvironmentVariable(\"BearerToken\", token)\n}\n\n\n"
+					}
+				}
+			],
+			"request": {
+				"url": "{{IdentityServerUrl}}/connect/token",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "client_id",
+							"value": "{{ClientId}}",
+							"type": "text",
+							"enabled": true
+						},
+						{
+							"key": "client_secret",
+							"value": "{{ClientSecret}}",
+							"type": "text",
+							"enabled": true
+						},
+						{
+							"key": "grant_type",
+							"value": "client_credentials",
+							"type": "text",
+							"enabled": true
+						},
+						{
+							"key": "scope",
+							"value": "transitapi:all",
+							"type": "text",
+							"enabled": true
+						}
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Agencies",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": "var schema = {\r\n    $schema: \"http://json-schema.org/draft-04/schema#\",\r\n    \"type\": \"array\",\r\n    \"items\": {\r\n        \"type\": \"object\",\r\n        \"properties\": {\r\n            \"id\": { type: \"string\" },\r\n            \"href\": { type: \"string\" },\r\n            \"name\": { type: \"string\" },\r\n            \"culture\": { type: \"string\"}\r\n        },\r\n        \"required\": [\"id\", \"name\",\"href\", \"culture\"]\r\n    }\r\n};\r\n\r\ntests[\"Is 200\"] = responseCode.code === 200;\r\n\r\n\r\nif (tests[\"Is 200\"])\r\n{\r\n    var data = JSON.parse(responseBody);\r\n \r\n    var result = tv4.validateResult(data, schema);\r\n\r\n    tests[\"Has items\"] = data.length > 0\r\n    tests[\"Valid schema\"] = result.valid;\r\n\tpostman.setEnvironmentVariable(\"AgencyId\", data[0].id);\r\n}"
+					}
+				}
+			],
+			"request": {
+				"url": "{{TransportApiUrl}}/agencies?",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{BearerToken}}",
+						"description": ""
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "wts",
+							"type": "file",
+							"enabled": true,
+							"value": ""
+						}
+					]
+				},
+				"description": "Retrieves a collection of agencies.\r\n\r\n`GET api/agencies?point={point}&radius={radius}&bbox={bbox}&agencies={agencies}&limit={limit}&offset={offset}&at={at}`\r\n\r\n| Parameter | Type | Description |\r\n| :-------------- | :--- | :---- |\r\n| point | [Point](#point) | The point from where to search for nearby agencies. Agencies will be returned in order of their distance from this point (from closest to furthest). |\r\n| radius | integer | The distance in metres from the point to search for nearby agencies. This filter is optional. |\r\n| bbox | [Bounding Box](#bounding-box) | The bounding box from where to retrieve agencies. This will be ignored if a point is provided in the query.  |\r\n| agencies | [Agencies Filter](#agencies-filter) | The list of agencies to filter the results by. |\r\n| limit | int | The maximum number of entities to be returned. Default is 100. |\r\n| offset | int | The offset of the first entity returned. Default is 0. |\r\n| at | [DateTime](#datetime) | The point in time from which to query. Defaults to the current date and time. |"
+			},
+			"response": []
+		},
+		{
+			"name": "Lines",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": "var schema = {\n    $schema: \"http://json-schema.org/draft-04/schema#\",\n    \"type\": \"array\",\n    \"items\": {\n        \"type\": \"object\",\n        \"properties\": {\n            \"id\": { \"type\": \"string\" },\n            \"href\": { type: \"string\" },\n            \"agency\": \n            { \n                \"type\": \"object\", \n                \"properties\": {\n                    \"id\": \"string\",\n                    \"href\": \"string\",\n                    \"name\": \"string\",\n                    \"culture\": \"string\"\n                }\n            },\n            \"name\": { \"type\": \"string\" },\n            \"mode\" : {\"type\": \"string\"},\n            \"shortName\" : { \"type\" : \"string\" },\n            \"description\" : { \"type\" : \"string\" },\n            \"colour\"  : { \"type\" : \"string\" },\n            \"textColour\" : { \"type\" : \"string\" }\n        },\n        \"additionalProperties\": false,\n        \"required\": [\"id\", \"agency\", \"mode\"]\n    }\n}\n\ntests[\"Is 200\"] = responseCode.code === 200;\n\nif (tests[\"Is 200\"])\n{\n    var data = JSON.parse(responseBody);\n    \n    tests[\"Has items\"] = data.length > 0\n    \n    var result = tv4.validateResult(data, schema);\n \n    tests[\"Valid schema\"] = result.valid;\n    \n    postman.setEnvironmentVariable(\"LineId\", data[0].id);\n}"
+					}
+				}
+			],
+			"request": {
+				"url": "{{TransportApiUrl}}/lines?agencies=xp_eNbqkYEaZP2YZkHwQqg",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Authorization",
+						"value": "{{BearerToken}}",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "wts",
+							"type": "file",
+							"enabled": true,
+							"value": ""
+						}
+					]
+				},
+				"description": "Retrieves a collection of lines.\r\n\r\n`GET api/lines?agencies={agencies}&servesStops={servesStops}&limit={limit}&offset={offset}&at={at}`\r\n\r\n| Parameter | Type | Description |\r\n| :-------------- | :--- | :---- |\r\n| agencies | [Agencies Filter](#agencies-filter) | A comma-separated list of agency identifiers to filter the results by. |\r\n| servesStops | string | A comma-separated list of stop identifiers that represent stops which the returned lines must serve or visit. |\r\n| limit | int | The maximum number of entities to be returned. Default is 100. |\r\n| offset | int | The offset of the first entity returned. Default is 0. |\r\n| at | [DateTime](#datetime) | The point in time from which to query. Defaults to the current date and time. |"
+			},
+			"response": []
+		},
+		{
+			"name": "Line Shape",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": "var schema = {\n    $schema: \"http://json-schema.org/draft-04/schema#\",\n    \"type\": \"array\",\n    \"items\": {\n        \"type\": \"object\",\n        \"properties\": {\n            \"id\": { \"type\": \"string\" },\n            \"href\": { type: \"string\" },\n            \"agency\": \n            { \n                \"type\": \"object\", \n                \"properties\": {\n                    \"id\": \"string\",\n                    \"href\": \"string\",\n                    \"name\": \"string\",\n                    \"culture\": \"string\"\n                }\n            },\n            \"name\": { \"type\": \"string\" },\n            \"mode\" : {\"type\": \"string\"},\n            \"shortName\" : { \"type\" : \"string\" },\n            \"description\" : { \"type\" : \"string\" },\n            \"colour\"  : { \"type\" : \"string\" },\n            \"textColour\" : { \"type\" : \"string\" }\n        },\n        \"additionalProperties\": false,\n        \"required\": [\"id\", \"agency\", \"mode\"]\n    }\n}\n\ntests[\"Is 200\"] = responseCode.code === 200;\n\nif (tests[\"Is 200\"])\n{\n    var data = JSON.parse(responseBody);\n    \n    tests[\"Has items\"] = data.length > 0\n}"
+					}
+				}
+			],
+			"request": {
+				"url": "{{TransportApiUrl}}/lines/{{LineId}}/shape?",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Authorization",
+						"value": "{{BearerToken}}",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "wts",
+							"type": "file",
+							"enabled": true,
+							"value": ""
+						}
+					]
+				},
+				"description": "Retrieves a shape for a line, consisting of an array of stop to stop segments that make up this line.\r\n\r\n`GET api/lines/{lineId}/shape?at={at}`\r\n\r\n| Query Parameter | Type | Notes |\r\n| :-------------- | :--- | :---- |\r\n| lineId | string | Required line identifier to get the shape for. |\r\n| at | [DateTime](#datetime) | The point in time from which to query. Defaults to the current date and time. |"
+			},
+			"response": []
+		},
+		{
+			"name": "Line Timetables",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": "var schema = {\r\n    $schema: \"http://json-schema.org/draft-04/schema#\",\r\n    \"type\": \"array\",\r\n    \"items\": {\r\n        \"type\": \"object\",\r\n        \"properties\": {\r\n            \"tripName\": { \"type\": \"string\"},\r\n            \"direction\": { \"type\": \"string\"},\r\n            \"headsign\": { \"type\": \"string\"},\r\n            \"waypoints\": {\r\n                \"type\": \"array\",\r\n                \"items\": {\r\n                    \"type\":\"object\",\r\n                    \"properties\": {\r\n                        \"stop\": { \r\n                            \"type\": \"object\",\r\n                            \"properties\": {\r\n                                \"id\": { \"type\": \"string\" },\r\n                                \"agencyId\": { \"type\": \"string\" },\r\n                                \"name\": { \"type\": \"string\" },\r\n                                \"point\" : {\r\n                                    \"type\": \"object\",\r\n                                    \"properties\": {\r\n                                        \"type\": { \"type\": \"string\" },\r\n                                        \"coordinates\": { \r\n                                            \"type\": \"array\", \r\n                                            \"items\": { \"type\": \"number\" }\r\n                                        }\r\n                                    }\r\n                                }\r\n                            }\r\n                        },\r\n                        \"arrivalTime\": { type: \"string\" },\r\n                        \"departureTime\": { type: \"string\" }\r\n                    }\r\n                }\r\n            }\r\n        }\r\n    },\r\n    \"additionalProperties\": false,\r\n    \"required\": [\"tripName\", \"direction\", \"headsign\", \"waypoints\"]\r\n};\r\n\r\ntests[\"Is 200\"] = responseCode.code === 200;\r\n\r\nif (tests[\"Is 200\"])\r\n{\r\n    var data = JSON.parse(responseBody);\r\n \r\n    var result = tv4.validateResult(data, schema);\r\n\r\n    tests[\"Has items\"] = data.length > 0;\r\n    tests[\"Valid schema\"] = result.valid;\r\n}"
+					}
+				}
+			],
+			"request": {
+				"url": "{{TransportApiUrl}}/lines/{{LineId}}/timetables?",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{BearerToken}}",
+						"description": ""
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "wts",
+							"type": "file",
+							"enabled": true,
+							"value": ""
+						}
+					]
+				},
+				"description": "Retrieves a timetable for a line, consisting of a list of departures on this line in order of departure time.\r\n\r\n`GET api/lines/{lineId}/timetables?earliestDepartureTime={earliestDepartureTime}&limit={limit}&at={at}`\r\n\r\n| Query Parameter | Type | Notes |\r\n| :-------------- | :--- | :---- |\r\n| lineId | string | Required line identifier to get timetables by. |\r\n| earliestDepartureTime | string | Optional earliest departure time on that line to be included in the timetable. |\r\n| limit | int | The maximum number of entities to be returned. Default is 10. |\r\n| at | [DateTime](#datetime) | The point in time from which to query. Defaults to the current date and time. |\r\n| departureStopId | string | Optional stop identifier - bounds results to only occur after this stop. |\r\n| arrivalStopId | string | Optional stop identifier - bounds results to only occur before this stop. |"
+			},
+			"response": []
+		},
+		{
+			"name": "Stops",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": "var schema = {\n    \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n    \"type\": \"array\",\n     \"items\": {\n        \"type\": \"object\",\n        \"properties\": {\n            \"id\": { \"type\": \"string\" },\n            \"agencyId\": { \"type\": \"string\" },\n            \"name\": { \"type\": \"string\" },\n            \"code\": { \"type\": \"string\" },\n            \"point\" : { \n                \"type\" : \"object\",\n                \"properties\": {\n                    \"type\": { \"type\": \"string\" },\n                    \"coordinates\": { \n                        \"type\": \"array\",\n                        \"minItems\": 2,\n                        \"maxItems\": 2,\n                        \"items\": { \"type\": \"number\" }\n                    }\n                },\n                \"additionalProperties\": false,\n                \"required\": [\"type\", \"coordinates\"]\n            },\n            \"additionalProperties\": false,\n            \"required\": [\"id\", \"agencyId\", \"name\", \"point\"]\n        }\n    }\n}\n\ntests[\"Is 200\"] = responseCode.code === 200;\n\nif (tests[\"Is 200\"])\n{\n    var data = JSON.parse(responseBody);\n    \n    tests[\"Has items\"] = data.length > 0\n    \n    var result = tv4.validateResult(data, schema);\n \n    tests[\"Valid schema\"] = result.valid;\n    \n    postman.setEnvironmentVariable(\"StopId\", data[0].id);\n}"
+					}
+				}
+			],
+			"request": {
+				"url": "{{TransportApiUrl}}/stops?",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Authorization",
+						"value": "{{BearerToken}}",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "wts",
+							"type": "file",
+							"enabled": true,
+							"value": ""
+						}
+					]
+				},
+				"description": "Retrieves a collection of stops.\r\n\r\n`GET api/stops?point={point}&radius={radius}&bbox={bbox}&modes={modes}&agencies={agencies}&servesLines={lineIds}&limit={limit}&offset={offset}&at={at}`\r\n\r\n| Parameter | Type | Description |\r\n| :-------------- | :--- | :---- |\r\n| point | [Point](#point) | The point from where to search for nearby stops. Stops will be returned in order of their distance from this point (from closest to furthest). |\r\n| radius | integer | The distance in metres from the point to search for nearby stops. This filter is optional. |\r\n| bbox | [Bounding Box](#bounding-box) | The bounding box from where to retrieve stops. This will be ignored if a point is provided in the query.  |\r\n| modes | string | A string of comma-separated [transit modes](#modes). |\r\n| agencies | [Agencies Filter](#agencies-filter) | A string of comma-separated agency identifiers to filter the results by. |\r\n| servesLines | string | A string of comma-separated line identifiers to filter the results by. |\r\n| limit | int | The maximum number of entities to be returned. Default is 100. |\r\n| offset | int | The offset of the first entity returned. Default is 0. |\r\n| at | [DateTime](#datetime) | The point in time from which to query. Defaults to the current date and time. |"
+			},
+			"response": []
+		},
+		{
+			"name": "Stop Timetables",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": "var schema = {\r\n    $schema: \"http://json-schema.org/draft-04/schema#\",\r\n    \"type\": \"array\",\r\n    \"items\": {\r\n        \"properties\": {\r\n            \"arrivalTime\": { type: \"string\" },\r\n            \"departureTime\": { type: \"string\" },\r\n            \"line\": {\r\n                \"type\": \"object\",\r\n                \"properties\": {\r\n                    \"id\": { \"type\": \"string\" },\r\n                    \"agencyId\": { \"type\": \"string\" },\r\n                    \"name\": { \"type\": \"string\" },\r\n                    \"mode\" : {\"type\": \"string\"}\r\n                },\r\n            },\r\n            \"headsign\": { type: \"string\" }\r\n        }\r\n    },\r\n    \"additionalProperties\": false,\r\n    \"required\": [\"arrivalTime\", \"departureTime\", \"line\", \"headsign\"]\r\n};\r\n\r\ntests[\"Is 200\"] = responseCode.code === 200;\r\n\r\nif (tests[\"Is 200\"])\r\n{\r\n    var data = JSON.parse(responseBody);\r\n \r\n    var result = tv4.validateResult(data, schema);\r\n\r\n    tests[\"Has items\"] = data.length > 0;\r\n    tests[\"Valid schema\"] = result.valid;\r\n}"
+					}
+				}
+			],
+			"request": {
+				"url": "{{TransportApiUrl}}/stops/{{StopId}}/timetables",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{BearerToken}}",
+						"description": ""
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "wts",
+							"type": "file",
+							"enabled": true,
+							"value": ""
+						}
+					]
+				},
+				"description": "Retrieves a timetable for a stop, consisting of a list of occurrences of a vehicle calling at this stop in order of arrival time.\r\n\r\n`GET api/stops/{stopId}/timetables?earliestArrivalTime={earliestArrivalTime}&limit={limit}&at={at}`\r\n\r\n| Parameter | Type | Description |\r\n| :-------------- | :--- | :---- |\r\n| stopId | string | The identifier of the stop. |\r\n| earliestArrivalTime | [DateTime](#datetime) | The earliest arrival date and time to include in the timetable. |\r\n| limit | int | The maximum number of entities to be returned. Default is 10. |\r\n| at | [DateTime](#datetime) | The point in time from which to query. Defaults to the current date and time. |"
+			},
+			"response": []
+		},
+		{
+			"name": "Journeys",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": "var schema = {\r\n\t\t\"$schema\": \"http://json-schema.org/draft-04/schema#\",\r\n\t\t\"type\": \"object\",\r\n\t\t\"properties\": {\r\n\t\t\t\"itineraries\": {\r\n\t\t\t\t\"type\": \"array\"\r\n            }\r\n        }\r\n    };\r\n\r\ntests[\"Is 201\"] = responseCode.code === 201;\r\n\r\nif(responseCode.code == 201)\r\n{\r\n    var data = JSON.parse(responseBody);\r\n    tests[\"Valid schema\"] = tv4.validateResult(data, schema).valid;\r\n    postman.setEnvironmentVariable(\"JourneyId\", data.id);\r\n}"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": "var currentDateTimeUTC = (new Date()).toUTCString();\npostman.setEnvironmentVariable(\"CurrentDateTime\", currentDateTimeUTC);"
+					}
+				}
+			],
+			"request": {
+				"url": "{{TransportApiUrl}}/journeys",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Authorization",
+						"value": "{{BearerToken}}",
+						"description": ""
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"geometry\":{\n        \"type\":\"Multipoint\",\n        \"coordinates\":[\n            [28.18291660398245,-25.746095547346062],\n            [28.036661110818386,-26.206582470217917]\n        ]},\n        \"agencies\":[\"A1JHSPIg_kWV5XRHIepCLw\",\"NfBxKfzMA0exbwToc-7o2g\",\"d2t_cBJYb0enbWy8F0xCsw\",\"uFNbLFj9ikCmgu8_2fkJFg\",\"edObkk6o-0WN3tNZBLqKPg\",\"ES8quQYgO02MpHCe8-8pcw\",\"ZBtfb8En2U6rGxaCD9hUhQ\",\"ObnQBEkJ4EGPQC2HoFGX2A\",\"5kcfZkKW0ku4Uk-A6j8MFA\",\"W7A63uTwIECgQvU9MxcCIw\"],\n        \"modes\":[\"LightRail\",\"Subway\",\"Rail\",\"Bus\",\"Ferry\",\"GroundCableCar\",\"Gondola\",\"Funicular\",\"Coach\",\"Air\"],\n        \"earliestDepartureTime\":\"{{CurrentDateTime}}\",\n        \"maxItineraries\":3,\n        \"maxWalking\":10000\n}"
+				},
+				"description": "Creating a new journey is done by posting the journey's criteria to the resource.\r\n\r\n`POST api/journeys`\r\n\r\n| Attribute | Type | Required | Description |\r\n| :--------- | :--- | :--- | :---- |\r\n| geometry | [GeoJSON](#geojson) MultiPoint | Required | An ordered GeoJSON MultiPoint representing the departure and arrival points for the the journey. Exactly two points must be provided. |\r\n| earliestDepartureTime | [DateTime](#datetime) | Optional | The earliest desired departure date and time for the journey. Optional. Either earliestDepartureTime or latestArrivalTime must be provided, but not both. |\r\n| latestArrivalTime | [DateTime](#datetime) | Optional | The latest desired arrival date and time for the journey. Optional. Either earliestDepartureTime or latestArrivalTime must be provided, but not both. |\r\n| maxItineraries | integer | Optional | The maximum number of itineraries to return. This must be a value between or including 1 and 5. Default is 3. |\r\n| modes | Array of [Mode](#mode) | Optional | The explicit set of modes to use. If unset, all modes are used. |\r\n| agencies | Array of string | Optional | The list of agencies to query. |"
+			},
+			"response": []
+		},
+		{
+			"name": "Journey",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": "var schema = {\r\n\t$schema: \"http://json-schema.org/draft-04/schema#\",\r\n\ttype:\"object\",\r\n\tproperties:{\r\n\t\t\"journeyId\":{type: \"string\"},\r\n\t\t\"departureTime\":{type: \"string\"},\r\n\t\t\"numberOfItineries\":{type: \"number\"},\r\n\t\t\"waypoints\":{\r\n\t\t\ttype: \"array\",\r\n\t\t\titems:{\r\n\t\t\t\ttype: \"object\",\r\n\t\t\t\tproperties:{\r\n\t\t\t\t\t\"departureTime\":{\r\n\t\t\t\t\t\ttype: \"object\",\r\n\t\t\t\t\t\tproperties:{\r\n\t\t\t\t\t\t\t\"ticks\":{type: \"number\"}\r\n\t\t\t\t\t\t}\r\n\t\t\t\t\t},\r\n\t\t\t\t\t\"arrivalTime\":{\r\n\t\t\t\t\t\ttype: \"object\",\r\n\t\t\t\t\t\tproperties:{\r\n\t\t\t\t\t\t\t\"ticks\":{type: \"number\"}\r\n\t\t\t\t\t\t}\r\n\t\t\t\t\t},\r\n\t\t\t\t\t\"geometry\":{\r\n\t\t\t\t\t\ttype: \"object\",\r\n\t\t\t\t\t\tproperties:{\r\n\t\t\t\t\t\t\t\"type\":{type: \"string\"},\r\n\t\t\t\t\t\t\t\"coordinates\":{\r\n\t\t\t\t\t\t\t\ttype: \"array\",\r\n\t\t\t\t\t\t\t\titems:{\r\n\t\t\t\t\t\t\t\t\ttype: \"number\",\r\n\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t}\r\n\t\t\t\t\t}\r\n\t\t\t\t}\r\n\t\t\t}\r\n\t\t},\r\n\t\tlegs:{\r\n\t\t\ttype: \"array\",\r\n\t\t\titems:{\r\n\t\t\t\ttype: \"object\",\r\n\t\t\t\tproperties:{\r\n\t\t\t\t\t\"type\":{type: \"string\"},\r\n\t\t\t\t\t\"distanceInMeters\":{type: \"number\"},\r\n\t\t\t\t\t\"durationInMinutes\":{type: \"number\"},\r\n\t\t\t\t\t\"departureTime\":{type: \"string\"},\r\n\t\t\t\t\t\"departurePoint\":{\r\n\t\t\t\t\t\ttype: \"object\",\r\n\t\t\t\t\t\tproperties:{\r\n\t\t\t\t\t\t\t\"type\":{type: \"string\"},\r\n\t\t\t\t\t\t\t\"coordinates\":{\r\n\t\t\t\t\t\t\t\ttype: \"array\",\r\n\t\t\t\t\t\t\t\titems:{\r\n\t\t\t\t\t\t\t\t\ttype: \"number\"\r\n\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t},\r\n\t\t\t\t\t\tadditionalProperties: false,\r\n\t\t\t\t\t\trequired: [\"type\", \"coordinates\"]\r\n\t\t\t\t\t},\r\n\t\t\t\t\t\"arrivalTime\":{type: \"string\"},\r\n\t\t\t\t\t\"arrivalPoint\":{\r\n\t\t\t\t\t\ttype: \"object\",\r\n\t\t\t\t\t\tproperties:{\r\n\t\t\t\t\t\t\t\"type\":{type: \"string\"},\r\n\t\t\t\t\t\t\t\"coordinates\":{\r\n\t\t\t\t\t\t\t\ttype: \"array\",\r\n\t\t\t\t\t\t\t\titems:{\r\n\t\t\t\t\t\t\t\t\ttype: \"number\"\r\n\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t},\r\n\t\t\t\t\t\tadditionalProperties: false,\r\n\t\t\t\t\t\trequired: [\"type\", \"coordinates\"]\r\n\t\t\t\t\t},\r\n\t\t\t\t\t\"waypoints\":{\r\n\t\t\t\t\t\ttype: \"array\",\r\n\t\t\t\t\t\titems:{\r\n\t\t\t\t\t\t\t\"departureTime\":{\r\n\t\t\t\t\t\t\t\ttype: \"object\",\r\n\t\t\t\t\t\t\t\tproperties:{\r\n\t\t\t\t\t\t\t\t\t\"ticks\":{type: \"number\"}\r\n\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t},\r\n\t\t\t\t\t\t\t\"arrivalTime\":{\r\n\t\t\t\t\t\t\t\ttype: \"object\",\r\n\t\t\t\t\t\t\t\tproperties:{\r\n\t\t\t\t\t\t\t\t\t\"ticks\":{type: \"number\"}\r\n\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t},\r\n\t\t\t\t\t\t\t\"geometry\":{\r\n\t\t\t\t\t\t\t\ttype: \"object\",\r\n\t\t\t\t\t\t\t\tproperties:{\r\n\t\t\t\t\t\t\t\t\t\"type\":{type: \"string\"},\r\n\t\t\t\t\t\t\t\t\t\"coordinates\":{\r\n\t\t\t\t\t\t\t\t\t\ttype: \"array\",\r\n\t\t\t\t\t\t\t\t\t\titems:{\r\n\t\t\t\t\t\t\t\t\t\t\ttype: \"number\"\r\n\t\t\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t\t},\r\n\t\t\t\t\t\t\t\tadditionalProperties: false,\r\n\t\t\t\t\t\t\t\trequired:[\"type\", \"coordinates\"]\r\n\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t}\r\n\t\t\t\t\t},\r\n\t\t\t\t\tadditionalProperties: false,\r\n\t\t\t\t\trequired:[\"type\", \"distanceInMeters\", \"durationInMinutes\",\"departureTime\", \"departurePoint\", \"arrivalTime\", \"arrivalPoint\", \"waypoints\"]\r\n\t\t\t\t}\r\n\t\t\t}\r\n\t\t},\r\n\t\tadditionalProperties: false,\r\n\t\trequired:[\"journeyId\", \"departureTime\", \"numberOfItineries\", \"waypoints\"]\r\n\t}\r\n}\r\n\r\ntests[\"Is 200\"] = responseCode.code === 200;\r\n\r\nif(responseCode.code == 200)\r\n{\r\n    var data = JSON.parse(responseBody);\r\n    tests[\"Valid journeyId\"] = postman.getEnvironmentVariable(\"JourneyId\") === data[\"id\"];\r\n    tests[\"Valid schema\"] = tv4.validateResult(data, schema).valid;\r\n}\r\n"
+					}
+				}
+			],
+			"request": {
+				"url": "{{TransportApiUrl}}/journeys/{{JourneyId}}",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Authorization",
+						"value": "{{BearerToken}}",
+						"description": ""
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "wts",
+							"type": "file",
+							"enabled": true,
+							"value": ""
+						}
+					]
+				},
+				"description": "Retrieving a previously requested journey and its itineraries can be done using the following request.\r\n\r\n`GET api/journeys/{journeyId}`\r\n\r\n| Parameter | Type | Description |\r\n| :-------------- | :--- | :---- |\r\n| journeyId | string | The identifier of the journey. |"
+			},
+			"response": []
+		},
+		{
+			"name": "Journey Itineraries",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": "var schema = {\n    $schema: \"http://json-schema.org/draft-04/schema#\",\n    type: \"array\",\n    items: {\n        type: \"object\",\n        properties: {\n            \"id\": { type: \"string\" }\n        },\n        additionalProperties: true,\n        required: [\"id\"]\n    },\n    additionalProperties: true\n}\n\ntests[\"Is 200\"] = responseCode.code === 200;\n\n\nif(responseCode.code == 200)\n{\n    var data = JSON.parse(responseBody);\n    tests[\"Valid schema\"] = tv4.validateResult(data, schema).valid;\n    \n    tests[\"Has Itineraries\"] = data.length > 0;\n    \n    if(tests[\"Has Itineraries\"])\n    {\n        postman.setEnvironmentVariable(\"ItineraryId\", data[0][\"id\"]);\n    }\n}"
+					}
+				}
+			],
+			"request": {
+				"url": "{{TransportApiUrl}}/journeys/{{JourneyId}}/itineraries",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Authorization",
+						"value": "{{BearerToken}}",
+						"description": ""
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "wts",
+							"value": "",
+							"type": "file",
+							"enabled": true
+						}
+					]
+				},
+				"description": "To retrieve a specific itinerary for a previously created journey, the following resource can be requested.\r\n\r\n`GET api/journeys/{journeyId}/itineraries/{itineraryId}?fareproducts={fareProductIds}`\r\n\r\n| Parameter | Type | Required | Description |\r\n| :-------------- | :--- | :--- | :---- |\r\n| journeyId | string | Required | The identifier of the journey. |\r\n| itineraryId | string | Required | The identifier of the itinerary. |\r\n| fareProductIds | string | Optional | A string of comma-separated [fare products](#fare-products) identifiers to use. |"
+			},
+			"response": []
+		}
+	]
+}
