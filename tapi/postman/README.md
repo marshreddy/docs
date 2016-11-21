@@ -55,3 +55,5 @@ To do this you need to do the following:
 
 4. To use the token for the other API calls, specify the token as a header with `Authorization: Bearer {token}`. For a complete set of the API's endpoints, please see the full [documentation](https://developer.whereismytransport.com/documentation). Below is an example of how to retrieve a list of agencies using the bearer token.
     ![](postman_6_agencies.png)
+
+And that's it. You can use the postman collection from here on, and use our [documentation](https://developer.whereismytransport.com/documentation) to explore of the capabilities of our API. Happy coding! 
