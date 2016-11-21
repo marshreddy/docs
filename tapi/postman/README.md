@@ -35,12 +35,12 @@ At the end of this guide you will have completed the following:
     
     The reason for this is that the **ClientId** and **ClientSecret** fields in the Postman Environment are blank.
     
-    In the next step we will create Client credentials, with which you can connect to the **WhereIsMyTransport** platform.
+    In the next step we will create client credentials, with which you can connect to the **WhereIsMyTransport** platform.
      
      
 ## Connect to our API
 
-You needs to be authenticated in order to make an API request to the WhereIsMyTransport platform. 
+You need to be authenticated in order to make an API request to the WhereIsMyTransport platform. 
 
 To do this you need to do the following:
 
@@ -55,4 +55,3 @@ To do this you need to do the following:
 
 4. To use the token for the other API calls, specify the token as a header with `Authorization: Bearer {token}`. For a complete set of the API's endpoints, please see the full [documentation](https://developer.whereismytransport.com/documentation). Below is an example of how to retrieve a list of agencies using the bearer token.
     ![](postman_6_agencies.png)
-

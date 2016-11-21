@@ -1,7 +1,7 @@
 {
 	"variables": [],
 	"info": {
-		"name": "WhereIsMyTransport Platform Collection",
+		"name": "Platform Collection",
 		"_postman_id": "a5554783-d1d6-53e6-234b-ccdee32e4b05",
 		"description": "",
 		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
@@ -86,8 +86,6 @@
 					"script": {
 						"type": "text/javascript",
 						"exec": [
-							"tests[\"Is 200\"] = responseCode.code === 200;\r",
-							"\r",
 							"if (tests[\"Is 200\"])\r",
 							"{\r",
 							"    var data = JSON.parse(responseBody);\r",
@@ -100,7 +98,7 @@
 				}
 			],
 			"request": {
-				"url": "https://platform.whereismytransport.com/api/agencies?",
+				"url": "https://platform.whereismytransport.com/api/agencies",
 				"method": "GET",
 				"header": [
 					{
@@ -137,8 +135,6 @@
 					"script": {
 						"type": "text/javascript",
 						"exec": [
-							"tests[\"Is 200\"] = responseCode.code === 200;",
-							"",
 							"if (tests[\"Is 200\"])",
 							"{",
 							"    var data = JSON.parse(responseBody);",
@@ -152,7 +148,7 @@
 				}
 			],
 			"request": {
-				"url": "https://platform.whereismytransport.com/api/lines?agencies=xp_eNbqkYEaZP2YZkHwQqg",
+				"url": "https://platform.whereismytransport.com/api/lines?agencies={{AgencyId}}",
 				"method": "GET",
 				"header": [
 					{
@@ -187,69 +183,9 @@
 			"response": []
 		},
 		{
-			"name": "Line Shape",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"type": "text/javascript",
-						"exec": [
-							"",
-							"tests[\"Is 200\"] = responseCode.code === 200;"
-						]
-					}
-				}
-			],
-			"request": {
-				"url": "https://platform.whereismytransport.com/api/lines/{{LineId}}/shape?",
-				"method": "GET",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json",
-						"description": ""
-					},
-					{
-						"key": "Accept",
-						"value": "application/json",
-						"description": ""
-					},
-					{
-						"key": "Authorization",
-						"value": "{{BearerToken}}",
-						"description": ""
-					}
-				],
-				"body": {
-					"mode": "formdata",
-					"formdata": [
-						{
-							"key": "wts",
-							"type": "file",
-							"enabled": true,
-							"value": ""
-						}
-					]
-				},
-				"description": "Retrieves a shape for a line, consisting of an array of stop to stop segments that make up this line.\r\n\r\n`GET api/lines/{lineId}/shape?at={at}`\r\n\r\n| Query Parameter | Type | Notes |\r\n| :-------------- | :--- | :---- |\r\n| lineId | string | Required line identifier to get the shape for. |\r\n| at | [DateTime](#datetime) | The point in time from which to query. Defaults to the current date and time. |"
-			},
-			"response": []
-		},
-		{
 			"name": "Line Timetables",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"type": "text/javascript",
-						"exec": [
-							"tests[\"Is 200\"] = responseCode.code === 200;"
-						]
-					}
-				}
-			],
 			"request": {
-				"url": "https://platform.whereismytransport.com/api/lines/{{LineId}}/timetables?",
+				"url": "https://platform.whereismytransport.com/api/lines/{{LineId}}/timetables",
 				"method": "GET",
 				"header": [
 					{
@@ -286,9 +222,6 @@
 					"script": {
 						"type": "text/javascript",
 						"exec": [
-							"",
-							"tests[\"Is 200\"] = responseCode.code === 200;",
-							"",
 							"if (tests[\"Is 200\"])",
 							"{",
 							"    var data = JSON.parse(responseBody);",
@@ -303,7 +236,7 @@
 				}
 			],
 			"request": {
-				"url": "https://platform.whereismytransport.com/api/stops?",
+				"url": "https://platform.whereismytransport.com/api/stops",
 				"method": "GET",
 				"header": [
 					{
@@ -339,17 +272,6 @@
 		},
 		{
 			"name": "Stop Timetables",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"type": "text/javascript",
-						"exec": [
-							"tests[\"Is 200\"] = responseCode.code === 200;"
-						]
-					}
-				}
-			],
 			"request": {
 				"url": "https://platform.whereismytransport.com/api/stops/{{StopId}}/timetables",
 				"method": "GET",
@@ -388,8 +310,6 @@
 					"script": {
 						"type": "text/javascript",
 						"exec": [
-							"tests[\"Is 201\"] = responseCode.code === 201;\r",
-							"\r",
 							"if(responseCode.code == 201)\r",
 							"{\r",
 							"    var data = JSON.parse(responseBody);\r",
@@ -399,16 +319,6 @@
 							"        postman.setEnvironmentVariable(\"JourneyId\", data.id);\r",
 							"    }\r",
 							"}"
-						]
-					}
-				},
-				{
-					"listen": "prerequest",
-					"script": {
-						"type": "text/javascript",
-						"exec": [
-							"var currentDateTimeUTC = (new Date()).toUTCString();",
-							"postman.setEnvironmentVariable(\"CurrentDateTime\", currentDateTimeUTC);"
 						]
 					}
 				}
@@ -435,22 +345,20 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"geometry\":{\n        \"type\":\"Multipoint\",\n        \"coordinates\":[\n            [28.18291660398245,-25.746095547346062],\n            [28.036661110818386,-26.206582470217917]\n        ]},\n        \"agencies\":[\"A1JHSPIg_kWV5XRHIepCLw\",\"NfBxKfzMA0exbwToc-7o2g\",\"d2t_cBJYb0enbWy8F0xCsw\",\"uFNbLFj9ikCmgu8_2fkJFg\",\"edObkk6o-0WN3tNZBLqKPg\",\"ES8quQYgO02MpHCe8-8pcw\",\"ZBtfb8En2U6rGxaCD9hUhQ\",\"ObnQBEkJ4EGPQC2HoFGX2A\",\"5kcfZkKW0ku4Uk-A6j8MFA\",\"W7A63uTwIECgQvU9MxcCIw\"],\n        \"modes\":[\"LightRail\",\"Subway\",\"Rail\",\"Bus\",\"Ferry\",\"GroundCableCar\",\"Gondola\",\"Funicular\",\"Coach\",\"Air\"],\n        \"earliestDepartureTime\":\"{{CurrentDateTime}}\",\n        \"maxItineraries\":3,\n        \"maxWalking\":10000\n}"
+					"raw": "{\n    \"geometry\":{\n        \"type\":\"Multipoint\",\n        \"coordinates\":[\n            [28.18291660398245,-25.746095547346062],\n            [28.036661110818386,-26.206582470217917]\n        ]\n    }\n}"
 				},
 				"description": "Creating a new journey is done by posting the journey's criteria to the resource.\r\n\r\n`POST api/journeys`\r\n\r\n| Attribute | Type | Required | Description |\r\n| :--------- | :--- | :--- | :---- |\r\n| geometry | [GeoJSON](#geojson) MultiPoint | Required | An ordered GeoJSON MultiPoint representing the departure and arrival points for the the journey. Exactly two points must be provided. |\r\n| earliestDepartureTime | [DateTime](#datetime) | Optional | The earliest desired departure date and time for the journey. Optional. Either earliestDepartureTime or latestArrivalTime must be provided, but not both. |\r\n| latestArrivalTime | [DateTime](#datetime) | Optional | The latest desired arrival date and time for the journey. Optional. Either earliestDepartureTime or latestArrivalTime must be provided, but not both. |\r\n| maxItineraries | integer | Optional | The maximum number of itineraries to return. This must be a value between or including 1 and 5. Default is 3. |\r\n| modes | Array of [Mode](#mode) | Optional | The explicit set of modes to use. If unset, all modes are used. |\r\n| agencies | Array of string | Optional | The list of agencies to query. |"
 			},
 			"response": []
 		},
 		{
-			"name": "Journey",
+			"name": "Journeys",
 			"event": [
 				{
 					"listen": "test",
 					"script": {
 						"type": "text/javascript",
 						"exec": [
-							"tests[\"Is 200\"] = responseCode.code === 200;\r",
-							"\r",
 							"if(responseCode.code == 200)\r",
 							"{\r",
 							"    var data = JSON.parse(responseBody);\r",
@@ -507,9 +415,6 @@
 					"script": {
 						"type": "text/javascript",
 						"exec": [
-							"tests[\"Is 200\"] = responseCode.code === 200;",
-							"",
-							"",
 							"if(responseCode.code == 200)",
 							"{",
 							"    var data = JSON.parse(responseBody);",
