@@ -4,7 +4,7 @@
 
 ## Overview
 
-This guide helps developers get started with the WhereIsMyTransport platform, using Postman. 
+This guide helps developers get started with the WhereIsMyTransport platform using Postman as the REST API Client application. 
 
 At the end of this guide you will have completed the following:
 
@@ -50,7 +50,7 @@ To do this you need to do the following:
 2. Copy the *ClientId* and *ClientSecret* into the respective fields of the postman environment.
     ![](devportal_client.png)
 
-3. From Postman, get a token, with the updated credentials, using the first API call in the collection, i.e. "**POST** token". You should see a success response, along with a BearerToken response. This is automatically saved in the postman environment variables, and at this point you are authenticated to connect to the platform, until the token expires.
+3. The first API call in the collection allows you to retrieve an access token. When using the updated credentials, you should see a `200` `OK` response. The response body contains the `BearerToken` field. This token is saved as a Postman environment variable. At this point you are authenticated and cann access our platform until the bearer token expires.
     ![](postman_5_token.png)
 
 4. To use the token for the other API calls, specify the token as a header with `Authorization: Bearer {token}`. For a complete set of the API's endpoints, please see the full [documentation](https://developer.whereismytransport.com/documentation). Below is an example of how to retrieve a list of agencies using the bearer token.
