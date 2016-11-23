@@ -289,7 +289,7 @@ ISO 8601 date and time strings can be represented as "2016-11-19T07:22Z" (7:22 A
 
 More information can be found [here](https://en.wikipedia.org/wiki/ISO_8601).
 
-Acceptable DateTime input values are limited to between 1 day in the past and 6 days in the future. This allows the user to query on any day of the week, but it should be remembered that public holidays, schedule changes and daylight savings time changes might mean that results for the same day might differ from week to week. Supplying a DateTime that exceeds this limitation will result in a 400 Bad Request response. In the case of a default that falls outside this limitation, the default will use the limitation value.
+Acceptable DateTime input values are limited to between 1 day in the past and 6 days in the future. This allows the user to query on any day of the week, but it should be remembered that public holidays, schedule changes and daylight savings time changes might mean that results for the same day might differ from week to week. Supplying a DateTime that exceeds this limitation will result in a **400 Bad Request** [status code](#http-status-codes) response. In the case of a default that falls outside this limitation, the default will use the limitation value.
 
 **Note:** ISO 8601 dates are timezone-agnostic and so are communicated in UTC (Coordinated Universal Time).
 
@@ -780,7 +780,7 @@ Retrieves a timetable for a stop, consisting of a list of occurrences of a vehic
 | Parameter | Type | Description |
 | :-------------- | :--- | :---- |
 | id | [Identifier](#identifiers) | The identifier of the stop. |
-| earliestArrivalTime | [DateTime](#datetime) | The earliest arrival date and time to include in the timetable, inclusive. Defaults to Now.  |
+| earliestArrivalTime | [DateTime](#datetime) | The earliest arrival date and time to include in the timetable, inclusive. Defaults to now.  |
 | latestArrivalTime | [DateTime](#datetime) | The lastest arrival date and time to include in the timetable, exclusive. Defaults to earliestArrivalTime plus 7 days. |
 | exclude | string | A string of comma-separated object or collection names to [exclude](#excluding-data) from the response. |
 | limit | integer | See [Pagination](#pagination). The default is 10. |
@@ -970,7 +970,7 @@ Retrieves a timetable for a line, consisting of a list of departures on this lin
 | Parameter | Type | Notes |
 | :-------------- | :--- | :---- |
 | id | [Identifier](#identifiers) | The identifier of the line. |
-| earliestDepartureTime | [DateTime](#datetime) | Earliest departure time for the trip (departure time from the first stop on that line) to be included in the timetable. Defaults to Now. |
+| earliestDepartureTime | [DateTime](#datetime) | Earliest departure time for the trip (departure time from the first stop on that line) to be included in the timetable. Defaults to now. |
 | latestDepartureTime | [DateTime](#datetime) | Latest departure time for the trip (departure time from the first stop on that line) to be included in the timetable. Defaults to earliestDepartureTime plus 7 days. |
 | departureStopId | [Identifier](#identifiers) | Stop identifier that bounds results to only occur after this stop. |
 | arrivalStopId | [Identifier](#identifiers) | Stop identifier that bounds results to only occur before this stop. |
@@ -1083,7 +1083,7 @@ Creating a new journey is done by posting the journey's criteria to the resource
 | Field | Type | Required | Description |
 | :--------- | :--- | :--- | :---- |
 | geometry | [GeoJSON](#geojson) MultiPoint | Required | An ordered GeoJSON MultiPoint representing the departure and arrival points for the journey. Exactly two points must be provided. |
-| time | [DateTime](#datetime) | Optional | The requested date and time for the journey. Defaults to Now. |
+| time | [DateTime](#datetime) | Optional | The requested date and time for the journey. Defaults to now. |
 | timeType | [TimeType](#timetype) | Optional | Specifies whether this is an ArriveBefore or DepartAfter request. Defaults to DepartAfter. |
 | profile | [Profile](#profile) | Required | The profile used to calculate and order itineraries. |
 | only | [Filter](#filter) | Optional | The explicit set of modes or agencies to use. If unset, all modes and agencies are used. |
