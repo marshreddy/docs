@@ -124,7 +124,7 @@ scope=transportapi:all
 
 ##### Sample response
 
-```
+```json
 201 Created
 {
     "access_token": "eyJ0eXAiOiJ32aQiLCJhbGciOiJSUzI1NiIsIfg1iCI6ImEzck1VZ01Gd8d0UGNsTGE2eUYz...",
@@ -161,7 +161,7 @@ The API uses conventional HTTP [status code](#http-status-codes) to indicate the
 
 ##### Sample response
 
-```
+```json
 400 Bad Request
 {
     "message": "The request has invalid or missing fields. Please visit our documentation.",
@@ -188,7 +188,7 @@ GET api/agencies/5kcfZkKW0ku4Uk-A6j8MFA
 
 ##### Sample response
 
-```
+```json
 {
     "id": "5kcfZkKW0ku4Uk-A6j8MFA",
     "href": "https://platform.whereismytransport.com/api/agencies/5kcfZkKW0ku4Uk-A6j8MFA",
@@ -213,7 +213,7 @@ GET api/stops/eBTeYLPXOkWm5zyfjZVaZg
 
 ##### Sample response
 
-```
+```json
 200 Ok
 {
     "id": "eBTeYLPXOkWm5zyfjZVaZg",
@@ -370,7 +370,7 @@ Distance is returned as an object consisting of the distance **value** (an integ
 
 ##### Sample response
 
-```
+```json
 {  
     "distance": {  
         "value": 133,
@@ -438,7 +438,7 @@ GET api/agencies?bbox=-33.94,18.36,-33.89,18.43
 
 ##### Sample response
 
-```
+```json
 200 Ok
 [
     {
@@ -482,7 +482,7 @@ GET api/agencies/5kcfZkKW0ku4Uk-A6j8MFA
 
 ##### Sample response
 
-```
+```json
 200 Ok
 {
     "id": "5kcfZkKW0ku4Uk-A6j8MFA",
@@ -539,7 +539,7 @@ GET api/stops?agencies=5kcfZkKW0ku4Uk-A6j8MFA,xp_eNbqkYEaZP2YZkHwQqg&point=-33.9
 
 This request will retrieve stops from either agency **5kcfZkKW0ku4Uk-A6j8MFA** or **xp_eNbqkYEaZP2YZkHwQqg** and which are within 500 meters of the point [-33.923, 18.421].
 
-```
+```json
 200 Ok
 [
     {
@@ -629,7 +629,7 @@ GET api/stops/eBTeYLPXOkWm5zyfjZVaZg?exclude=agency
 
 This request will retrieve the stop resource and exclude unneeded **agency** fields.
 
-```
+```json
 200 Ok
 {
     "id": "eBTeYLPXOkWm5zyfjZVaZg",
@@ -672,7 +672,7 @@ GET api/stops/E8qYuZ4nEUSLS13pskx1Qg/stops
 
 This request will retrieve all child stops of the stop with identifier **E8qYuZ4nEUSLS13pskx1Qg**.
 
-```
+```json
 200 Ok
 [
     {
@@ -796,7 +796,7 @@ GET api/stops/eBTeYLPXOkWm5zyfjZVaZg/timetables?limit=2
 
 This request will retrieve timetable information for stop with identifier **eBTeYLPXOkWm5zyfjZVaZg**, limiting it to two items.
 
-```
+```json
 200 Ok
 [
     {
@@ -880,7 +880,7 @@ GET api/lines?agencies=5kcfZkKW0ku4Uk-A6j8MFA&limit=2
 
 ##### Sample response
 
-```
+```json
 200 Ok
 [
     {
@@ -932,7 +932,7 @@ GET api/lines/rBD_j-ZRdEiiHMc9lNzQtA
 
 ##### Sample response
 
-```
+```json
 200 Ok
 {
     "id": "rBD_j-ZRdEiiHMc9lNzQtA",
@@ -986,7 +986,7 @@ GET api/lines/rBD_j-ZRdEiiHMc9lNzQtA/timetables?departureStopId=fbJnFbrZ906L0_jC
 
 ##### Sample response
 
-```
+```json
 200 Ok
 [
     {
@@ -1149,7 +1149,7 @@ POST api/journeys?exclude=line,stop,fareProduct
 
 This request will exclude unneeded information on all contained stop, line and fare product resources in order to reduce the payload.
 
-```
+```json
 201 Created
 {
     "id": "uvRvS486sUODiqZyAK-j2g",
@@ -1559,7 +1559,7 @@ GET api/journeys/PEP5VsjJ6kuo6KZxAQjq2Q/itineraries/5CxmV36Blk6n6qZxAQjrdQ/legs/
 
 ##### Sample response
 
-```
+```json
 200 Ok
 {
     "href": "https://platform.whereismytransport.com/api/journeys/PEP5VsjJ6kuo6KZxAQjq2Q/itineraries/5CxmV36Blk6n6qZxAQjrdQ/legs/2",
@@ -1711,7 +1711,7 @@ GET api/fareproducts?agencies=5kcfZkKW0ku4Uk-A6j8MFA&limit=2
 
 ##### Sample response
 
-```
+```json
 200 Ok
 [
     {
