@@ -309,7 +309,7 @@ Monetary amounts are represented by the cost object, which is made up of an amou
 
 The following cost object represents the value of R10,50.
 
-```
+```json
 {
     "cost": {
         "amount": 10.5,
@@ -330,7 +330,7 @@ A typical GeoJSON structure consists of a **type** field and an array of **coord
 
 The following GeoJSON Point represents the coordinates for Cape Town's city centre.
 
-```
+```json
 {
     "geometry": {
         "type": "Point",
@@ -1118,7 +1118,7 @@ A filter can be specified to explicitly use or omit certain agencies or modes fr
 
 ##### Sample request
 
-```
+```json
 POST api/journeys?exclude=line,stop,fareProduct
 {
     "geometry": {
@@ -1651,7 +1651,7 @@ When creating a new journey, the default [fare product](#fare-products) will be 
 
 ##### Sample request
 
-```
+```json
 POST api/journeys
 {
     "geometry": {
