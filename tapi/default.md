@@ -520,7 +520,7 @@ Retrieves a collection of stops.
 | :-------------- | :--- | :---- |
 | point | [Point](#point) | The point from where to search for nearby stops. Stops will be returned in order of their distance from this point (from closest to furthest). |
 | radius | integer | The distance in metres from the point to search for nearby stops. This filter is optional. |
-| bbox | [BoundingBox](#boundingbox) | The bounding box from where to retrieve stops. This will be ignored if a point is provided in the query.  |
+| bbox | [BoundingBox](#boundingbox) | The bounding box within which to retrieve stops. This will be ignored if a point is provided in the query.  |
 | modes | string | A string of comma-separated [transport modes](#modes) to filter the results by. |
 | agencies | Array of [Identifier](#identifiers) | A string of comma-separated agency identifiers to filter the results by. |
 | servesLines | Array of [Identifier](#identifiers) | A string of comma-separated line identifiers to filter the results by. |
@@ -866,6 +866,10 @@ Retrieves a collection of lines.
 
 | Parameter | Type | Description |
 | :-------------- | :--- | :---- |
+| point | [Point](#point) | The point from where to search for nearby lines. Lines will be returned in order of their distance from this point (from closest to furthest). |
+| radius | integer | The distance in metres from the point to search for nearby lines. This filter is optional. |
+| bbox | [BoundingBox](#boundingbox) | The bounding box within which to retrieve lines. This will be ignored if a point is provided in the query.  |
+| modes | string | A string of comma-separated [transport modes](#modes) to filter the results by. |
 | agencies | Array of [Identifier](#identifiers) | A comma-separated list of agency identifiers to filter the results by. |
 | servesStops | Array of [Identifier](#identifiers) | A comma-separated list of stop identifiers that represent stops which the returned lines must serve. |
 | exclude | string | A string of comma-separated object or collection names to [exclude](#excluding-data) from the response. |
