@@ -414,6 +414,7 @@ An agency, or operator, is an organisation which provides and governs a transpor
 | culture | string | The name of the [culture](#culture), based on RFC 4646. |
 | description | string | A brief description of the agency or how it operates, if available.  |
 
+
 #### Retrieving agencies
 
 Retrieves a collection of agencies.
@@ -1279,6 +1280,7 @@ This request will exclude unneeded information on all contained stop, line and f
                 {
                     "href": "https://platform.whereismytransport.com/api/journeys/uvRvS486sUODiqZyAK-j2g/itineraries/fLdmWzq_h0-uoqZyAK-keQ/legs/1",
                     "type": "Transit",
+					"behaviour": "Static",
                     "distance": {
                         "value": 872,
                         "unit": "m"
@@ -1533,11 +1535,20 @@ A _Walking_ leg is one which the passenger is to travel by foot from one waypoin
 
 A _Transit_ leg is one which uses a public transportation service based on scheduled or absolute frequency-based stop times.
 
+#### Leg behaviour
+
+Transit legs may have one of currently two different behaviours, which could be considered sub-types of Transit legs.
+
+A _Static_ leg is one where the given times are from a frequency-based or static timetable, where the intention is that the vehicle stops at the time given in the waypoint. Whether the vehicle adheres to this time in reality can still be dependent on delays or other external factors.
+
+An _Estimated_ leg is one where the given times are an estimate based on the probability of a vehicle arriving at or before that time to a reasonable confidence level. Estimated legs result from travel on a route without exact times nor formal timetables.
+
 #### Leg response model
 
 | Field | Type | Description |
 | :--------- | :--- | :---- |
 | type | string | The [type of leg](#types-of-legs), either _Walking_ or _Transit_. |
+| behaviour | string | The [leg behaviour](#leg-behaviour), either _Static_ or _Estimated_. |
 | distance | [Distance](#distance) | If available, the total distance of the leg. |
 | duration | integer | If available, the total duration of the leg in seconds. |
 | line | [Line](#line-response-model) | **[**[Excludable](#excluding-data)**]** The line that is used on this leg of the itinerary. This is only returned for _Transit_ legs. |
@@ -1564,6 +1575,7 @@ GET api/journeys/PEP5VsjJ6kuo6KZxAQjq2Q/itineraries/5CxmV36Blk6n6qZxAQjrdQ/legs/
 {
     "href": "https://platform.whereismytransport.com/api/journeys/PEP5VsjJ6kuo6KZxAQjq2Q/itineraries/5CxmV36Blk6n6qZxAQjrdQ/legs/2",
     "type": "Transit",
+    "behaviour": "Static",
     "distance": {
         "value": 8554,
         "unit": "m"
@@ -1595,6 +1607,16 @@ GET api/journeys/PEP5VsjJ6kuo6KZxAQjq2Q/itineraries/5CxmV36Blk6n6qZxAQjrdQ/legs/
 }
 ```
 
+#### Pickup and Drop Off Type
+
+A waypoint may have pickup and drop off types. These types are independent of each other; a vehicle may pick up passengers but not drop them off and vice versa.
+
+No value indicates that the vehicle may pick up (or drop off) passengers at this waypoint.
+
+A value of _Never_ indicates that the vehicle does not pick up (or drop off) passengers at this waypoint.
+
+A value of _OnRequest_ indicates that the passenger must specially arrange to be picked up (or dropped off) at this waypoint, such as by phone or by coordinating with the driver.
+
 #### Waypoint response model
 
 A waypoint is a stopping point along an itinerary. It has either an arrival date and time or a departure date and time, or both.
@@ -1603,6 +1625,8 @@ A waypoint is a stopping point along an itinerary. It has either an arrival date
 | :--------- | :--- | :---- |
 | arrivalTime | [DateTime](#datetime) | The arrival date and time at this point of a leg. |
 | departureTime | [DateTime](#datetime) | The departure date and time from this point of a leg. |
+| pickupType | [PickupDropOffType](#pickupdropofftype) | Whether the vehicle will pick up passengers at this waypoint. |
+| dropOffType | [PickupDropOffType](#pickupdropofftype) | Whether the vehicle will pick up passengers at this waypoint. |
 | stop | [Stop](#stop-response-model) | **[**[Excludable](#excluding-data)**]** The stop of the waypoint. This can be returned in either _Walking_ or _Transit_ legs. |
 | location | [Location](#location-response-model) | The location of the waypoint if it is not a stop. This can be returned only in  Walking legs. |
 
