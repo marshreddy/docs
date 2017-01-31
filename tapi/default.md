@@ -399,6 +399,7 @@ The mode of transport describes the type of vehicle that is used along a line. T
 | Funicular | A rail system service designed for steep inclines. |
 | Coach | A long distance bus service. |
 | Air | A service for any air travel. |
+| ShareTaxi | A service with vehicles typically smaller than buses operating on routes without timetables. |
 
 ### Agencies
 
