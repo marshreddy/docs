@@ -1630,10 +1630,11 @@ A waypoint is a stopping point along an itinerary. It has either an arrival date
 | :--------- | :--- | :---- |
 | arrivalTime | [DateTime](#datetime) | The arrival date and time at this point of a leg. |
 | departureTime | [DateTime](#datetime) | The departure date and time from this point of a leg. |
-| pickupType | [PickupDropOffType](#pickupdropofftype) | Whether the vehicle will pick up passengers at this waypoint. |
-| dropOffType | [PickupDropOffType](#pickupdropofftype) | Whether the vehicle will pick up passengers at this waypoint. |
-| stop | [Stop](#stop-response-model) | **[**[Excludable](#excluding-data)**]** The stop of the waypoint. This can be returned in either _Walking_ or _Transit_ legs. |
-| location | [Location](#location-response-model) | The location of the waypoint if it is not a stop. This can be returned only in  Walking legs. |
+| stop | [Stop](#stop-response-model) | **[**[Excludable](#excluding-data)**]** If this waypoint represents a stop, the stop of this waypoint. This can be returned in either _Walking_ or _Transit_ legs. |
+| pickupType | [PickupDropOffType](#pickupdropofftype) | If this waypoint represents a stop, whether the vehicle will pick up passengers at this waypoint. This can be returned in either _Walking_ or _Transit_ legs. |
+| dropOffType | [PickupDropOffType](#pickupdropofftype) | If this waypoint represents a stop, whether the vehicle will pick up passengers at this waypoint. This can be returned in either _Walking_ or _Transit_ legs. |
+| hail | [Hail] | (#hail-response-model) | If this waypoint represents a location where you hail a vehicle to board or notify the driver that you want to alight. This can be returned in either _Walking_ or _Transit_ legs. |
+| location | [Location](#location-response-model) | If this waypoint represents a walking leg start or end, the location of this waypoint. This can be returned only in _Walking_ legs that are at the start or end of a journey. |
 
 #### Vehicle response model
 
@@ -1659,6 +1660,12 @@ If available, the directions to follow in order to get from the start to the end
 | Field | Type | Description |
 | :--------- | :--- | :---- |
 | address | string | The reverse geocoded address of the point, if available. |
+| geometry | [GeoJSON](#geojson) Point | The geographic point of the location. |
+
+#### Hail response model
+
+| Field | Type | Description |
+| :--------- | :--- | :---- |
 | geometry | [GeoJSON](#geojson) Point | The geographic point of the location. |
 
 ### Fares
