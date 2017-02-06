@@ -1,0 +1,9 @@
+{
+  "name": "@wimt/docs",
+  "version": "1.0.0",
+  "main": "src/uicore.ts",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/WhereIsMyTransport/docs"
+  }
+}
