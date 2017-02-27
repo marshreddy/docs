@@ -9,7 +9,7 @@ Currently this only extends to Alerts; human (and machine) readable messages des
 # API Reference
 
 [Messenger](https://messenger.whereismytransport.com) is an API and webapp which allows users to broadcast changes to the transit network to other commuters.
-Messages are delivered via "channels" and [Transit API](https://transit.whereismytransport.com).
+Messages are delivered via "channels" and [Transport API](https://platform.whereismytransport.com/api).
 
 If you have access to Messenger API, you can create your own channels. Channels initially start off inactive. They will 
 not appear in the channel list when sending messages. Only once a channel has been connected to at least one webhook, 
