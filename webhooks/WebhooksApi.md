@@ -38,8 +38,7 @@ To complete creation of a webhook, several things need to happen. First WhereIsM
 request to the callbackUrl. This initial request is important. It contains the `x-hook-secret` and `x-hook-handshake` headers.
 The former header is a key used to validate the authenticity of subsequent requests, whilst the latter is the handshakeKey
 specified in the initial request. Naturally if the `x-hook-handshake` value differs from the secret specified, the handshake 
-request should be ignored. The webhooks API expects a 2XX response back containing the `x-hook-secret` header so as to acknowledge
-receipt of the secret.
+request should be ignored. The webhooks API expects a 2XX response back to complete the handshake.
 
 Once this handshake is complete, a `201 CREATED` response is returned to the client requesting webhook creation. The body 
 contains the webhook ID, which is necessary to delete the resource (Performed through a `DELETE` request, the path being the original endpoint with the webhook ID tacked onto the end; `{originalPath}/{webhookId}`)
