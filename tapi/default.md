@@ -540,7 +540,7 @@ GET api/stops?agencies=5kcfZkKW0ku4Uk-A6j8MFA,xp_eNbqkYEaZP2YZkHwQqg&point=-33.9
 
 ##### Sample response
 
-This request will retrieve stops from either agency **5kcfZkKW0ku4Uk-A6j8MFA** or **xp_eNbqkYEaZP2YZkHwQqg** and which are within 500 meters of the point [-33.923, 18.421].
+This request will retrieve stops from either agency **5kcfZkKW0ku4Uk-A6j8MFA** or **xp_eNbqkYEaZP2YZkHwQqg** and which are within 500 metres of the point [-33.923, 18.421].
 
 ```json
 200 Ok
