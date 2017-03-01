@@ -146,11 +146,13 @@ A **401 Unauthorized** [status code](#http-status-codes) will be returned if the
 
 #### Token expiry
 
-The token response model will also contain a field called **expires_in**. This field denotes how long the token will be fresh since the token was issued (in seconds). After this period elapses that very token will become stale, and a new token will need to be retreived from the security token endpoint.
+The token response model will also contain a field called **expires_in**. This field denotes how long the token will be fresh since the token was issued (in seconds). After this period elapses that very token will become stale, and a new token will need to be retreived from the security token endpoint. 
 
 ### Errors
 
-The API uses conventional HTTP [status code](#http-status-codes) to indicate the result of a request. Codes within the 200s indicate that the request was successful. Codes within the 400s indicate that the request was somehow badly formed (such as a missing or incorrectly formatted field). 500s are typically returned when something unexpected goes wrong on the server. The **error response model** below will be returned for any error.
+The API uses conventional HTTP [status code](#http-status-codes) to indicate the result of a request. Codes within the 200s indicate that the request was successful. Codes within the 400s indicate that the request was somehow badly formed (such as a missing or incorrectly formatted field). 500s are typically returned when something unexpected goes wrong on the server. 
+
+The **error response model** below will be returned for any error.
 
 #### Error response model
 
@@ -178,7 +180,7 @@ The API uses conventional HTTP [status code](#http-status-codes) to indicate the
 
 ### Identifiers
 
-Almost all entities in the API are identified through the use of a globally unique identifier. This identifier is specified as a 22 character long, case-sensitive string of URL-friendly characters; __a__ to __z__, __A__ to __Z__, __0__ to __9__, - (hyphen) and _ (underscore). See the **id** field in the sample response below.
+Almost all resources in the API are identified through the use of a globally unique identifier. This identifier is specified as a 22 character long, case-sensitive string of URL-friendly characters; __a__ to __z__, __A__ to __Z__, __0__ to __9__, - (hyphen) and _ (underscore). See the **id** field in the sample response below.
 
 ##### Sample request
 
@@ -253,7 +255,7 @@ When excluding resource objects, the containing object with their **id** and **h
 The request below will exclude **geometry** and **directions** from the response model.
 
 ```
-POST api/journeys/8GYKddjcAk6j7aVUAMV3pw?exclude=geometry,directions
+POST api/journeys?exclude=geometry,directions
 ```
 
 ### Understanding Scheduled Data
@@ -349,7 +351,7 @@ In order to provide a geographic position through the query string, a comma-sepa
 ##### Sample request
 
 ```
-GET api/stops?point=-33.925430,18.436443&radius=1750
+GET api/stops?point=-33.925430,18.436443
 ```
 
 **Note: ** The ordering of these two coordinates is latitude first and then longitude.
@@ -361,7 +363,7 @@ In order to provide a geographic bounding box through the query string, a comma-
 ##### Sample request
 
 ```
-GET api/stops?bbox=-33.94,18.36,-33.89,18.43
+GET api/stops?bbox=-33.939,18.398,-33.921,18.443
 ```
 
 #### Distance
@@ -379,7 +381,7 @@ Distance is returned as an object consisting of the distance **value** (an integ
 }
 ```
 
-**Note:** The API currently only supports the metric system and distance is always returned in metres.
+**Note:** The API currently only supports the metric system and distance is currently returned in metres.
 
 ## Specification
 
@@ -401,6 +403,8 @@ The mode of transport describes the type of vehicle that is used along a line. T
 | Air | A service for any air travel. |
 | ShareTaxi | A service with vehicles typically smaller than buses operating on routes without timetables. |
 
+**Note:** New modes will be supported in the future and thus be added to this list.
+
 ### Agencies
 
 An agency, or operator, is an organisation which provides and governs a transport service which is available for use by either the general public (in most cases) or through some private arrangement.
@@ -409,8 +413,8 @@ An agency, or operator, is an organisation which provides and governs a transpor
 
 | Field | Type | Description |
 | :--------- | :--- | :---- |
-| id | [identifier](#identifiers) | The identifier of the agency. |
-| href | [hyperlink](#resource-linking) | The hyperlink to this resource. |
+| id | [Identifier](#identifiers) | The identifier of the agency. |
+| href | [Hyperlink](#resource-linking) | The hyperlink to this resource. |
 | name | string | The full name of the agency. |
 | culture | string | The name of the [culture](#culture), based on RFC 4646. |
 | description | string | A brief description of the agency or how it operates, if available.  |
@@ -435,7 +439,7 @@ Retrieves a collection of agencies.
 ##### Sample request
 
 ```
-GET api/agencies?bbox=-33.94,18.36,-33.89,18.43
+GET api/agencies?bbox=-33.939,18.398,-33.921,18.443
 ```
 
 ##### Sample response
@@ -444,24 +448,22 @@ GET api/agencies?bbox=-33.94,18.36,-33.89,18.43
 200 Ok
 [
     {
-        "id": "xp_eNbqkYEaZP2YZkHwQqg",
-        "href": "https://platform.whereismytransport.com/api/agencies/xp_eNbqkYEaZP2YZkHwQqg",
-        "name": "Metrorail Western Cape",
-        "culture": "en",
-        "description": "Urban railway system"
+        "id":"CVVPBFb_v0KzC6cFAJGOkw",
+        "href":"https://platform.whereismytransport.com/api/agencies/CVVPBFb_v0KzC6cFAJGOkw",
+        "name":"Cape Town Taxi",
+        "culture":"en"
     },
     {
-        "id": "5kcfZkKW0ku4Uk-A6j8MFA",
-        "href": "https://platform.whereismytransport.com/api/agencies/5kcfZkKW0ku4Uk-A6j8MFA",
-        "name": "MyCiTi",
-        "culture": "en",
-        "description" : "IRT Bus"
+        "id":"xp_eNbqkYEaZP2YZkHwQqg",
+        "href":"https://platform.whereismytransport.com/api/agencies/xp_eNbqkYEaZP2YZkHwQqg",
+        "name":"Metrorail Western Cape",
+        "culture":"en"
     },
     {
-        "id": "PO83DTm4oEuJ19prwicxHw",
-        "href": "https://platform.whereismytransport.com/api/agencies/PO83DTm4oEuJ19prwicxHw",
-        "name": "Nelson Mandela Gateway",
-        "culture": "en"
+        "id":"5kcfZkKW0ku4Uk-A6j8MFA",
+        "href":"https://platform.whereismytransport.com/api/agencies/5kcfZkKW0ku4Uk-A6j8MFA",
+        "name":"MyCiTi",
+        "culture":"en"
     }
 ]
 ```
@@ -490,8 +492,7 @@ GET api/agencies/5kcfZkKW0ku4Uk-A6j8MFA
     "id": "5kcfZkKW0ku4Uk-A6j8MFA",
     "href": "https://platform.whereismytransport.com/api/agencies/5kcfZkKW0ku4Uk-A6j8MFA",
     "name": "MyCiTi",
-    "culture": "en",
-    "description" : "IRT Bus"
+    "culture": "en"
 }
 ```
 
@@ -504,7 +505,7 @@ A location where passengers can board or alight from a transport vehicle.
 | Field | Type | Description |
 | :--------- | :--- | :---- |
 | id | [Identifier](#identifiers) | The identifier of the stop. |
-| href | [hyperlink](#resource-linking) | The hyperlink to this resource. |
+| href | [Hyperlink](#resource-linking) | The hyperlink to this resource. |
 | agency | [Agency](#agency-response-model) | **[**[Excludable](#excluding-data)**]** The agency. |
 | name | string | The full name of the stop. |
 | code | string | If available, the passenger code of the stop. |
@@ -523,7 +524,7 @@ Retrieves a collection of stops.
 | point | [Point](#point) | The point from where to search for nearby stops. Stops will be returned in order of their distance from this point (from closest to furthest). |
 | radius | integer | The distance in metres from the point to search for nearby stops. This filter is optional. |
 | bbox | [BoundingBox](#boundingbox) | The bounding box within which to retrieve stops. This will be ignored if a point is provided in the query.  |
-| modes | string | A string of comma-separated [transport modes](#modes) to filter the results by. |
+| modes | Array of [Mode](#modes) | A string of comma-separated [transport modes](#modes) to filter the results by. |
 | agencies | Array of [Identifier](#identifiers) | A string of comma-separated agency identifiers to filter the results by. |
 | servesLines | Array of [Identifier](#identifiers) | A string of comma-separated line identifiers to filter the results by. |
 | showChildren | bool | Specifies whether or not to also return children stops. Default is false. |
@@ -539,7 +540,7 @@ GET api/stops?agencies=5kcfZkKW0ku4Uk-A6j8MFA,xp_eNbqkYEaZP2YZkHwQqg&point=-33.9
 
 ##### Sample response
 
-This request will retrieve stops from either agency **5kcfZkKW0ku4Uk-A6j8MFA** or **xp_eNbqkYEaZP2YZkHwQqg** and which are within 500 meters of the point [-33.923, 18.421].
+This request will retrieve stops from either agency **5kcfZkKW0ku4Uk-A6j8MFA** or **xp_eNbqkYEaZP2YZkHwQqg** and which are within 500 metres of the point [-33.923, 18.421].
 
 ```json
 200 Ok
@@ -851,7 +852,7 @@ A grouping together of routes marketed to passengers as a single section of the 
 | Field | Type | Description |
 | :--------- | :--- | :---- |
 | id | [Identifier](#identifiers) | The identifier of the line. |
-| href | [hyperlink](#resource-linking) | The hyperlink to this resource. |
+| href | [Hyperlink](#resource-linking) | The hyperlink to this resource. |
 | agency | [Agency](#agency-response-model) | **[**[Excludable](#excluding-data)**]** The line's agency. |
 | name | string | If available, the full name of the line, . Either **name** or **shortName** will exist. |
 | shortName | string | If available, the short name of the line. Either **name** or **shortName** will exist. |
@@ -871,7 +872,7 @@ Retrieves a collection of lines.
 | point | [Point](#point) | The point from where to search for nearby lines. Lines will be returned in order of their distance from this point (from closest to furthest). |
 | radius | integer | The distance in metres from the point to search for nearby lines. This filter is optional. |
 | bbox | [BoundingBox](#boundingbox) | The bounding box within which to retrieve lines. This will be ignored if a point is provided in the query.  |
-| modes | string | A string of comma-separated [transport modes](#modes) to filter the results by. |
+| modes | Array of [Mode](#modes) | A string of comma-separated [transport modes](#modes) to filter the results by. |
 | agencies | Array of [Identifier](#identifiers) | A comma-separated list of agency identifiers to filter the results by. |
 | servesStops | Array of [Identifier](#identifiers) | A comma-separated list of stop identifiers that represent stops which the returned lines must serve. |
 | exclude | string | A string of comma-separated object or collection names to [exclude](#excluding-data) from the response. |
@@ -1069,7 +1070,7 @@ A journey is the traveling of a passenger from a departure point to an arrival p
 | Field | Type | Description |
 | :--------- | :--- | :---- |
 | id | [Identifier](#identifiers) | The identifier of the journey. |
-| href | [hyperlink](#resource-linking) | The hyperlink to this resource. |
+| href | [Hyperlink](#resource-linking) | The hyperlink to this resource. |
 | geometry | [GeoJSON](#geojson) MultiPoint | An ordered GeoJSON MultiPoint representing the departure and arrival points for the journey. |
 | time | [DateTime](#datetime) | The requested date and time for the journey.  |
 | timeType | [TimeType](#timetype) | Specifies whether this is an **ArriveBefore** or **DepartAfter** request. |
@@ -1503,8 +1504,8 @@ This request will exclude unneeded information on all contained stop, line and f
 
 | Attribute | Type | Description |
 | :--------- | :--- | :---- |
-| id | [identifier](#identifiers) | The identifier of the itinerary. |
-| href | [hyperlink](#resource-linking) | The hyperlink to this resource. |
+| id | [Identifier](#identifiers) | The identifier of the itinerary. |
+| href | [Hyperlink](#resource-linking) | The hyperlink to this resource. |
 | departureTime | [DateTime](#datetime) | The departure date and time for the itinerary. |
 | arrivalTime | [DateTime](#datetime) | The arrival date and time for the itinerary. |
 | distance | [Distance](#distance) | If available, the total distance of the itinerary. |
@@ -1720,7 +1721,7 @@ A fare product is a fare scheme offered to passengers by an agency and will deci
 | Field | Type | Description |
 | :--------- | :--- | :---- |
 | id | [Identifier](#identifiers) | The identifier of the fare product. |
-| href | [hyperlink](#resource-linking) | The hyperlink to this resource. |
+| href | [Hyperlink](#resource-linking) | The hyperlink to this resource. |
 | agency | [Agency](#agency-response-model) | **[**[Excludable](#excluding-data)**]** The fare product's agency. |
 | name | string | The commuter-friendly name of the fare product. |
 | isDefault | bool | Flag specifying whether this is the default fare product for this agency. |
@@ -1777,4 +1778,39 @@ GET api/fareproducts?agencies=5kcfZkKW0ku4Uk-A6j8MFA&limit=2
         "description": "Unlimited travel on any day and at any time and are valid for one month from a start date of your choice."
     }
 ]
+```
+
+#### Retrieving a specific fare product
+
+Retrieves a fare product by its identifier.
+
+`GET api/fareproducts/{id}`
+
+| Parameter | Type | Description |
+| :-------------- | :--- | :---- |
+| id | [Identifier](#identifiers) | The identifier of the fare product. |
+
+##### Sample request
+
+```
+GET api/fareproducts/pCawiJA73UmchaZtAKAHwg
+```
+
+##### Sample response
+
+```json
+200 Ok
+{
+    "id":"pCawiJA73UmchaZtAKAHwg",
+    "href":"https://platform.whereismytransport.com/api/fareproducts/pCawiJA73UmchaZtAKAHwg",
+    "agency":{
+        "id":"5kcfZkKW0ku4Uk-A6j8MFA",
+        "href":"https://platform.whereismytransport.com/api/agencies/5kcfZkKW0ku4Uk-A6j8MFA",
+        "name":"MyCiTi",
+        "culture":"en"
+    },
+    "name":"Monthly Pass",
+    "isDefault":false,
+    "description":"Unlimited travel on any day and at any time and are valid for one month from a start date of your choice excluding the Airport."
+}
 ```
