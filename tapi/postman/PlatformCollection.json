@@ -51,13 +51,13 @@
 					"urlencoded": [
 						{
 							"key": "client_id",
-							"value": "3efeebb7-08c3-4e92-b67e-7452d64ed4a0",
+							"value": "YOUR_CLIENT_ID",
 							"type": "text",
 							"enabled": true
 						},
 						{
 							"key": "client_secret",
-							"value": "yjhOBFoGAiE86CWDKrkTpO31DKWES0UdwKeU3apLUck=",
+							"value": "YOUR_CLIENT_SECRET",
 							"type": "text",
 							"enabled": true
 						},
