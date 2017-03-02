@@ -69,7 +69,7 @@
 						},
 						{
 							"key": "scope",
-							"value": "transitapi:all",
+							"value": "transportapi:all",
 							"type": "text",
 							"enabled": true
 						}
@@ -267,7 +267,7 @@
 						}
 					]
 				},
-				"description": "Retrieves a collection of stops.\r\n\r\n`GET api/stops?point={point}&radius={radius}&bbox={bbox}&modes={modes}&agencies={agencies}&servesLines={lineIds}&limit={limit}&offset={offset}&at={at}`\r\n\r\n| Parameter | Type | Description |\r\n| :-------------- | :--- | :---- |\r\n| point | [Point](#point) | The point from where to search for nearby stops. Stops will be returned in order of their distance from this point (from closest to furthest). |\r\n| radius | integer | The distance in metres from the point to search for nearby stops. This filter is optional. |\r\n| bbox | [Bounding Box](#bounding-box) | The bounding box from where to retrieve stops. This will be ignored if a point is provided in the query.  |\r\n| modes | string | A string of comma-separated [transit modes](#modes). |\r\n| agencies | [Agencies Filter](#agencies-filter) | A string of comma-separated agency identifiers to filter the results by. |\r\n| servesLines | string | A string of comma-separated line identifiers to filter the results by. |\r\n| limit | int | The maximum number of entities to be returned. Default is 100. |\r\n| offset | int | The offset of the first entity returned. Default is 0. |\r\n| at | [DateTime](#datetime) | The point in time from which to query. Defaults to the current date and time. |"
+				"description": "Retrieves a collection of stops.\r\n\r\n`GET api/stops?point={point}&radius={radius}&bbox={bbox}&modes={modes}&agencies={agencies}&servesLines={lineIds}&limit={limit}&offset={offset}&at={at}`\r\n\r\n| Parameter | Type | Description |\r\n| :-------------- | :--- | :---- |\r\n| point | [Point](#point) | The point from where to search for nearby stops. Stops will be returned in order of their distance from this point (from closest to furthest). |\r\n| radius | integer | The distance in metres from the point to search for nearby stops. This filter is optional. |\r\n| bbox | [Bounding Box](#bounding-box) | The bounding box from where to retrieve stops. This will be ignored if a point is provided in the query.  |\r\n| modes | string | A string of comma-separated [transport modes](#modes). |\r\n| agencies | [Agencies Filter](#agencies-filter) | A string of comma-separated agency identifiers to filter the results by. |\r\n| servesLines | string | A string of comma-separated line identifiers to filter the results by. |\r\n| limit | int | The maximum number of entities to be returned. Default is 100. |\r\n| offset | int | The offset of the first entity returned. Default is 0. |\r\n| at | [DateTime](#datetime) | The point in time from which to query. Defaults to the current date and time. |"
 			},
 			"response": []
 		},
