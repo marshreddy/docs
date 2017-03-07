@@ -2,7 +2,7 @@
 	"variables": [],
 	"info": {
 		"name": "Platform Collection",
-		"_postman_id": "806a6b6f-d37f-8949-c5b7-ff1d540877cb",
+		"_postman_id": "2700857b-9b8f-c9e3-7c58-7c19bac7233c",
 		"description": "",
 		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
 	},
@@ -86,6 +86,8 @@
 					"script": {
 						"type": "text/javascript",
 						"exec": [
+							"tests[\"Is 200\"] = (responseCode.code === 200);\r",
+							"\r",
 							"if (tests[\"Is 200\"])\r",
 							"{\r",
 							"    var data = JSON.parse(responseBody);\r",
@@ -135,12 +137,14 @@
 					"script": {
 						"type": "text/javascript",
 						"exec": [
+							"tests[\"Is 200\"] = (responseCode.code === 200);",
+							"",
 							"if (tests[\"Is 200\"])",
 							"{",
 							"    var data = JSON.parse(responseBody);",
 							"",
 							"    if(data.length > 0) {",
-							"    \tpostman.setEnvironmentVariable(\"AgencyId\", data[0].id);",
+							"    \tpostman.setEnvironmentVariable(\"LineId\", data[0].id);",
 							"    }",
 							"}"
 						]
@@ -222,6 +226,8 @@
 					"script": {
 						"type": "text/javascript",
 						"exec": [
+							"tests[\"Is 200\"] = (responseCode.code === 200);",
+							"",
 							"if (tests[\"Is 200\"])",
 							"{",
 							"    var data = JSON.parse(responseBody);",
@@ -359,7 +365,9 @@
 					"script": {
 						"type": "text/javascript",
 						"exec": [
-							"if(responseCode.code == 200)\r",
+							"tests[\"Is 200\"] = (responseCode.code === 200);\r",
+							"\r",
+							"if (tests[\"Is 200\"])\r",
 							"{\r",
 							"    var data = JSON.parse(responseBody);\r",
 							"    if(data.length > 0)\r",
@@ -415,7 +423,9 @@
 					"script": {
 						"type": "text/javascript",
 						"exec": [
-							"if(responseCode.code == 200)",
+							"tests[\"Is 200\"] = (responseCode.code === 200);",
+							"",
+							"if (tests[\"Is 200\"])",
 							"{",
 							"    var data = JSON.parse(responseBody);",
 							"    ",
