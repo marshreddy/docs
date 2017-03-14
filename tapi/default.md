@@ -1089,7 +1089,7 @@ Creating a new journey is done by posting the journey's criteria to the resource
 
 | Field | Type | Required | Description |
 | :--------- | :--- | :--- | :---- |
-| geometry | [GeoJSON](#geojson) MultiPoint | Required | An ordered GeoJSON MultiPoint representing the departure and arrival points for the journey. Exactly two points must be provided. |
+| geometry | [GeoJSON](#geojson) MultiPoint | Required | An ordered GeoJSON MultiPoint representing the departure and arrival points for the journey. Exactly two *different* points must be provided. (Using the same points will result in an error) |
 | time | [DateTime](#datetime) | Optional | The requested date and time for the journey. Defaults to now. |
 | timeType | [TimeType](#timetype) | Optional | Specifies whether this is an ArriveBefore or DepartAfter request. Defaults to DepartAfter. |
 | profile | [Profile](#profile) | Required | The profile used to calculate and order itineraries. |
