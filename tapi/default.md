@@ -71,8 +71,26 @@ The API compresses response data using GZIP compression as defined by the HTTP 1
 
 #### Rate Limiting
 
-The API enforces rate limits to help fairly distribute resources and protect against bursts of traffic.
-HTTP responses will return a `429 Forbidden` status code for any request until the rate limit has dropped below the required threshold. The remaining seconds until the rate limit is reset is shown in the `Retry-After` response header.
+The API enforces rate limits to help fairly distribute resources and protect against bursts of traffic. The API supplies the `X-Rate-Limit-*` headers for all successful requests which describe the current rate limit state.
+
+| Header | Type | Description |
+| :--------- | :--- | :---- |
+| X-Rate-Limit-Limit | string | Request limit timespan. |
+| X-Rate-Limit-Remaining | integer | Number of requests left in the rate limit window. |
+| X-Rate-Limit-Reset | [DateTime](#datetime) | Date and time when the rate limit will reset. |
+
+**Note:** Rate limited responses do not contain the `X-Rate-Limit-*` headers.
+
+##### Sample response
+
+```
+Content-Type: application/json
+X-Rate-Limit-Limit: 1s
+X-Rate-Limit-Remaining: 49
+X-Rate-Limit-Reset: 2016-08-30T10:31:15.8791107Z
+```
+
+HTTP responses will return a `429 Forbidden` status code for any rate limited request until the rate limit has dropped below the required threshold. The remaining seconds until the rate limit is reset is shown in the `Retry-After` response header.
 
 ##### Sample response
 
@@ -84,14 +102,6 @@ Retry-After: 53
     "message": "Quota has been reached."
 }
 ```
-
-The API also supplies the `X-Rate-Limit-*` headers for all requests and contain the current rate limit state.
-
-| Header | Description |
-| :--------- | :--- | :---- |
-| X-Rate-Limit-Limit | Total number of requests possible. |
-| X-Rate-Limit-Remaining | Number of requests left in the rate limit window. |
-| X-Rate-Limit-Reset | Timestamp when the rate limit will reset. |
 
 #### HTTPS
 
@@ -390,20 +400,16 @@ Distance is returned as an object consisting of the distance **value** (an integ
 The mode of transport describes the type of vehicle that is used along a line. The following table describes the modes currently supported by the API.
 
 | Value | Description |
-| :--------- | :--- | :---- |
+| :--------- | :---- |
 | LightRail | A service for any light rail or street level system within a metropolitan area. |
 | Subway | An underground rail service. |
 | Rail | An overground railway transportation service. |
 | Bus | A bus service utilising a road network. |
 | Ferry | A boat service. |
-| GroundCableCar | A service for street level cable cars where the cable runs beneath the car. |
-| Gondola | An aerial cable car service. |
-| Funicular | A rail system service designed for steep inclines. |
 | Coach | A long distance bus service. |
-| Air | A service for any air travel. |
 | ShareTaxi | A service with vehicles typically smaller than buses operating on routes without timetables. |
 
-**Note:** New modes will be supported in the future and thus be added to this list.
+**Note:** New modes will be supported in the future and thus be added to this list. Unused modes may be removed over time. Be careful when parsing directly to an enum for modes of transport.
 
 ### Agencies
 
