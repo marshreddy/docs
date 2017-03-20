@@ -71,7 +71,7 @@ The API compresses response data using GZIP compression as defined by the HTTP 1
 
 #### Rate Limiting
 
-The API enforces rate limits to help fairly distribute resources and protect against bursts of traffic. The API supplies the `X-Rate-Limit-*` headers for all requests which describe the current rate limit state.
+The API enforces rate limits to help fairly distribute resources and protect against bursts of traffic. The API supplies the `X-Rate-Limit-*` headers for all successful requests which describe the current rate limit state.
 
 | Header | Type | Description |
 | :--------- | :--- | :---- |
@@ -79,7 +79,9 @@ The API enforces rate limits to help fairly distribute resources and protect aga
 | X-Rate-Limit-Remaining | integer | Number of requests left in the rate limit window. |
 | X-Rate-Limit-Reset | [DateTime](#datetime) | Date and time when the rate limit will reset. |
 
-##### Sample response header
+**Note:** Rate limited responses do not contain the `X-Rate-Limit-*` headers.
+
+##### Sample response
 
 ```
 Content-Type: application/json
@@ -90,7 +92,7 @@ X-Rate-Limit-Reset: 2016-08-30T10:31:15.8791107Z
 
 HTTP responses will return a `429 Forbidden` status code for any rate limited request until the rate limit has dropped below the required threshold. The remaining seconds until the rate limit is reset is shown in the `Retry-After` response header.
 
-##### Sample response header
+##### Sample response
 
 ```json
 429 Unknown
@@ -407,7 +409,7 @@ The mode of transport describes the type of vehicle that is used along a line. T
 | Coach | A long distance bus service. |
 | ShareTaxi | A service with vehicles typically smaller than buses operating on routes without timetables. |
 
-**Note:** New modes will be supported in the future and thus be added to this list. Unused modes may be removed over time and therefore suggest avoiding the use an enum for the modes of transport.
+**Note:** New modes will be supported in the future and thus be added to this list. Unused modes may be removed over time. Be careful when parsing directly to an enum for modes of transport.
 
 ### Agencies
 
