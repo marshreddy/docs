@@ -71,7 +71,7 @@ The API compresses response data using GZIP compression as defined by the HTTP 1
 
 #### Rate Limiting
 
-The API enforces rate limits to help fairly distribute resources and protect against bursts of traffic. The API supplies the `X-Rate-Limit-*` headers for all requests and contain the current rate limit state.
+The API enforces rate limits to help fairly distribute resources and protect against bursts of traffic. The API supplies the `X-Rate-Limit-*` headers for all requests which describe the current rate limit state.
 
 | Header | Type | Description |
 | :--------- | :--- | :---- |
