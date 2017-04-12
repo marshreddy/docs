@@ -240,8 +240,8 @@ GET api/stops/eBTeYLPXOkWm5zyfjZVaZg
     "geometry": {
         "type": "Point",
         "coordinates": [
-            18.424849,
-            -33.920555
+            18.42484,
+            -33.92055
         ]
     },
     "modes": [
