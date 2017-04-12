@@ -347,8 +347,8 @@ The following GeoJSON Point represents the coordinates for Cape Town's city cent
     "geometry": {
         "type": "Point",
         "coordinates": [
-            18.417035,
-            -33.926852
+            18.41703,
+            -33.92685
         ]
     }
 }
@@ -361,7 +361,7 @@ In order to provide a geographic position through the query string, a comma-sepa
 ##### Sample request
 
 ```
-GET api/stops?point=-33.925430,18.436443
+GET api/stops?point=-33.92543,18.43644
 ```
 
 **Note: ** The ordering of these two coordinates is latitude first and then longitude.
@@ -373,7 +373,7 @@ In order to provide a geographic bounding box through the query string, a comma-
 ##### Sample request
 
 ```
-GET api/stops?bbox=-33.939,18.398,-33.921,18.443
+GET api/stops?bbox=-33.93943,18.39801,-33.92111,18.44301
 ```
 
 #### Distance
@@ -445,7 +445,7 @@ Retrieves a collection of agencies.
 ##### Sample request
 
 ```
-GET api/agencies?bbox=-33.939,18.398,-33.921,18.443
+GET api/agencies?bbox=-33.93901,18.39801,-33.92101,18.44301
 ```
 
 ##### Sample response
@@ -541,7 +541,7 @@ Retrieves a collection of stops.
 ##### Sample request
 
 ```
-GET api/stops?agencies=5kcfZkKW0ku4Uk-A6j8MFA,xp_eNbqkYEaZP2YZkHwQqg&point=-33.923,18.421&radius=500
+GET api/stops?agencies=5kcfZkKW0ku4Uk-A6j8MFA,xp_eNbqkYEaZP2YZkHwQqg&point=-33.92301,18.42101&radius=500
 ```
 
 ##### Sample response
@@ -564,8 +564,8 @@ This request will retrieve stops from either agency **5kcfZkKW0ku4Uk-A6j8MFA** o
         "geometry": {
             "type": "Point",
             "coordinates": [
-                18.421188,
-                -33.923939
+                18.42118,
+                -33.92393
             ]
         },
         "modes": [
@@ -585,8 +585,8 @@ This request will retrieve stops from either agency **5kcfZkKW0ku4Uk-A6j8MFA** o
         "geometry": {
             "type": "Point",
             "coordinates": [
-                18.422529,
-                -33.92407
+                18.42252,
+                -33.92401
             ]
         },
         "modes": [
@@ -607,8 +607,8 @@ This request will retrieve stops from either agency **5kcfZkKW0ku4Uk-A6j8MFA** o
         "geometry": {
             "type": "Point",
             "coordinates": [
-                18.424846,
-                -33.922993
+                18.42484,
+                -33.92299
             ]
         },
         "modes": [
@@ -651,8 +651,8 @@ This request will retrieve the stop resource and exclude unneeded **agency** fie
     "geometry": {
         "type": "Point",
         "coordinates": [
-            18.424849,
-            -33.920555
+            18.42484,
+            -33.92055
         ]
     },
     "modes": [
@@ -696,8 +696,8 @@ This request will retrieve all child stops of the stop with identifier **E8qYuZ4
         "geometry": {
             "type": "Point",
             "coordinates": [
-                18.503569,
-                -33.578148
+                18.50356,
+                -33.57814
             ]
         },
         "modes": [
@@ -714,8 +714,8 @@ This request will retrieve all child stops of the stop with identifier **E8qYuZ4
             "geometry": {
                 "type": "Point",
                 "coordinates": [
-                    18.503632,
-                    -33.578362
+                    18.50363,
+                    -33.57836
                 ]
             },
             "modes": [
@@ -736,8 +736,8 @@ This request will retrieve all child stops of the stop with identifier **E8qYuZ4
         "geometry": {
             "type": "Point",
             "coordinates": [
-                18.503695,
-                -33.578577
+                18.50369,
+                -33.57857
             ]
         },
         "modes": [
@@ -754,8 +754,8 @@ This request will retrieve all child stops of the stop with identifier **E8qYuZ4
             "geometry": {
                 "type": "Point",
                 "coordinates": [
-                    18.503632,
-                    -33.578362
+                    18.50363,
+                    -33.57836
                 ]
             },
             "modes": [
@@ -1138,12 +1138,12 @@ POST api/journeys?exclude=line,stop,fareProduct
         "type": "Multipoint",
         "coordinates": [
             [
-                18.417,
-                -33.916
+                18.41701,
+                -33.91601
             ],
             [
-                18.412,
-                -33.908
+                18.41201,
+                -33.90801
             ]
         ]
     },
@@ -1171,12 +1171,12 @@ This request will exclude unneeded information on all contained stop, line and f
         "type": "MultiPoint",
         "coordinates": [
             [
-                18.417,
-                -33.916
+                18.41701,
+                -33.91601
             ],
             [
-                18.412,
-                -33.908
+                18.41201,
+                -33.90801
             ]
         ]
     },
@@ -1223,8 +1223,8 @@ This request will exclude unneeded information on all contained stop, line and f
                                 "geometry": {
                                     "type": "Point",
                                     "coordinates": [
-                                        18.417,
-                                        -33.916
+                                        18.41701,
+                                        -33.91601
                                     ]
                                 }
                             },
@@ -1244,20 +1244,20 @@ This request will exclude unneeded information on all contained stop, line and f
                         "type": "LineString",
                         "coordinates": [
                             [
-                                18.416975,
-                                -33.916008
+                                18.41697,
+                                -33.91600
                             ],
                             [
-                                18.417094,
-                                -33.916252
+                                18.41709,
+                                -33.91625
                             ],
                             [
-                                18.417571,
-                                -33.916111
+                                18.41757,
+                                -33.91611
                             ],
                             [
-                                18.418382,
-                                -33.915638
+                                18.41838,
+                                -33.91563
                             ],
                             [
                                 18.41822,
@@ -1392,14 +1392,14 @@ This request will exclude unneeded information on all contained stop, line and f
                             ],
                             [
                                 18.41568,
-                                -33.9115
+                                -33.91151
                             ],
                             [
                                 18.41458,
                                 -33.91051
                             ],
                             [
-                                18.4131,
+                                18.41311,
                                 -33.90922
                             ]
                         ]
@@ -1428,8 +1428,8 @@ This request will exclude unneeded information on all contained stop, line and f
                                 "geometry": {
                                     "type": "Point",
                                     "coordinates": [
-                                        18.412,
-                                        -33.908
+                                        18.41201,
+                                        -33.90801
                                     ]
                                 }
                             },
@@ -1441,36 +1441,36 @@ This request will exclude unneeded information on all contained stop, line and f
                         "type": "LineString",
                         "coordinates": [
                             [
-                                18.4131,
+                                18.41311,
                                 -33.90922
                             ],
                             [
                                 18.413117,
-                                -33.9092
+                                -33.90921
                             ],
                             [
-                                18.412888,
-                                -33.909003
+                                18.41288,
+                                -33.90900
                             ],
                             [
-                                18.413034,
-                                -33.908861
+                                18.41303,
+                                -33.90886
                             ],
                             [
-                                18.412872,
-                                -33.908729
+                                18.41287,
+                                -33.90872
                             ],
                             [
-                                18.412626,
-                                -33.908619
+                                18.41262,
+                                -33.90861
                             ],
                             [
-                                18.412706,
-                                -33.908541
+                                18.41270,
+                                -33.90854
                             ],
                             [
-                                18.411984,
-                                -33.908015
+                                18.41198,
+                                -33.90801
                             ]
                         ]
                     },
@@ -1701,12 +1701,12 @@ POST api/journeys
         "type": "MultiPoint",
         "coordinates": [
             [
-                18.422,
-                -33.922
+                18.42201,
+                -33.92201
             ],
             [
-                18.473,
-                -33.966
+                18.47301,
+                -33.96601
             ]
         ]
     },
